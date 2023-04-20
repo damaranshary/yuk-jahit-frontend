@@ -7,8 +7,11 @@ import {
   FormHelperText,
   useToast,
   VStack,
+  Container,
+  Text,
+  Center,
 } from "@chakra-ui/react";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { fetchLoginData } from "../../api-call/users";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +24,14 @@ const Login = () => {
 
   const { email, password } = loginData;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      // router.push("/");
+      navigate("/");
+    }
+  }, [token]);
 
   const toast = useToast();
   // const router = useRouter();
@@ -68,39 +79,49 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleOnSubmit}>
-      <VStack w={{ base: "sm", md: "lg", lg: "2xl" }} gap={5}>
+    <Container
+      as="form"
+      maxW="xl"
+      centerContent
+      my={5}
+      onSubmit={handleOnSubmit}
+    >
+      <VStack w={{ base: "full", md: "full", lg: "xl" }} gap={3}>
         <FormControl>
-          <FormLabel>Email address</FormLabel>
+          <Center>
+            <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
+              Masuk
+            </Text>
+          </Center>
+          <FormLabel mt={3}>Alamat Email</FormLabel>
           <Input
             type="email"
             name="email"
             value={email}
             onChange={handleOnChange}
           />
-          <FormHelperText>We will never share your email.</FormHelperText>
-          <FormLabel>Password</FormLabel>
+          <FormLabel mt={3}>Password</FormLabel>
           <Input
             type="password"
             name="password"
             value={password}
             onChange={handleOnChange}
           />
-          <Button
-            type="submit"
-            w={{ base: "full", md: "200px" }}
-            p={6}
-            colorScheme="whatsapp"
-            bg="success"
-            borderRadius="30px"
-            isLoading={isSubmitting}
-            loadingText="Submitting"
-          >
-            Submit
-          </Button>
+          <Center p={6} mt={3}>
+            <Button
+              type="submit"
+              w={{ base: "full", md: "200px" }}
+              colorScheme="blue"
+              borderRadius="30px"
+              isLoading={isSubmitting}
+              loadingText="Submitting"
+            >
+              Masuk
+            </Button>
+          </Center>
         </FormControl>
       </VStack>
-    </form>
+    </Container>
   );
 };
 
