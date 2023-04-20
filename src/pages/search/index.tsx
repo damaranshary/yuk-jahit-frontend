@@ -1,6 +1,6 @@
 "use client";
 
-import ProductsList from "../../components/Product";
+import ProductsList from "../../components/productCard";
 
 import { Button, Input } from "@chakra-ui/react";
 
@@ -14,7 +14,7 @@ const Search = () => {
   // const [query, setQuery] = useState<string>("");
   // const [productsData, setProductsData] = useState<ResponseProducts | null>(null);
   const [searchParams, setSearchParams ] = useSearchParams();
-  const query = searchParams?.get("query");
+  const query = searchParams?.get("q");
   const { products } = GetProductsByQuery(query);
 
   const navigate = useNavigate();
@@ -28,13 +28,13 @@ const Search = () => {
     console.log(products);
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchParams(e.target.value);
-  };
+  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setSearchParams(e.target.value);
+  // };
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate("/serach?query=" + query);
+    navigate("/serach?q=" + query);
     query !== undefined && handleSearch();
   };
 

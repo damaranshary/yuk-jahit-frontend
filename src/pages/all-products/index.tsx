@@ -6,12 +6,14 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Container,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
 // import Link from "next/link";
 
-import ProductsList from "../../components/Product";
+import ProductCard from "../../components/productCard";
 
 import { GetAllProducts } from "../../lib/swr";
 
@@ -20,7 +22,9 @@ const AllProducts = () => {
 
   return (
     <Container maxW="4xl" mx="auto" centerContent>
-      <h1>Product</h1>
+      <Text as="h2" fontSize="4xl" fontWeight="bold" mt={5} mb={1}>
+        Semua Produk{" "}
+      </Text>
       <Breadcrumb
         spacing="8px"
         separator={<ChevronRightIcon color="gray.500" />}
@@ -34,17 +38,15 @@ const AllProducts = () => {
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="/product">Products</BreadcrumbLink>
+          <BreadcrumbLink href="/products">Products</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      {products &&
-        products.data.map((product) => {
-          return (
-            <li key={product._id}>
-              <ProductsList {...product} />
-            </li>
-          );
-        })}
+      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="30px" my={8}>
+        {products &&
+          products.data.map((product) => {
+            return <ProductCard {...product} key={product._id} />;
+          })}
+      </SimpleGrid>
     </Container>
   );
 };

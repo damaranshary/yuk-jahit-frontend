@@ -1,27 +1,150 @@
-import { useEffect } from "react";
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+  Center,
+  Container,
+  Divider,
+  Flex,
+  Image,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  InputRightAddon,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { addProductToCart } from "../../api-call/products";
 import { GetProductsById } from "../../lib/swr";
 
-import { useParams } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 
+import { Link as RouterLink, useParams } from "react-router-dom";
 
 const Product = () => {
-    const { id } = useParams<{ id: string }>();
-    const { isLoading, products } = GetProductsById(id);
+  const { id } = useParams<{ id: string }>();
+  const { isLoading, products } = GetProductsById(id);
+  const [quantity, setQuantity] = useState(1);
 
-    useEffect(() => {
-        console.log(products);
-        console.log(id);
-    }, [products, id])
-    
-    if (isLoading) return <p>Loading...</p>;
-    return (
-        <div>
-        <h1>{products?.data.name}</h1>
-        <p>{products?.data.description}</p>
-        <p>{products?.data.price}</p>
-        <p>{products?.data.category}</p>
-        </div>
-    );
-}
+  const handleAddToCart = async () => {
+    const token = localStorage.getItem("token");
+    if (token !== null && products) {
+      await addProductToCart({ productId: products.data._id, quantity, token })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("Please login first");
+    }
+  };
+
+  const handleIncrement = () => {
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    if (!Number.isNaN(newValue)) {
+      setQuantity(newValue);
+    }
+  };
+
+  const { product_img, name, description, price } = products?.data || {};
+
+  if (!products) return <p>Product not found</p>;
+  if (isLoading) return <p>Loading...</p>;
+
+  //create a page for showing product page in details
+
+  return (
+    <Container maxW="4xl" mt={5}>
+      <Breadcrumb
+        spacing="8px"
+        separator={<ChevronRightIcon color="gray.500" />}
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink as={RouterLink} to="/">
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          <BreadcrumbLink as={RouterLink} to="/products">
+            Products
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink as={RouterLink} to={`/products/${products.data._id}`}>
+            {products.data.name}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+
+      <Flex flexDirection={{ base: "column", md: "row" }} gap={10} mt={8}>
+        <Image
+          src={product_img}
+          alt={name}
+          maxW="300px"
+          loading="lazy"
+          borderRadius={10}
+          mx={{ base: "auto", md: "50px" }}
+        />
+        <Box as={Flex} flexDirection="column">
+          <Text
+            as="h2"
+            fontSize={{ base: "lg", md: "xl", lg: "3xl" }}
+            fontWeight="bold"
+          >
+            {name}
+          </Text>
+          <Divider mb={5} />
+          <Text as="p" fontSize={{ base: "sm", md: "md" }}>
+            {description}
+          </Text>
+          <Spacer />
+          <Text as="p" fontSize="2xl" fontWeight="semibold" mb={1}>
+            Rp. {price}
+          </Text>
+          <Center justifyContent="normal">
+            <Text>Jumlah:</Text>
+            <InputGroup maxW="150px" m={5}>
+              <InputLeftAddon
+                children="-"
+                as="button"
+                onClick={handleDecrement}
+              />
+              <Input
+                type="number"
+                name="quantity"
+                textAlign="center"
+                value={quantity}
+                onChange={handleOnChange}
+              />
+              <InputRightAddon
+                children="+"
+                as="button"
+                onClick={handleIncrement}
+              />
+            </InputGroup>
+          </Center>
+          <Button colorScheme="blue" onClick={handleAddToCart} mb={5}>
+            Add to Cart
+          </Button>
+        </Box>
+      </Flex>
+    </Container>
+  );
+};
 
 export default Product;
