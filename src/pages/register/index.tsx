@@ -81,7 +81,7 @@ const Register = () => {
       centerContent
       onSubmit={handleOnSubmit}
     >
-      <VStack w={{ base: "sm", md: "lg", lg: "2xl" }} gap={5}>
+      <VStack w={{ base: "sm", md: "lg", lg: "xl" }} gap={5}>
         <FormControl>
           <Center>
             <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
