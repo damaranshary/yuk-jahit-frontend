@@ -9,6 +9,7 @@ import {
   ButtonGroup,
   Button,
   Spacer,
+  Box,
 } from "@chakra-ui/react";
 
 import { ChangeEvent, useEffect, useState } from "react";
@@ -34,7 +35,7 @@ const Navbar = () => {
 
   const handleOnSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate("/search?query=" + searchValue);
+    navigate("/search?q=" + searchValue);
   };
 
   const handleLogout = () => {
@@ -43,56 +44,60 @@ const Navbar = () => {
   };
 
   return (
-    <section>
-      {/* Include shared UI here e.g. a header or sidebar */}
-      <nav className="navbar">
-        <Flex flexDirection="row" gap="4" p="4" justifyContent="center">
-          <Link as={Link} href="/" mr="4">
-            <Text fontSize="2xl" as="h1">
-              YukJahit
-            </Text>
+    <Flex
+      flexDirection="row"
+      gap="4"
+      alignItems="center"
+      shadow="lg"
+      boxShadow="base"
+      p={4}
+    >
+      <Link as={Link} href="/" mr="4">
+        <Text  as="h1" fontSize="4xl" fontWeight="extrabold">
+          Yuk<Text as="span" color="green">Jahit</Text>
+        </Text>
+      </Link>
+      <Box flex="1">
+        <form onSubmit={handleOnSubmit}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon />{" "}
+            </InputLeftElement>
+            <Input
+              placeholder="Cari sesuatu disini..."
+              variant="outline"
+              value={searchValue}
+              onChange={handleOnChange}
+            />
+          </InputGroup>
+        </form>
+      </Box>
+      {!login ? ( // if login is false
+        <ButtonGroup>
+          <Button>
+            <Link as={RouterLink} to="/login">
+              Login{" "}
+            </Link>
+          </Button>
+          <Button colorScheme="blue">
+            <Link as={RouterLink} to="/register">
+              Register{" "}
+            </Link>
+          </Button>
+        </ButtonGroup>
+      ) : (
+        // if login is true
+        <ButtonGroup>
+          <Link as={RouterLink} to="/cart">
+            <Button> Cart</Button>
           </Link>
-          <form onSubmit={handleOnSubmit}>
-            <InputGroup flex="1" maxW="4xl">
-              <InputLeftElement pointerEvents="none">
-                <SearchIcon />{" "}
-              </InputLeftElement>
-              <Input
-                placeholder="Cari sesuatu disini..."
-                variant="outline"
-                value={searchValue}
-                onChange={handleOnChange}
-              />
-            </InputGroup>
-          </form>
-          {!login ? ( // if login is false
-            <ButtonGroup>
-              <Button>
-                <Link as={RouterLink} to="/login">
-                  Login{" "}
-                </Link>
-              </Button>
-              <Button colorScheme="blue">
-                <Link as={RouterLink} to="/register">
-                  Register{" "}
-                </Link>
-              </Button>
-            </ButtonGroup>
-          ) : (
-            // if login is true
-            <>
-              <Link as={RouterLink} to="/cart">
-                <Button> Cart</Button>
-              </Link>
-              <Button onClick={handleLogout}>Logout</Button>
-              <Link as={RouterLink} to="/profile">
-                <Button>Profile</Button>
-              </Link>
-            </>
-          )}
-        </Flex>
-      </nav>
-    </section>
+          <Button onClick={handleLogout}>Logout</Button>
+          <Link as={RouterLink} to="/profile">
+            <Button>Profile</Button>
+          </Link>
+        </ButtonGroup>
+      )}
+    </Flex>
   );
 };
 
