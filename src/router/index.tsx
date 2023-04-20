@@ -4,7 +4,7 @@ import Home from "../pages/home";
 import Profile from "../pages/profile";
 import Login from "../pages/login";
 import Products from "../pages/all-products";
-import Register from "../pages/register/page";
+import Register from "../pages/register";
 import Product from "../pages/product";
 import Navbar from "../components/navbar";
 import Search from "../pages/search";
