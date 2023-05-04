@@ -2,9 +2,23 @@
 
 import ProductsList from "../../components/productCard";
 
-import { Button, Input } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Container,
+  Input,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
 
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+
+import {
+  Link as RouterLink,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -13,7 +27,7 @@ import { GetProductsByQuery } from "../../lib/swr";
 const Search = () => {
   // const [query, setQuery] = useState<string>("");
   // const [productsData, setProductsData] = useState<ResponseProducts | null>(null);
-  const [searchParams, setSearchParams ] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams?.get("q");
   const { products } = GetProductsByQuery(query);
 
@@ -24,7 +38,6 @@ const Search = () => {
   // }, [search])
 
   const handleSearch = async () => {
-    
     console.log(products);
   };
 
@@ -39,24 +52,38 @@ const Search = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <>
-        {/* <h1>Discover</h1>
-        /* <Input type="text" value={query} onChange={handleInputChange} /> */
-        /*<Button type="submit">Search</Button> */}
-        {products && products.data.length > 0 ? (
-          products.data.map((product) => {
-            return (
-              <li key={product._id}>
-                <ProductsList {...product} />
-              </li>
-            );
-          })
-        ) : (
-          <h1>no products</h1>
-        )}
-      </>
-    </form>
+    <Container maxW="4xl">
+      <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
+        Pencarian produk "{query}"
+      </Text>
+      <Breadcrumb
+        spacing="8px"
+        separator={<ChevronRightIcon color="gray.500" />}
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink to="/" as={RouterLink}>
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink to={`/search?q=${query}`} as={RouterLink}>
+            Pencarian
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <form onSubmit={handleSubmit}>
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+          {products && products.data.length > 0 ? (
+            products.data.map((product) => {
+              return <ProductsList {...product} key={product._id} />;
+            })
+          ) : (
+            <h1>no products</h1>
+          )}
+        </SimpleGrid>
+      </form>
+    </Container>
   );
 };
 

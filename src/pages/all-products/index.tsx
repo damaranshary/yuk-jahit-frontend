@@ -10,6 +10,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Link as RouterLink } from "react-router-dom";
 
 // import Link from "next/link";
 
@@ -21,8 +22,8 @@ const AllProducts = () => {
   const { products, isError } = GetAllProducts();
 
   return (
-    <Container maxW="4xl" mx="auto" centerContent>
-      <Text as="h2" fontSize="4xl" fontWeight="bold" mt={5} mb={1}>
+    <Container maxW="4xl" mx="auto">
+      <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
         Semua Produk{" "}
       </Text>
       <Breadcrumb
@@ -30,18 +31,18 @@ const AllProducts = () => {
         separator={<ChevronRightIcon color="gray.500" />}
       >
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
-
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+          <BreadcrumbLink to="/" as={RouterLink}>
+            Home
+          </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+          <BreadcrumbLink to="/products" as={RouterLink}>
+            Semua Produk
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing="30px" my={8}>
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
         {products &&
           products.data.map((product) => {
             return <ProductCard {...product} key={product._id} />;

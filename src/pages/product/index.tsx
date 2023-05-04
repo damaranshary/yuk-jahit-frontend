@@ -13,7 +13,10 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
+  Radio,
+  RadioGroup,
   Spacer,
+  Stack,
   Text,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
@@ -27,7 +30,10 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isLoading, products } = GetProductsById(id);
+  const { _id, product_img, name, description, price, sizes } =
+    products?.data || {};
   const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState("S");
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
@@ -61,8 +67,6 @@ const Product = () => {
     }
   };
 
-  const { product_img, name, description, price } = products?.data || {};
-
   if (!products) return <p>Product not found</p>;
   if (isLoading) return <p>Loading...</p>;
 
@@ -85,8 +89,8 @@ const Product = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink as={RouterLink} to={`/products/${products.data._id}`}>
-            {products.data.name}
+          <BreadcrumbLink as={RouterLink} to={`/products/${_id}`}>
+            {name}
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
@@ -100,12 +104,12 @@ const Product = () => {
           borderRadius={10}
           mx={{ base: "auto", md: "50px" }}
         />
-        <Box as={Flex} flexDirection="column">
-          <Text
-            as="h2"
-            fontSize={{ base: "lg", md: "xl", lg: "3xl" }}
-            fontWeight="bold"
-          >
+        <Box
+          as={Flex}
+          flexDirection="column"
+          maxW={{ base: "full", md: "300px" }}
+        >
+          <Text as="h2" fontSize="2xl" fontWeight="bold">
             {name}
           </Text>
           <Divider mb={5} />
@@ -116,6 +120,13 @@ const Product = () => {
           <Text as="p" fontSize="2xl" fontWeight="semibold" mb={1}>
             Rp. {price}
           </Text>
+          <Text>Ukuran: </Text>
+
+          <RadioGroup onChange={setSize} value={size}>
+            <Stack direction="row">
+              {sizes && sizes.map((size) => <Radio value={size}>{size}</Radio>)}
+            </Stack>
+          </RadioGroup>
           <Center justifyContent="normal">
             <Text>Jumlah:</Text>
             <InputGroup maxW="150px" m={5}>
@@ -138,7 +149,12 @@ const Product = () => {
               />
             </InputGroup>
           </Center>
-          <Button colorScheme="blue" onClick={handleAddToCart} mb={5}>
+          <Button
+            colorScheme="green"
+            maxW={{ base: "full", md: "md" }}
+            onClick={handleAddToCart}
+            mb={5}
+          >
             Add to Cart
           </Button>
         </Box>

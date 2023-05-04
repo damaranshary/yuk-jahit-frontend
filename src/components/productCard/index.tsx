@@ -51,7 +51,12 @@ const ProductsCard = ({
       as={LinkBox}
       key={_id}
       onClick={() => handleOnClick(_id)}
-      _hover={{ cursor: "pointer", shadow: "2xl" }}
+      _hover={{
+        cursor: "pointer",
+        shadow: "xl",
+        bgColor: "gray.500",
+        color: "white",
+      }}
       shadow="md"
       boxShadow="base"
       p={6}
@@ -73,7 +78,12 @@ const ProductsCard = ({
         <Text as="h1" fontSize="xl" fontWeight="semibold">
           {name}
         </Text>
-        <Text as="p">by <Text as="span" color="green">YukJahit</Text></Text>
+        <Text as="p">
+          by{" "}
+          <Text as="span" color="green">
+            YukJahit
+          </Text>
+        </Text>
         <Text as="p" fontSize="xl" fontWeight="bold">
           Rp. {price}
         </Text>
