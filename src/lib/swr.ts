@@ -1,34 +1,61 @@
 import useSWR from "swr";
 
-import { fetchUserData } from "../api-call/users";
-import { deleteProductFromCart, fetchCartData } from "../api-call/cart";
-import { fetchAllProducts, fetchProductById, fetchProductsByQuery } from "../api-call/products";
+import { fetchCartData } from "../api-call/cart";
+import { fetchUserData, fetchLoginData } from "../api-call/users";
+import {
+  fetchAllProducts,
+  fetchProductById,
+  fetchProductsByQuery,
+} from "../api-call/products";
 
 // this is a SWR function to get a user data
 export const GetUser = (token: string | null) => {
-  const { data, error, isLoading } = useSWR(token, (token) =>
+  const { data, mutate, error, isLoading } = useSWR(token, (token) =>
     fetchUserData(token)
   );
 
+  const loggedOut = error && error.status === 401;
+
   return {
     user: data,
+    loggedOut,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+};
+
+// export const GetLoginData = ({
+//   email,
+//   password,
+// }: {
+//   email: string;
+//   password: string;
+// }) => {
+//   const { data, error, isLoading } = useSWR(
+//     [email, password],
+//     ([email, password]) => fetchLoginData({ email, password })
+//   );
+
+//   return {
+//     loginData: data,
+//     isLoading,
+//     isError: error,
+//   }
+// };
+
+//this is a SWR function to get a cart data
+export const GetCart = (token: string | null) => {
+  const { data, error, isLoading } = useSWR(token, (token) =>
+    fetchCartData(token)
+  );
+
+  return {
+    cart: data,
     isLoading,
     isError: error,
   };
 };
-
-//this is a SWR function to get a cart data
-// export const GetCart = (token: string | null) => {
-//   const { data, error, isLoading } = useSWR(token, (token) =>
-//     fetchCartData(token)
-//   );
-
-//   return {
-//     cart: data,
-//     isLoading,
-//     isError: error,
-//   };
-// };
 
 // export const DeleteProductFromCart = (token: string, productId: string) => {
 //   const { data, error, isLoading } = useSWR(
@@ -68,13 +95,11 @@ export const GetAllProducts = () => {
 };
 
 export const GetProductsById = (id: string | undefined) => {
-  const { data, error, isLoading } = useSWR(id, (id) =>
-    fetchProductById(id)
-  );
+  const { data, error, isLoading } = useSWR(id, (id) => fetchProductById(id));
 
   return {
     products: data,
     isLoading,
     isError: error,
   };
-}
+};
