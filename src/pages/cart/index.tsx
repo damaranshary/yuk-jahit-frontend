@@ -5,9 +5,13 @@ import {
   Center,
   Container,
   Flex,
+  FormControl,
+  FormHelperText,
+  FormLabel,
   HStack,
   Spacer,
   Text,
+  Textarea,
   VStack,
 } from "@chakra-ui/react";
 
@@ -17,18 +21,16 @@ import { useEffect, useState } from "react";
 
 import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
 import CartCard from "../../components/cartCard";
+import { useNavigate } from "react-router";
 
 const Cart = () => {
-  const [token, setToken] = useState<string | null>(null);
   const [cart, setCart] = useState<ResponseCart | null>(null);
+  const [address, setAddress] = useState("");
 
-  const getToken = () => {
-    const token = localStorage.getItem("token");
-    setToken(token);
-  };
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    getToken();
     const handleGetCartData = async () => {
       if (cart === null && token)
         await fetchCartData(token).then((res) => {
@@ -39,12 +41,23 @@ const Cart = () => {
     handleGetCartData();
   }, [token, cart]);
 
+  useEffect(() => {
+    if (!token) {
+      setCart(null);
+      navigate("/login");
+    }
+  }, [token, cart]);
+
   const handleDeleteCart = async (id: string) => {
     token &&
       deleteProductFromCart(token, id).then((res) => {
         setCart(res);
         console.log(res);
       });
+  };
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAddress(e.target.value);
   };
 
   return (
@@ -89,11 +102,21 @@ const Cart = () => {
                   Rp. {cart.bill}
                 </Text>
               </Text>
+              <FormControl>
+                <FormLabel>Keterangan (Alamat pengiriman): </FormLabel>
+                <Textarea value={address} onChange={handleOnChange}></Textarea>
+                <FormHelperText>*wajib diisi</FormHelperText>
+              </FormControl>
             </VStack>
             <Spacer />
-            <Button colorScheme="green" my="auto">
-              Checkout
-            </Button>
+            <Center>
+              <VStack>
+                <Text>Tipe Pembayaran: Gopay</Text>
+                <Button colorScheme="green" my="5">
+                  Lakukan Pembayaran
+                </Button>
+              </VStack>
+            </Center>
           </Flex>
         </Box>
       )}

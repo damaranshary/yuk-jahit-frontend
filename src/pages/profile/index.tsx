@@ -1,9 +1,11 @@
-"use client";
-
 import { GetUser } from "../../lib/swr";
-import { Container, Text } from "@chakra-ui/react";
+import { Button, Container, Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { fetchOrderData } from "../../api-call/order";
+import { OrderDataTypes } from "../../types/order";
+import OrderCard from "../../components/orderCard";
 
 const Profile = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -15,25 +17,35 @@ const Profile = () => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
-    }
-    else {
+    } else {
       navigate("/login");
     }
   }, [token]);
 
-  useEffect(() => {
-    
-  })
-
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <Container maxW="2xl">
-      <Text as="h1">Profile</Text>
-      <Text as="p">This is the profile page</Text>
-      <Text>{user?.name}</Text>
-      <Text>{user?.email}</Text>
-      <Text>{user?.phone}</Text>
+    <Container maxW="4xl">
+      <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
+        Profile
+      </Text>
+      <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
+        <Image
+          src="/avatar-profile.jpg"
+          width="200px"
+          height="200px"
+          alt="avatar"
+          borderRadius="full"
+        />
+        <VStack alignItems="start" maxW="4xl">
+          {" "}
+          <Text as="h3" fontSize="lg" fontWeight="semibold">
+            {user?.name}
+          </Text>
+          <Text>Email: {user?.email}</Text>
+          <Text>Nomor HP: {user?.phone}</Text>
+        </VStack>
+      </Flex>
     </Container>
   );
 };
