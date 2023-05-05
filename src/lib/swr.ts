@@ -7,6 +7,7 @@ import {
   fetchProductById,
   fetchProductsByQuery,
 } from "../api-call/products";
+import { fetchOrderData } from "../api-call/order";
 
 // this is a SWR function to get a user data
 export const GetUser = (token: string | null) => {
@@ -99,6 +100,19 @@ export const GetProductsById = (id: string | undefined) => {
 
   return {
     products: data,
+    isLoading,
+    isError: error,
+  };
+};
+
+//this is a SWR function to get a order data
+export const GetOrder = (token: string | null) => {
+  const { data, error, isLoading } = useSWR(token, (token) =>
+    fetchOrderData(token)
+  );
+
+  return {
+    order: data,
     isLoading,
     isError: error,
   };
