@@ -1,4 +1,4 @@
-import { SearchIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Input,
@@ -8,19 +8,21 @@ import {
   Text,
   ButtonGroup,
   Button,
-  Spacer,
   Box,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  MenuDivider,
 } from "@chakra-ui/react";
 
 import { ChangeEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-
 const Navbar = () => {
   const [login, setLogin] = useState(false); // if login is true, show logout button
   const [searchValue, setSearchValue] = useState("");
   const token = localStorage.getItem("token");
 
-  // const router = useRouter();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +43,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setLogin(false);
+    navigate("/");
   };
 
   return (
@@ -53,8 +56,11 @@ const Navbar = () => {
       p={4}
     >
       <Link as={Link} href="/" mr="4">
-        <Text  as="h1" fontSize="4xl" fontWeight="extrabold">
-          Yuk<Text as="span" color="green">Jahit</Text>
+        <Text as="h1" fontSize="4xl" fontWeight="extrabold">
+          Yuk
+          <Text as="span" color="green">
+            Jahit
+          </Text>
         </Text>
       </Link>
       <Box flex="1">
@@ -91,10 +97,23 @@ const Navbar = () => {
           <Link as={RouterLink} to="/cart">
             <Button> Cart</Button>
           </Link>
-          <Button onClick={handleLogout}>Logout</Button>
-          <Link as={RouterLink} to="/profile">
-            <Button>Profile</Button>
-          </Link>
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              Akun
+            </MenuButton>
+            <MenuList px={2}>
+              <MenuItem as={RouterLink} to="/profile">
+                Profil
+              </MenuItem>
+              <MenuItem as={RouterLink} to="/order">
+                Pembelian
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem as={Button} onClick={handleLogout}>
+                Keluar
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </ButtonGroup>
       )}
     </Flex>
