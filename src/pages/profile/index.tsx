@@ -1,11 +1,15 @@
 import { GetUser } from "../../lib/swr";
-import { Button, Container, Flex, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  Image,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { fetchOrderData } from "../../api-call/order";
-import { OrderDataTypes } from "../../types/order";
-import OrderCard from "../../components/orderCard";
 
 const Profile = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -26,9 +30,11 @@ const Profile = () => {
 
   return (
     <Container maxW="4xl">
-      <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
+      <Box my={5} />
+      <Text as="h2" fontSize="2xl" fontWeight="bold">
         Profile
       </Text>
+
       <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
         <Image
           src="/avatar-profile.jpg"

@@ -70,6 +70,7 @@ const Register = () => {
       )
       .finally(() => {
         setIsSubmitted(false);
+        navigate("/login");
       });
   };
 

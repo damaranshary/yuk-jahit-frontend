@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   useToast,
   VStack,
   Container,
@@ -28,13 +27,11 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      // router.push("/");
       navigate("/");
     }
   }, [token]);
 
   const toast = useToast();
-  // const router = useRouter();
   const navigate = useNavigate();
 
   const handleOnChange = (
@@ -61,7 +58,6 @@ const Login = () => {
         });
         setIsSubmitting(true);
         localStorage.setItem("token", res.token);
-        // router.push("/");\
         navigate("/");
         console.log(res.token);
       })

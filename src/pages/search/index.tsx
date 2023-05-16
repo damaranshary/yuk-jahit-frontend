@@ -1,5 +1,3 @@
-"use client";
-
 import ProductsList from "../../components/productCard";
 
 import {
@@ -7,7 +5,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Container,
-  Input,
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
@@ -20,30 +17,20 @@ import {
   useSearchParams,
 } from "react-router-dom";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 
 import { GetProductsByQuery } from "../../lib/swr";
 
 const Search = () => {
-  // const [query, setQuery] = useState<string>("");
-  // const [productsData, setProductsData] = useState<ResponseProducts | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams?.get("q");
   const { products } = GetProductsByQuery(query);
 
   const navigate = useNavigate();
 
-  // useEffect (() => {
-  //   search && setQuery(search);
-  // }, [search])
-
   const handleSearch = async () => {
     console.log(products);
   };
-
-  // const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setSearchParams(e.target.value);
-  // };
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,7 +60,7 @@ const Search = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <form onSubmit={handleSubmit}>
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
           {products && products.data.length > 0 ? (
             products.data.map((product) => {
               return <ProductsList {...product} key={product._id} />;

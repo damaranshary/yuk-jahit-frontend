@@ -13,11 +13,9 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
-  Radio,
-  RadioGroup,
   Spacer,
-  Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { addProductToCart } from "../../api-call/products";
@@ -33,14 +31,18 @@ const Product = () => {
   const { _id, product_img, name, description, price, sizes } =
     products?.data || {};
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState("S");
+  const toast = useToast();
 
   const handleAddToCart = async () => {
     const token = localStorage.getItem("token");
     if (token !== null && products) {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
-          console.log(res);
+          toast({
+            description: `${res.products[0].name} x${quantity} berhasil ditambahkan ke keranjang`,
+            status: "success",
+            isClosable: true,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -120,13 +122,6 @@ const Product = () => {
           <Text as="p" fontSize="2xl" fontWeight="semibold" mb={1}>
             Rp. {price}
           </Text>
-          <Text>Ukuran: </Text>
-
-          <RadioGroup onChange={setSize} value={size}>
-            <Stack direction="row">
-              {sizes && sizes.map((size) => <Radio value={size}>{size}</Radio>)}
-            </Stack>
-          </RadioGroup>
           <Center justifyContent="normal">
             <Text>Jumlah:</Text>
             <InputGroup maxW="150px" m={5}>

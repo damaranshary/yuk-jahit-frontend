@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Button,
   Breadcrumb,
@@ -11,8 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Link as RouterLink } from "react-router-dom";
-
-// import Link from "next/link";
 
 import ProductCard from "../../components/productCard";
 

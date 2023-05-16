@@ -1,46 +1,10 @@
-"use client";
-
-// import { addProductToCart } from "../api-call/products";
 import { ProductTypes } from "../../types/products";
-// import { useState } from "react";
-import {
-  Box,
-  Button,
-  Center,
-  Card,
-  Flex,
-  Image,
-  Stack,
-  Text,
-  LinkBox,
-} from "@chakra-ui/react";
+
+import { Center, Card, Image, Stack, Text, LinkBox } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const ProductsCard = ({
-  _id,
-  product_img,
-  name,
-  description,
-  price,
-}: ProductTypes) => {
+const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
   const navigate = useNavigate();
-
-  // const handleAddToCart = async () => {
-  //   const token = localStorage.getItem("token");
-  //   if (token !== null) {
-  //     await addProductToCart({ productId: _id, quantity, token })
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   } else {
-  //     console.log("Please login first");
-  //   }
-  // };
-
-  // const [quantity, setQuantity] = useState(1);
 
   const handleOnClick = (productId: string) => {
     navigate(`/products/${productId}`);
@@ -54,8 +18,6 @@ const ProductsCard = ({
       _hover={{
         cursor: "pointer",
         shadow: "xl",
-        bgColor: "gray.500",
-        color: "white",
       }}
       shadow="md"
       boxShadow="base"
@@ -87,7 +49,6 @@ const ProductsCard = ({
         <Text as="p" fontSize="xl" fontWeight="bold">
           Rp. {price}
         </Text>
-        {/* <Button onClick={handleAddToCart}>Add to Cart</Button> */}
       </Stack>
     </Card>
   );
