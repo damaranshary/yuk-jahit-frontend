@@ -1,5 +1,12 @@
 "use client";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Center,
@@ -8,26 +15,31 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
-  HStack,
   Spacer,
   Text,
   Textarea,
   VStack,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 
 import { ResponseCart } from "../../types/cart";
 
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
 import CartCard from "../../components/cartCard";
 import { useNavigate } from "react-router";
+import { checkoutOrderFromCart } from "../../api-call/order";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<string | undefined>(undefined);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
+  const toast = useToast();
+  const cancelRef: any = useRef();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -35,7 +47,6 @@ const Cart = () => {
       if (cart === null && token)
         await fetchCartData(token).then((res) => {
           setCart(res);
-          console.log(res);
         });
     };
     handleGetCartData();
@@ -54,6 +65,32 @@ const Cart = () => {
         setCart(res);
         console.log(res);
       });
+  };
+
+  const handleCheckout = async (e: FormEvent) => {
+    e.preventDefault();
+    if (token && address !== undefined) {
+      checkoutOrderFromCart({
+        token: token,
+        address: address,
+        paymentMethod: "gopay",
+      })
+        .then((res) => console.log(res))
+        .finally(() => {
+          setCart(null);
+          toast({
+            description: "Checkout berhasil",
+            status: "success",
+            isClosable: true,
+          });
+        });
+    } else {
+      toast({
+        description: "Alamat pengiriman tidak boleh kosong",
+        status: "warning",
+        isClosable: true,
+      });
+    }
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -104,7 +141,11 @@ const Cart = () => {
               </Text>
               <FormControl>
                 <FormLabel>Keterangan (Alamat pengiriman): </FormLabel>
-                <Textarea value={address} onChange={handleOnChange}></Textarea>
+                <Textarea
+                  value={address}
+                  onChange={handleOnChange}
+                  required
+                ></Textarea>
                 <FormHelperText>*wajib diisi</FormHelperText>
               </FormControl>
             </VStack>
@@ -112,9 +153,38 @@ const Cart = () => {
             <Center>
               <VStack>
                 <Text>Tipe Pembayaran: Gopay</Text>
-                <Button colorScheme="green" my="5">
+                <Button colorScheme="green" my="5" onClick={onOpen}>
                   Lakukan Pembayaran
                 </Button>
+                <AlertDialog
+                  motionPreset="slideInBottom"
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                  isOpen={isOpen}
+                  isCentered
+                >
+                  <AlertDialogOverlay />
+                  <AlertDialogContent>
+                    <AlertDialogHeader>Konfirmasi Checkout</AlertDialogHeader>
+                    <AlertDialogCloseButton />
+                    <AlertDialogBody>
+                      Apakah anda yakin ingin melakukan checkout?
+                    </AlertDialogBody>
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={onClose}>
+                        Batal
+                      </Button>
+                      <Button
+                        type="submit"
+                        colorScheme="green"
+                        ml={3}
+                        onClick={handleCheckout}
+                      >
+                        Checkout
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </VStack>
             </Center>
           </Flex>

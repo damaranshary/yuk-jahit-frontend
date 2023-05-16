@@ -9,7 +9,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { CartCardTypes, ProductInCartTypes } from "../../types/cart";
+import { CartCardTypes } from "../../types/cart";
 
 const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
   const { product_img, name, price, quantity, productId, _id } = product;
@@ -21,14 +21,12 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
       _hover={{
         cursor: "pointer",
         shadow: "xl",
-        bgColor: "gray.500",
-        color: "white",
       }}
       p={5}
     >
       <Flex
         flexDirection={{ base: "column", sm: "row" }}
-        alignItems={{ base: "center", sm: "start" }}
+        alignItems="center"
         gap={5}
       >
         <Image
