@@ -55,7 +55,7 @@ const Navbar = () => {
       boxShadow="base"
       p={4}
     >
-      <Link as={Link} href="/" mr="4">
+      <Link as={RouterLink} to="/" mr="4">
         <Text as="h1" fontSize="4xl" fontWeight="extrabold">
           Yuk
           <Text as="span" color="green">
