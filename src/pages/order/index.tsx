@@ -5,34 +5,41 @@ import { useNavigate } from "react-router-dom";
 
 import OrderCard from "../../components/orderCard";
 import { fetchOrderData } from "../../api-call/order";
-import { OrderDataTypes } from "../../types/order";
-import { GetOrder } from "../../lib/swr";
+import { OrderResponse } from "../../types/order";
 
 const Order = () => {
-  const [token, setToken] = useState<string | null>(null);
+  const [orderData, setOrderData] = useState<OrderResponse | undefined>(
+    undefined
+  );
 
   const navigate = useNavigate();
-
-  const { order, isLoading } = GetOrder(token);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
-    } else {
-      navigate("/login");
-    }
-  }, [token]);
+    const handleGetOrderData = async () => {
+      if (orderData === undefined && token) {
+        await fetchOrderData(token).then((res) => {
+          setOrderData(res);
+        });
+      }
+    };
+    handleGetOrderData();
+  }, [orderData, token]);
 
-  if (isLoading) return <p>Loading...</p>;
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      setOrderData(undefined);
+    }
+  }, [token, orderData]);
 
   return (
     <Container maxW="4xl">
       <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
         Daftar Transaksi
       </Text>
-      {order &&
-        order.orders.map((item) => {
+      {orderData &&
+        orderData.orders.map((item) => {
           return <OrderCard {...item} key={item._id} />;
         })}
     </Container>

@@ -1,12 +1,9 @@
 import {
-  Box,
   Button,
   Card,
   Center,
   Container,
-  Divider,
   Flex,
-  HStack,
   Image,
   Spacer,
   Text,
@@ -69,6 +66,20 @@ const OrderCard = ({
             Belum dibayar
           </Text>
         )}
+        {status === "expire" && (
+          <Text
+            as="p"
+            fontSize="sm"
+            color="white"
+            display="block"
+            bgColor="gray"
+            px={2}
+            py={1}
+            borderRadius={5}
+          >
+            Kadaluarsa
+          </Text>
+        )}
         {status === "cancel" && (
           <Text
             as="p"
@@ -96,15 +107,16 @@ const OrderCard = ({
           mx={5}
         />
         {products.length > 1 ? (
-          <Text as="h3" fontSize="md" fontWeight="semibold">
-            {products[0].name} dan {products.length - 1} produk lainnya
-          </Text>
+          <VStack>
+            <Text as="h3" fontSize="md" fontWeight="semibold">
+              {products[0].name} dan {products.length - 1} produk lainnya
+            </Text>
+          </VStack>
         ) : (
           <Text as="h3" fontSize="md" fontWeight="semibold">
             {products[0].name}
           </Text>
         )}
-
         <Spacer />
         <VStack>
           <Text>Total Belanja</Text>
@@ -113,7 +125,9 @@ const OrderCard = ({
       </Flex>
       <Center px={5}>
         <Button
-          onClick={() => {}}
+          onClick={() => {
+            console.log(createdAt, _id, products, status, bill, address);
+          }}
           borderRadius="full"
           colorScheme="green"
           size="sm"
