@@ -1,15 +1,7 @@
 import { GetUser } from "../../lib/swr";
-import {
-  Box,
-  Container,
-  Flex,
-  Image,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Image, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 const Profile = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -29,12 +21,10 @@ const Profile = () => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <Container maxW="4xl">
-      <Box my={5} />
-      <Text as="h2" fontSize="2xl" fontWeight="bold">
-        Profile
+    <Container maxW="4xl" minH="70vh">
+      <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
+        Profil Saya
       </Text>
-
       <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
         <Image
           src="/avatar-profile.jpg"

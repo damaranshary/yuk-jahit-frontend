@@ -1,4 +1,4 @@
-import { Container, Text } from "@chakra-ui/react";
+import { Container, Text, useToast } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const Order = () => {
     undefined
   );
 
+  const toast = useToast();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -30,6 +31,11 @@ const Order = () => {
     if (!token) {
       navigate("/login");
       setOrderData(undefined);
+      toast({
+        description: "Silahkan login terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      });
     }
   }, [token, orderData]);
 

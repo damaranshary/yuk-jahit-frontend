@@ -15,6 +15,7 @@ import {
   FormControl,
   FormHelperText,
   FormLabel,
+  Image,
   Spacer,
   Text,
   Textarea,
@@ -31,6 +32,7 @@ import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
 import CartCard from "../../components/cartCard";
 import { useNavigate } from "react-router";
 import { checkoutOrderFromCart } from "../../api-call/order";
+import { Link as RouterLink } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
@@ -56,6 +58,11 @@ const Cart = () => {
     if (!token) {
       setCart(null);
       navigate("/login");
+      toast({
+        description: "Silahkan login terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      });
     }
   }, [token, cart]);
 
@@ -113,7 +120,18 @@ const Cart = () => {
           ))}
         </VStack>
       ) : (
-        <p>no products</p>
+        <Center>
+          <Box maxW="sm">
+            <Image src="empty-cart.jpg" />
+            <Center as={VStack}>
+              <Text fontWeight="semibold">Keranjangmu kosong</Text>
+              <Text mb={5}>Yuk, isi dengan barang-barang impianmu</Text>
+              <Button as={RouterLink} colorScheme="green" to="/products">
+                Mulai Belanja
+              </Button>
+            </Center>
+          </Box>
+        </Center>
       )}
       {cart && (
         <Box

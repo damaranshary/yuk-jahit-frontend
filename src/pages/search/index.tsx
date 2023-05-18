@@ -1,10 +1,13 @@
-import ProductsList from "../../components/productCard";
+import ProductCard from "../../components/productCard";
 
 import {
+  Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Center,
   Container,
+  Image,
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
@@ -60,15 +63,23 @@ const Search = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <form onSubmit={handleSubmit}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
-          {products && products.data.length > 0 ? (
-            products.data.map((product) => {
-              return <ProductsList {...product} key={product._id} />;
-            })
-          ) : (
-            <h1>no products</h1>
-          )}
-        </SimpleGrid>
+        {products && products.data.length > 0 ? (
+          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+            {products &&
+              products.data.map((product) => {
+                return <ProductCard {...product} key={product._id} />;
+              })}
+          </SimpleGrid>
+        ) : (
+          <Center>
+            <Box maxW="sm">
+              <Image src="products-not-found.png" />
+              <Center>
+                <Text fontWeight="semibold">Produk tidak ditemukan</Text>
+              </Center>
+            </Box>
+          </Center>
+        )}
       </form>
     </Container>
   );

@@ -4,12 +4,14 @@ import {
   Container,
   Flex,
   HStack,
+  IconButton,
   Image,
   Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { CartCardTypes } from "../../types/cart";
+import { FaTrash } from "react-icons/fa";
 
 const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
   const { product_img, name, price, quantity, productId, _id } = product;
@@ -55,10 +57,13 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
             <Text as="p">Jumlah: {quantity}</Text>
             {/* <Text as="p">Rp. <Text as="span" color="green">{quantity * price}</Text></Text> */}
           </VStack>
-          <Button
+          <IconButton
             onClick={() => handleDeleteCart(productId)}
             borderRadius="full"
-          ></Button>
+            aria-label="delete cart"
+            colorScheme="red"
+            icon={<FaTrash />}
+          ></IconButton>
         </HStack>
       </Flex>
     </Container>
