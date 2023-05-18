@@ -1,55 +1,45 @@
-"use client";
-
 import {
-  Card,
-  CardBody,
-  Stack,
+  Center,
   Image,
-  Heading,
   Text,
-  Divider,
-  CardFooter,
   Button,
-  ButtonGroup,
+  Container,
+  SimpleGrid,
+  Box,
 } from "@chakra-ui/react";
+import { GetProductsByCategory } from "../../lib/swr";
+import ProductsCard from "../../components/productCard";
+import { Link as RouterLink } from "react-router-dom";
 
 const Home = () => {
+  const { products } = GetProductsByCategory("Baru");
+
   return (
-    <>
-      <h1>Dashboard</h1>
-      <section className="grid grid-cols-3 col-span-3 ">
-        <Card maxW="sm">
-          <CardBody>
-            <Image
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              alt="Green double couch with wooden legs"
-            />
-            <Stack mt="6" spacing="3">
-              <Heading size="md">Living room Sofa</Heading>
-              <Text>
-                This sofa is perfect for modern tropical spaces, baroque
-                inspired spaces, earthy toned spaces and for people who love a
-                chic design with a sprinkle of vintage design.
-              </Text>
-              <Text color="blue.600" fontSize="2xl">
-                $450
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              <Button variant="solid" colorScheme="blue">
-                Buy now
-              </Button>
-              <Button variant="ghost" colorScheme="blue">
-                Add to cart
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      </section>
-    </>
+    <Container maxW="4xl" centerContent>
+      <Image src="carousel-asset.jpg" rounded={10} my={5} />
+      <Box>
+        <Text fontWeight="semibold" fontSize="2xl" my={5}>
+          Produk Terbaru
+        </Text>
+        <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing="15px" my={8}>
+          {products &&
+            products.data.map((product) => {
+              return <ProductsCard {...product} key={product._id} />;
+            })}
+        </SimpleGrid>
+        <Center>
+          <Button
+            as={RouterLink}
+            variant="outline"
+            colorScheme="green"
+            rounded={10}
+            to="/products"
+          >
+            Lihat semua
+          </Button>
+        </Center>
+      </Box>
+    </Container>
   );
 };
 

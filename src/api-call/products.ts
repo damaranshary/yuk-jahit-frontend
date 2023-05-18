@@ -15,16 +15,37 @@ export const fetchAllProducts = async (): Promise<ResponseProducts> => {
   return data.data;
 };
 
-export const fetchProductById = async (id: string): Promise<ResponseProductById> => {
+export const fetchProductById = async (
+  id: string
+): Promise<ResponseProductById> => {
   const data = await axios
     .get(`${import.meta.env.VITE_API_URL}/product/${id}`)
     .catch((err) => err);
   return data.data;
 };
 
-export const fetchProductsByQuery = async (query: string): Promise<ResponseProducts> => {
+export const fetchProductsByQuery = async (
+  query: string
+): Promise<ResponseProducts> => {
   const data = await axios
-    .get(`${import.meta.env.VITE_API_URL}/product/filter/?name=${query}&priceMin=0&priceMax=1000000&category=`)
+    .get(
+      `${
+        import.meta.env.VITE_API_URL
+      }/product/filter/?name=${query}&priceMin=0&priceMax=1000000&category=`
+    )
+    .catch((err) => err);
+  return data.data;
+};
+
+export const fetchProductsByCategory = async (
+  category: string
+): Promise<ResponseProducts> => {
+  const data = await axios
+    .get(
+      `${
+        import.meta.env.VITE_API_URL
+      }/product/filter/?name=&priceMin=0&priceMax=1000000&category=${category}`
+    )
     .catch((err) => err);
   return data.data;
 };
@@ -32,7 +53,7 @@ export const fetchProductsByQuery = async (query: string): Promise<ResponseProdu
 export const addProductToCart = async ({
   productId,
   quantity,
-  token
+  token,
 }: AddProductToCartTypes): Promise<ResponseCart> => {
   const header = {
     Authorization: `Bearer ${token}`,

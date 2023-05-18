@@ -6,6 +6,7 @@ import {
   fetchAllProducts,
   fetchProductById,
   fetchProductsByQuery,
+  fetchProductsByCategory,
 } from "../api-call/products";
 import { fetchOrderData } from "../api-call/order";
 
@@ -97,6 +98,18 @@ export const GetAllProducts = () => {
 
 export const GetProductsById = (id: string | undefined) => {
   const { data, error, isLoading } = useSWR(id, (id) => fetchProductById(id));
+
+  return {
+    products: data,
+    isLoading,
+    isError: error,
+  };
+};
+
+export const GetProductsByCategory = (category: string | undefined) => {
+  const { data, error, isLoading } = useSWR(category, (category) =>
+    fetchProductsByCategory(category)
+  );
 
   return {
     products: data,
