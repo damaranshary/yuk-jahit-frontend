@@ -9,6 +9,7 @@ import Product from "../pages/product";
 import Navbar from "../components/navbar";
 import Search from "../pages/search";
 import Order from "../pages/order";
+import NotFound404 from "../pages/404";
 
 const AppRouter = () => {
   return (
@@ -27,7 +28,7 @@ const AppRouter = () => {
             <Route path=":id" element={<Product />} />
           </Route>
           <Route path="search" element={<Search />} />
-          <Route path="*" element={<>not found</>}></Route>
+          <Route path="*" element={<NotFound404 />} />
         </Route>
       </Routes>
     </Router>
