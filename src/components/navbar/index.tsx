@@ -67,7 +67,7 @@ const Navbar = () => {
         <form onSubmit={handleOnSubmit}>
           <InputGroup>
             <InputLeftElement pointerEvents="none">
-              <SearchIcon />{" "}
+              <SearchIcon />
             </InputLeftElement>
             <Input
               placeholder="Cari sesuatu disini..."
@@ -80,28 +80,24 @@ const Navbar = () => {
       </Box>
       {!login ? ( // if login is false
         <ButtonGroup>
-          <Button>
-            <Link as={RouterLink} to="/login">
-              Login{" "}
-            </Link>
+          <Button as={RouterLink} to="/login">
+            Masuk
           </Button>
-          <Button colorScheme="blue">
-            <Link as={RouterLink} to="/register">
-              Register{" "}
-            </Link>
+          <Button as={RouterLink} colorScheme="green" to="/register">
+            Daftar
           </Button>
         </ButtonGroup>
       ) : (
         // if login is true
         <ButtonGroup>
           <Link as={RouterLink} to="/cart">
-            <Button> Cart</Button>
+            <Button>Keranjang</Button>
           </Link>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               Akun
             </MenuButton>
-            <MenuList px={2}>
+            <MenuList>
               <MenuItem as={RouterLink} to="/profile">
                 Profil
               </MenuItem>

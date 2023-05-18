@@ -122,7 +122,7 @@ const Register = () => {
             <Button
               type="submit"
               w={{ base: "full", md: "200px" }}
-              colorScheme="blue"
+              colorScheme="green"
               borderRadius="30px"
               isLoading={isSubmitting}
               loadingText="Submitting"
