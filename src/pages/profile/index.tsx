@@ -49,7 +49,7 @@ const Profile = () => {
           </Text>
           <Text>Email: {user?.email}</Text>
           <Text>Nomor HP: {user?.phone}</Text>
-          {user && <EditProfileModal name={user.name} phone={user.phone} />}
+          {user && token && <EditProfileModal token={token} name={user.name} phone={user.phone} />}
         </VStack>
       </Flex>
     </Container>

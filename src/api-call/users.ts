@@ -45,3 +45,17 @@ export const fetchUserData = async (
     .catch((err) => err);
   return data.data.user;
 };
+
+export const updateUserData = async (
+  token: string,
+  name: string,
+  phone: string
+): Promise<User> => {
+  const header = {
+    Authorization: `Bearer ${token}`,
+  };
+  const data = await axios
+    .put(`${import.meta.env.VITE_API_URL}/user/me`, { name, phone }, { headers: header })
+    .catch((err) => err);
+  return data.data.user;
+}

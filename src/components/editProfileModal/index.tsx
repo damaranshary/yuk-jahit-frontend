@@ -13,21 +13,29 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { updateUserData } from "../../api-call/users";
 
 interface Props {
+  token: string;
   name: string;
   phone: string;
 }
 
-const EditProfileModal = ({ name, phone }: Props) => {
+const EditProfileModal = ({ token, name, phone }: Props) => {
   const [updatedProfile, setUpdatedProfile] = useState({
     name: name,
     phone: phone,
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { name: updatedName, phone: updatedPhone } = updatedProfile;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const handleOnChange = (
     e:
@@ -39,9 +47,48 @@ const EditProfileModal = ({ name, phone }: Props) => {
     setUpdatedProfile({ ...updatedProfile, [name]: value });
   };
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     console.log(updatedProfile);
-    onClose();
+
+    if (updatedName !== "" || updatedPhone !== "") {
+      if (updatedName !== name && updatedPhone !== phone) {
+        setIsSubmitting(true);
+        await updateUserData(token, updatedName, updatedPhone)
+          .then((res) => {
+            toast({
+              description: "Edit Profile Berhasil",
+              status: "success",
+              isClosable: true,
+            });
+          })
+          .catch((err) => {
+            toast({
+              description: "Edit Profile Gagal",
+              status: "error",
+              isClosable: true,
+            });
+          })
+          .finally(() => {
+            setIsSubmitting(false);
+            onClose();
+          });
+      } else {
+        toast({
+          description: "Tidak ada perubahan",
+          status: "warning",
+          isClosable: true,
+        });
+        onClose();
+      }
+    } else {
+      toast({
+        description: "Tolong isi form dengan benar",
+        status: "warning",
+        isClosable: true,
+      });
+      onClose();
+    }
   };
 
   const handleCloseModal = () => {
@@ -65,7 +112,7 @@ const EditProfileModal = ({ name, phone }: Props) => {
                 <Input
                   type="text"
                   name="name"
-                  value={updatedProfile.name}
+                  value={updatedName}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -74,7 +121,7 @@ const EditProfileModal = ({ name, phone }: Props) => {
                 <Input
                   type="number"
                   name="phone"
-                  value={updatedProfile.phone}
+                  value={updatedPhone}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -85,7 +132,12 @@ const EditProfileModal = ({ name, phone }: Props) => {
             <Button variant="ghost" mr={3} onClick={handleCloseModal}>
               Close
             </Button>
-            <Button variant="solid" onClick={handleOnSubmit}>
+            <Button
+              variant="solid"
+              type="submit"
+              onClick={handleOnSubmit}
+              isLoading={isSubmitting}
+            >
               Edit
             </Button>
           </ModalFooter>
