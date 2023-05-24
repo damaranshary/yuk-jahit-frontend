@@ -70,7 +70,6 @@ const Cart = () => {
     token &&
       deleteProductFromCart(token, id).then((res) => {
         setCart(res);
-        console.log(res);
       });
   };
 

@@ -45,10 +45,18 @@ const Product = () => {
           });
         })
         .catch((err) => {
-          console.log(err);
+          toast({
+            description: err.message,
+            status: "error",
+            isClosable: true,
+          });
         });
     } else {
-      console.log("Please login first");
+      toast({
+        description: "Silahkan login terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      });
     }
   };
 

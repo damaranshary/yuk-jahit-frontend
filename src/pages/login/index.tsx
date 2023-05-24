@@ -48,22 +48,19 @@ const Login = () => {
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(loginData);
     setIsSubmitting(true);
 
     await fetchLoginData(loginData)
-      .then(
-        (res) => {
-          toast({
-            description: "Login Berhasil",
-            status: "success",
-            isClosable: true,
-          });
-          setIsSubmitting(true);
-          localStorage.setItem("token", res.token);
-          navigate("/");
-        }
-      )
+      .then((res) => {
+        setIsSubmitting(true);
+        localStorage.setItem("token", res.token);
+        navigate("/");
+        toast({
+          description: "Login Berhasil",
+          status: "success",
+          isClosable: true,
+        });
+      })
       .catch((err) => {
         toast({
           title: "Login Gagal",
@@ -71,7 +68,6 @@ const Login = () => {
           status: "error",
           isClosable: true,
         });
-        console.log(err);
       })
       .finally(() => {
         setIsSubmitting(false);

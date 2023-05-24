@@ -61,7 +61,6 @@ const Register = () => {
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(registerData);
     setIsSubmitted(true);
     !passwordError &&
       (await fetchRegisterData({ name, email, password, phone })

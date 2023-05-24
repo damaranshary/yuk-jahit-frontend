@@ -37,7 +37,11 @@ const Navbar = () => {
 
   const handleOnSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate("/search?q=" + searchValue);
+    if (searchValue === "") {
+      navigate("/products");
+    } else {
+      navigate("/search?q=" + searchValue);
+    }
   };
 
   const handleLogout = () => {

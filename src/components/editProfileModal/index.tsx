@@ -49,7 +49,6 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log(updatedProfile);
 
     if (updatedName !== "" || updatedPhone !== "") {
       if (updatedName !== name && updatedPhone !== phone) {

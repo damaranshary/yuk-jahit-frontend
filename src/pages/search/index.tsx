@@ -16,11 +16,9 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 
 import {
   Link as RouterLink,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
 
-import { ChangeEvent } from "react";
 
 import { GetProductsByQuery } from "../../lib/swr";
 
@@ -28,18 +26,6 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams?.get("q");
   const { products } = GetProductsByQuery(query);
-
-  const navigate = useNavigate();
-
-  const handleSearch = async () => {
-    console.log(products);
-  };
-
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    navigate("/serach?q=" + query);
-    query !== undefined && handleSearch();
-  };
 
   return (
     <Container maxW="4xl">
@@ -62,25 +48,23 @@ const Search = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <form onSubmit={handleSubmit}>
-        {products && products.data.length > 0 ? (
-          <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
-            {products &&
-              products.data.map((product) => {
-                return <ProductCard {...product} key={product._id} />;
-              })}
-          </SimpleGrid>
-        ) : (
-          <Center>
-            <Box maxW="sm">
-              <Image src="products-not-found.png" />
-              <Center>
-                <Text fontWeight="semibold">Produk tidak ditemukan</Text>
-              </Center>
-            </Box>
-          </Center>
-        )}
-      </form>
+      {products && products.data.length > 0 ? (
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+          {products &&
+            products.data.map((product) => {
+              return <ProductCard {...product} key={product._id} />;
+            })}
+        </SimpleGrid>
+      ) : (
+        <Center>
+          <Box maxW="sm">
+            <Image src="products-not-found.png" />
+            <Center>
+              <Text fontWeight="semibold">Produk tidak ditemukan</Text>
+            </Center>
+          </Box>
+        </Center>
+      )}
     </Container>
   );
 };
