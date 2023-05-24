@@ -1,7 +1,16 @@
 import { GetUser } from "../../lib/swr";
-import { Box, Container, Flex, Image, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Flex,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import EditProfileModal from "../../components/editProfileModal";
 
 const Profile = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -40,6 +49,7 @@ const Profile = () => {
           </Text>
           <Text>Email: {user?.email}</Text>
           <Text>Nomor HP: {user?.phone}</Text>
+          {user && <EditProfileModal name={user.name} phone={user.phone} />}
         </VStack>
       </Flex>
     </Container>
