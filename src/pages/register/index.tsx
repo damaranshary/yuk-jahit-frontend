@@ -10,6 +10,8 @@ import {
   useToast,
   VStack,
   Container,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { fetchRegisterData } from "../../api-call/users";
@@ -20,8 +22,12 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
     phone: "",
   });
+
+  const { name, email, password, confirmPassword, phone } = registerData;
+  const [passwordError, setPasswordError] = useState(false);
   const [isSubmitting, setIsSubmitted] = useState(false);
 
   const toast = useToast();
@@ -34,6 +40,14 @@ const Register = () => {
       navigate("/");
     }
   }, [token]);
+
+  useEffect(() => {
+    if (confirmPassword === password) {
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  }, [password, confirmPassword]);
 
   const handleOnChange = (
     e:
@@ -49,88 +63,115 @@ const Register = () => {
     e.preventDefault();
     console.log(registerData);
     setIsSubmitted(true);
-
-    await fetchRegisterData(registerData)
-      .then((res) => {
-        toast({
-          description: "Registrasi Berhasil",
-          status: "success",
-          isClosable: true,
-        });
-        setIsSubmitted(true);
-        console.log(res.token);
-      })
-      .catch((err) =>
-        toast({
-          title: err.message,
-          description: err.msg,
-          status: "error",
-          isClosable: true,
+    !passwordError &&
+      (await fetchRegisterData({ name, email, password, phone })
+        .then((res) => {
+          toast({
+            description: "Registrasi Berhasil",
+            status: "success",
+            isClosable: true,
+          });
+          setIsSubmitted(true);
         })
-      )
-      .finally(() => {
-        setIsSubmitted(false);
-        navigate("/login");
-      });
+        .catch((err) =>
+          toast({
+            title: err.message,
+            description: err.msg,
+            status: "error",
+            isClosable: true,
+          })
+        )
+        .finally(() => {
+          setIsSubmitted(false);
+          navigate("/login");
+        }));
   };
 
   return (
-    <Container
-      as="form"
-      maxW="xl"
-      my={5}
-      centerContent
-      onSubmit={handleOnSubmit}
-    >
-      <VStack w={{ base: "sm", md: "lg", lg: "xl" }} gap={5}>
-        <FormControl>
-          <Center>
-            <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
-              Daftar
-            </Text>
-          </Center>
+    <Container maxW="xl" my={5} centerContent>
+      <VStack
+        as="form"
+        w={{ base: "sm", md: "lg", lg: "xl" }}
+        onSubmit={handleOnSubmit}
+      >
+        <Text as="h1" fontSize="4xl" fontWeight="extrabold">
+          Yuk
+          <Text as="span" color="green">
+            Jahit
+          </Text>
+        </Text>
+        <Center>
+          <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
+            Daftar
+          </Text>
+        </Center>
+        <FormControl isRequired>
           <FormLabel>Nama</FormLabel>
           <Input
             type="text"
             name="name"
-            value={registerData.name}
+            value={name}
             onChange={handleOnChange}
           />
-          <FormLabel mt={3}>Alamat Email</FormLabel>
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Alamat Email</FormLabel>
           <Input
             type="email"
             name="email"
-            value={registerData.email}
+            value={email}
             onChange={handleOnChange}
           />
           <FormHelperText>We will never share your email.</FormHelperText>
-          <FormLabel mt={3}>Nomor HP</FormLabel>
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Nomor HP</FormLabel>
           <Input
             type="number"
             name="phone"
-            value={registerData.phone}
+            value={phone}
             onChange={handleOnChange}
           />
-          <FormLabel mt={3}>Password</FormLabel>
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Password</FormLabel>
           <Input
             type="password"
             name="password"
-            value={registerData.password}
+            value={password}
             onChange={handleOnChange}
+            minLength={8}
           />
-          <Center p={6} mt={5}>
-            <Button
-              type="submit"
-              w={{ base: "full", md: "200px" }}
-              colorScheme="green"
-              borderRadius="30px"
-              isLoading={isSubmitting}
-              loadingText="Submitting"
-            >
-              Daftar
-            </Button>
-          </Center>
         </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Konfirmasi Password</FormLabel>
+          <Input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleOnChange}
+            minLength={8}
+          />
+        </FormControl>
+
+        {passwordError && (
+          <Alert status="error" borderRadius={10}>
+            <AlertIcon />
+            Password tidak sama
+          </Alert>
+        )}
+        <Center p={6} mt={5}>
+          <Button
+            type="submit"
+            w={{ base: "full", md: "200px" }}
+            colorScheme="green"
+            borderRadius="30px"
+            isLoading={isSubmitting}
+            loadingText="Submitting"
+          >
+            Daftar
+          </Button>
+        </Center>
       </VStack>
     </Container>
   );

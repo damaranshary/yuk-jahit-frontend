@@ -9,11 +9,13 @@ import {
   Container,
   Text,
   Center,
+  Link,
 } from "@chakra-ui/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 import { fetchLoginData } from "../../api-call/users";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { error } from "console";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -50,45 +52,51 @@ const Login = () => {
     setIsSubmitting(true);
 
     await fetchLoginData(loginData)
-      .then((res) => {
+      .then(
+        (res) => {
+          toast({
+            description: "Login Berhasil",
+            status: "success",
+            isClosable: true,
+          });
+          setIsSubmitting(true);
+          localStorage.setItem("token", res.token);
+          navigate("/");
+        }
+      )
+      .catch((err) => {
         toast({
-          description: "Login Berhasil",
-          status: "success",
-          isClosable: true,
-        });
-        setIsSubmitting(true);
-        localStorage.setItem("token", res.token);
-        navigate("/");
-        console.log(res.token);
-      })
-      .catch((err) =>
-        toast({
-          title: err.msg,
-          description: err.msg,
+          title: "Login Gagal",
+          description: "Email atau Password salah",
           status: "error",
           isClosable: true,
-        })
-      )
+        });
+        console.log(err);
+      })
       .finally(() => {
         setIsSubmitting(false);
       });
   };
 
   return (
-    <Container
-      as="form"
-      maxW="xl"
-      centerContent
-      my={5}
-      onSubmit={handleOnSubmit}
-    >
-      <VStack w={{ base: "full", md: "full", lg: "xl" }} gap={3}>
+    <Container maxW="xl" centerContent my={5}>
+      <VStack
+        as="form"
+        w={{ base: "full", md: "full", lg: "xl" }}
+        onSubmit={handleOnSubmit}
+      >
+        <Text as="h1" fontSize="4xl" fontWeight="extrabold">
+          Yuk
+          <Text as="span" color="green">
+            Jahit
+          </Text>
+        </Text>
+        <Center as={VStack}>
+          <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
+            Masuk
+          </Text>
+        </Center>
         <FormControl>
-          <Center>
-            <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
-              Masuk
-            </Text>
-          </Center>
           <FormLabel mt={3}>Alamat Email</FormLabel>
           <Input
             type="email"
@@ -96,6 +104,8 @@ const Login = () => {
             value={email}
             onChange={handleOnChange}
           />
+        </FormControl>
+        <FormControl>
           <FormLabel mt={3}>Password</FormLabel>
           <Input
             type="password"
@@ -103,19 +113,26 @@ const Login = () => {
             value={password}
             onChange={handleOnChange}
           />
-          <Center p={6} mt={3}>
-            <Button
-              type="submit"
-              w={{ base: "full", md: "200px" }}
-              colorScheme="green"
-              borderRadius="30px"
-              isLoading={isSubmitting}
-              loadingText="Submitting"
-            >
-              Masuk
-            </Button>
-          </Center>
         </FormControl>
+        <Center p={6} mt={2} as={VStack} gap={3}>
+          <Text>
+            Belum punya akun? silahkan{" "}
+            <Link as={RouterLink} to="/register" color="green">
+              daftar{" "}
+            </Link>
+            disini
+          </Text>
+          <Button
+            type="submit"
+            w={{ base: "full", md: "200px" }}
+            colorScheme="green"
+            borderRadius="30px"
+            isLoading={isSubmitting}
+            loadingText="Submitting"
+          >
+            Masuk
+          </Button>
+        </Center>
       </VStack>
     </Container>
   );
