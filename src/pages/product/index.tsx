@@ -119,7 +119,7 @@ const Product = () => {
           flexDirection="column"
           maxW={{ base: "full", md: "300px" }}
         >
-          <Text as="h2" fontSize="2xl" fontWeight="bold">
+          <Text as="h2" fontSize="xl" fontWeight="bold">
             {name}
           </Text>
           <Divider mb={5} />
@@ -127,7 +127,7 @@ const Product = () => {
             {description}
           </Text>
           <Spacer />
-          <Text as="p" fontSize="2xl" fontWeight="semibold" mb={1}>
+          <Text as="p" fontSize="lg" fontWeight="semibold" mb={1}>
             Rp. {price}
           </Text>
           <Center justifyContent="normal">

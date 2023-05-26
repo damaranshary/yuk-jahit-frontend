@@ -170,7 +170,7 @@ const Cart = () => {
             <Center>
               <VStack>
                 <Text>Tipe Pembayaran: Gopay</Text>
-                <Button colorScheme="green" my="5" onClick={onOpen}>
+                <Button isDisabled={!address} colorScheme="green" my="5" onClick={onOpen}>
                   Lakukan Pembayaran
                 </Button>
                 <AlertDialog
