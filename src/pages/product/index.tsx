@@ -28,13 +28,13 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 const Product = () => {
   const { id } = useParams<{ id: string }>();
   const { isLoading, products } = GetProductsById(id);
-  const { _id, product_img, name, description, price, sizes } =
-    products?.data || {};
+  const { _id, product_img, name, description, price } = products?.data || {};
   const [quantity, setQuantity] = useState(1);
   const toast = useToast();
 
+  const token = localStorage.getItem("token");
+
   const handleAddToCart = async () => {
-    const token = localStorage.getItem("token");
     if (token !== null && products) {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
@@ -153,6 +153,7 @@ const Product = () => {
             </InputGroup>
           </Center>
           <Button
+            isDisabled={!token || quantity === 0}
             colorScheme="green"
             maxW={{ base: "full", md: "md" }}
             onClick={handleAddToCart}

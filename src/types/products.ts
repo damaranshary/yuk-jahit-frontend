@@ -8,7 +8,6 @@ export interface ProductTypes {
   description: string;
   category: string;
   price: number;
-  sizes: string[];
   product_img: string;
   cloudinary_id: string;
   createdAt: string;
