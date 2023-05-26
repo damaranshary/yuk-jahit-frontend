@@ -17,7 +17,7 @@ export const fetchOrderData = async (token: string): Promise<OrderResponse> => {
 
 export const checkoutOrderFromCart = async ({
   token,
-  address,
+  notes,
   paymentMethod,
 }: CheckoutOrderTypes): Promise<ResponseCheckoutOrderTypes> => {
   const header = {
@@ -28,7 +28,7 @@ export const checkoutOrderFromCart = async ({
     .post(
       `${import.meta.env.VITE_API_URL}/order/checkout`,
       {
-        address,
+        notes,
         paymentMethod,
       },
       {

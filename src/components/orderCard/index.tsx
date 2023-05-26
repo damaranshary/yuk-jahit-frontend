@@ -10,32 +10,30 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { OrderDataTypes } from "../../types/order";
+import DetailOrderModal from "../detailOrderModal";
 
-const OrderCard = ({
-  createdAt,
-  _id,
-  products,
-  status,
-  bill,
-  address,
-}: OrderDataTypes) => {
+const OrderCard = (props: OrderDataTypes) => {
+  const { updatedAt, _id, products, status, bill } = props;
   const getDate = (something: string) => {
     const date = new Date(something);
-    return date.toLocaleDateString();
+    return date
+      .toLocaleDateString("id-ID", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+      .concat(" WIB");
   };
+  const dateCreated = getDate(updatedAt);
 
-  const dateCreated = getDate(createdAt);
   return (
     <Container as={Card} maxW="4xl" key={_id} shadow="md" p={5} my={5}>
-      <Flex gap={3} maxW="4xl" mt={2} mb={5} alignItems="center">
+      <Flex gap={3} maxW="4xl" mt={2} alignItems="center">
         <Text as="h3" fontWeight="semibold">
           Belanja
-        </Text>
-        <Text as="p" fontSize="sm">
-          {dateCreated}
-        </Text>
-        <Text as="p" fontSize="sm">
-          {_id}
         </Text>
         <Spacer />
         {status === "settlement" && (
@@ -95,8 +93,17 @@ const OrderCard = ({
           </Text>
         )}
       </Flex>
+      <Flex gap={3} maxW="4xl" mt={2} mb={4} alignItems="center">
+        <Text as="p" fontSize="sm">
+          {dateCreated}
+        </Text>
+        <Spacer />
+        <Text as="p" fontSize="sm">
+          {_id}
+        </Text>
+      </Flex>
 
-      <Flex alignItems="center" justifyContent="space-between" my={2}>
+      <Flex alignItems="center" justifyContent="space-between">
         <Image
           src={products[0].product_img}
           alt={products[0].name}
@@ -123,22 +130,7 @@ const OrderCard = ({
           <Text fontWeight="bold">Rp. {bill}</Text>
         </VStack>
       </Flex>
-      <Center px={5}>
-        <Button
-          onClick={() => {
-            console.log(createdAt, _id, products, status, bill, address);
-          }}
-          borderRadius="full"
-          colorScheme="green"
-          size="sm"
-          px={5}
-          my={2}
-          fontSize="sm"
-          variant="outline"
-        >
-          Lihat Detail Transaksi
-        </Button>
-      </Center>
+      <DetailOrderModal {...props} />
     </Container>
   );
 };

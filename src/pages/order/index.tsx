@@ -1,4 +1,4 @@
-import { Container, Text, useToast } from "@chakra-ui/react";
+import { Container, Text, useDisclosure, useToast } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,8 @@ const Order = () => {
   const [orderData, setOrderData] = useState<OrderResponse | undefined>(
     undefined
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -46,7 +48,12 @@ const Order = () => {
       </Text>
       {orderData &&
         orderData.orders.map((item) => {
-          return <OrderCard {...item} key={item._id} />;
+          return (
+            <OrderCard
+              {...item}
+              key={item._id}
+            />
+          );
         })}
     </Container>
   );

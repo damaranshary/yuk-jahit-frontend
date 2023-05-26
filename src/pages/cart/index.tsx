@@ -36,7 +36,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
-  const [address, setAddress] = useState<string | undefined>(undefined);
+  const [notes, setNotes] = useState<string | undefined>(undefined);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -75,10 +75,10 @@ const Cart = () => {
 
   const handleCheckout = async (e: FormEvent) => {
     e.preventDefault();
-    if (token && address !== undefined) {
+    if (token && notes !== undefined) {
       checkoutOrderFromCart({
         token: token,
-        address: address,
+        notes: notes,
         paymentMethod: "gopay",
       })
         .then((res) => console.log(res))
@@ -100,7 +100,7 @@ const Cart = () => {
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAddress(e.target.value);
+    setNotes(e.target.value);
   };
 
   return (
@@ -156,10 +156,10 @@ const Cart = () => {
                   Rp. {cart.bill}
                 </Text>
               </Text>
-              <FormControl>
-                <FormLabel>Keterangan (Alamat pengiriman): </FormLabel>
+              <FormControl isRequired>
+                <FormLabel>Catatan (Ukuran, Jahitan, etc.): </FormLabel>
                 <Textarea
-                  value={address}
+                  value={notes}
                   onChange={handleOnChange}
                   required
                 ></Textarea>
@@ -170,7 +170,7 @@ const Cart = () => {
             <Center>
               <VStack>
                 <Text>Tipe Pembayaran: Gopay</Text>
-                <Button isDisabled={!address} colorScheme="green" my="5" onClick={onOpen}>
+                <Button isDisabled={!notes} colorScheme="green" my="5" onClick={onOpen}>
                   Lakukan Pembayaran
                 </Button>
                 <AlertDialog

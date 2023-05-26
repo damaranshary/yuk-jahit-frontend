@@ -6,6 +6,7 @@ export interface OrderDataTypes {
   owner: OwnerTypes;
   _id: string;
   address: string;
+  notes: string
   products: ProductTypes[];
   status: string;
   bill: number;
@@ -32,7 +33,7 @@ export interface ProductTypes {
 
 export interface CheckoutOrderTypes {
   token: string;
-  address: string;
+  notes: string;
   paymentMethod: string;
 }
 
