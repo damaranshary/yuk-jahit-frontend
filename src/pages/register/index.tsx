@@ -12,6 +12,7 @@ import {
   Container,
   Alert,
   AlertIcon,
+  Textarea,
 } from "@chakra-ui/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { fetchRegisterData } from "../../api-call/users";
@@ -24,9 +25,11 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     phone: "",
+    address: "",
   });
 
-  const { name, email, password, confirmPassword, phone } = registerData;
+  const { name, email, password, confirmPassword, phone, address } =
+    registerData;
   const [passwordError, setPasswordError] = useState(false);
   const [isSubmitting, setIsSubmitted] = useState(false);
 
@@ -63,7 +66,7 @@ const Register = () => {
     e.preventDefault();
     setIsSubmitted(true);
     !passwordError &&
-      (await fetchRegisterData({ name, email, password, phone })
+      (await fetchRegisterData({ name, email, password, phone, address })
         .then((res) => {
           toast({
             description: "Registrasi Berhasil",
@@ -124,15 +127,6 @@ const Register = () => {
           <FormHelperText>We will never share your email.</FormHelperText>
         </FormControl>
         <FormControl isRequired>
-          <FormLabel>Nomor HP</FormLabel>
-          <Input
-            type="number"
-            name="phone"
-            value={phone}
-            onChange={handleOnChange}
-          />
-        </FormControl>
-        <FormControl isRequired>
           <FormLabel>Password</FormLabel>
           <Input
             type="password"
@@ -151,6 +145,19 @@ const Register = () => {
             onChange={handleOnChange}
             minLength={8}
           />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Nomor HP</FormLabel>
+          <Input
+            type="number"
+            name="phone"
+            value={phone}
+            onChange={handleOnChange}
+          />
+        </FormControl>
+        <FormControl isRequired>
+          <FormLabel>Alamat Lengkap</FormLabel>
+          <Textarea name="address" value={address} onChange={handleOnChange} />
         </FormControl>
 
         {passwordError && (
