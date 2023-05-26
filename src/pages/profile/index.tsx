@@ -42,14 +42,31 @@ const Profile = () => {
           alt="avatar"
           borderRadius="full"
         />
-        <VStack alignItems="start" maxW="4xl">
+        <VStack alignItems="start" maxW="4xl" gap={3}>
           {" "}
-          <Text as="h3" fontSize="lg" fontWeight="semibold">
+          <Text as="h3" fontSize="larger" fontWeight="bold">
             {user?.name}
           </Text>
-          <Text>Email: {user?.email}</Text>
-          <Text>Nomor HP: {user?.phone}</Text>
-          {user && token && <EditProfileModal token={token} name={user.name} phone={user.phone} />}
+          <Box>
+            <Text fontWeight="semibold">Email: </Text>
+            <Text>{user?.email}</Text>
+          </Box>
+          <Box>
+            <Text fontWeight="semibold">Nomor HP:</Text>
+            <Text> {user?.phone}</Text>
+          </Box>
+          <Box>
+            <Text fontWeight="semibold">Alamat:</Text>
+            <Text>{user?.address}</Text>
+          </Box>
+          {user && token && (
+            <EditProfileModal
+              token={token}
+              name={user.name}
+              phone={user.phone}
+              address={user.address}
+            />
+          )}
         </VStack>
       </Flex>
     </Container>

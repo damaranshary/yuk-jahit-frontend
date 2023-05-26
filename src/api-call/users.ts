@@ -22,6 +22,7 @@ export const fetchRegisterData = async ({
   email,
   password,
   phone,
+  address,
 }: RegisterFormData): Promise<ResponseUserRegister> => {
   const data = await axios
     .post(`${import.meta.env.VITE_API_URL}/user/register`, {
@@ -29,6 +30,7 @@ export const fetchRegisterData = async ({
       email,
       password,
       phone,
+      address,
     })
     .catch((err) => err);
   return data.data;
@@ -49,13 +51,14 @@ export const fetchUserData = async (
 export const updateUserData = async (
   token: string,
   name: string,
-  phone: string
+  phone: string,
+  address: string,
 ): Promise<User> => {
   const header = {
     Authorization: `Bearer ${token}`,
   };
   const data = await axios
-    .put(`${import.meta.env.VITE_API_URL}/user/me`, { name, phone }, { headers: header })
+    .put(`${import.meta.env.VITE_API_URL}/user/me`, { name, phone, address }, { headers: header })
     .catch((err) => err);
   return data.data.user;
 }
