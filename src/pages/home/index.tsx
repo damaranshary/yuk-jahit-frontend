@@ -16,12 +16,12 @@ const Home = () => {
 
   return (
     <Container maxW="4xl" centerContent>
-      <Image src="carousel-asset.jpg" rounded={10} my={5} />
       <Box>
-        <Text fontWeight="semibold" fontSize="2xl" my={5}>
+        <Image src="carousel-asset.jpg" rounded={10} />
+        <Text fontWeight="bold" fontSize="2xl" mt={8} mb={4}>
           Produk Terbaru
         </Text>
-        <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing="15px" my={8}>
+        <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing="16px">
           {products &&
             products.data.map((product) => {
               return <ProductsCard {...product} key={product._id} />;
@@ -34,6 +34,7 @@ const Home = () => {
             colorScheme="green"
             rounded={10}
             to="/products"
+            mt={8}
           >
             Lihat semua
           </Button>

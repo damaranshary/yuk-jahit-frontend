@@ -17,7 +17,7 @@ const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
       onClick={() => handleOnClick(_id)}
       _hover={{
         cursor: "pointer",
-        shadow: "xl",
+        shadow: "lg",
       }}
       shadow="md"
       boxShadow="base"
@@ -37,7 +37,7 @@ const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
         />
       </Center>
       <Stack direction="column" maxW="lg" mt="4">
-        <Text as="h1" fontSize="xl" fontWeight="semibold">
+        <Text as="h1" fontSize="md" fontWeight="semibold">
           {name}
         </Text>
         <Text as="p">
@@ -46,7 +46,7 @@ const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
             YukJahit
           </Text>
         </Text>
-        <Text as="p" fontSize="xl" fontWeight="bold">
+        <Text as="p" fontSize="md" fontWeight="semibold">
           Rp. {price}
         </Text>
       </Stack>

@@ -77,7 +77,7 @@ const OrderCard = ({
             py={1}
             borderRadius={5}
           >
-            Kadaluarsa
+            Kedaluwarsa
           </Text>
         )}
         {status === "cancel" && (

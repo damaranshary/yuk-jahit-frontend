@@ -5,6 +5,18 @@ const theme = extendTheme({
     heading: `"Open Sans", sans-serif`,
     body: `"Inter", sans-serif`,
   },
+  colors: {
+    green: {
+      500: "#03AC0E",
+    }
+  },
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: "regular"
+      }
+    }
+  }
 });
 
 export default theme;

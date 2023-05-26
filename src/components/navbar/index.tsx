@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { FaShoppingCart } from "react-icons/fa";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [login, setLogin] = useState(false); // if login is true, show logout button
@@ -58,11 +59,12 @@ const Navbar = () => {
       shadow="lg"
       boxShadow="base"
       p={4}
+      mb={10}
     >
       <Link as={RouterLink} to="/" mr="4">
-        <Text as="h1" fontSize="4xl" fontWeight="extrabold">
+        <Text as="h1" fontSize="2xl" fontWeight="bold" color="green.500">
           Yuk
-          <Text as="span" color="green">
+          <Text as="span">
             Jahit
           </Text>
         </Text>
@@ -84,7 +86,7 @@ const Navbar = () => {
       </Box>
       {!login ? ( // if login is false
         <ButtonGroup>
-          <Button as={RouterLink} to="/login">
+          <Button as={RouterLink} variant="ghost" to="/login">
             Masuk
           </Button>
           <Button as={RouterLink} colorScheme="green" to="/register">
@@ -94,11 +96,9 @@ const Navbar = () => {
       ) : (
         // if login is true
         <ButtonGroup>
-          <Link as={RouterLink} to="/cart">
-            <Button>Keranjang</Button>
-          </Link>
+          <Button as={RouterLink} to="/cart" variant="ghost" leftIcon={<FaShoppingCart />}>Keranjang</Button>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton as={Button} variant="ghost" rightIcon={<ChevronDownIcon />}>
               Akun
             </MenuButton>
             <MenuList>
