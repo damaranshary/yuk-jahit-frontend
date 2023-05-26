@@ -16,9 +16,7 @@ const AppRouter = () => {
   const Layout = ({ children }: any) => (
     <>
       <Navbar />
-      <div style={{minHeight: "100vh"}}>
       {children}
-      </div>
       <Footer />
     </>
   );
