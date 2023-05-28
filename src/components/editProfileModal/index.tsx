@@ -79,6 +79,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           .finally(() => {
             setIsSubmitting(false);
             onClose();
+            window.location.reload();
           });
       } else {
         toast({

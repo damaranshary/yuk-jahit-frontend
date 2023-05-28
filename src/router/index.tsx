@@ -13,87 +13,26 @@ import NotFound404 from "../pages/404";
 import Footer from "../components/footer";
 
 const AppRouter = () => {
-  const Layout = ({ children }: any) => (
-    <>
-      <Navbar />
-      {children}
-      <Footer />
-    </>
-  );
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/">
-          <Route
-            index
-            element={
-              <Layout>
-                <Home />
-              </Layout>
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <Layout>
-                <Profile />
-              </Layout>
-            }
-          />
-          <Route
-            path="order"
-            element={
-              <Layout>
-                <Order />
-              </Layout>
-            }
-          />
-          <Route
-            path="cart"
-            element={
-              <Layout>
-                <Cart />
-              </Layout>
-            }
-          />
+          <Route index element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="order" element={<Order />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="products">
-            <Route
-              index
-              element={
-                <Layout>
-                  <Products />
-                </Layout>
-              }
-            />
-            <Route
-              path=":id"
-              element={
-                <Layout>
-                  <Product />
-                </Layout>
-              }
-            />
+            <Route index element={<Products />} />
+            <Route path=":id" element={<Product />} />
           </Route>
-          <Route
-            path="search"
-            element={
-              <Layout>
-                <Search />
-              </Layout>
-            }
-          />
+          <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route
-            path="*"
-            element={
-              <Layout>
-                <NotFound404 />
-              </Layout>
-            }
-          />
+          <Route path="*" element={<NotFound404 />} />
         </Route>
       </Routes>
+      <Footer />
     </Router>
   );
 };

@@ -44,32 +44,32 @@ const SocialButton = ({
 
 const Footer = () => {
   return (
-    <Box
+    <Container
+      as={Stack}
+      maxW="full"
+      py={4}
       mt={10}
+      direction={{ base: "column", md: "row" }}
+      border="1px solid #eaeaea"
+      spacing={4}
+      justify={{ base: "center", md: "space-between" }}
+      align={{ base: "center", md: "center" }}
     >
-      <Container
-        as={Stack}
-        maxW={"6xl"}
-        py={6}
-        direction={{ base: "column", md: "row" }}
-        spacing={4}
-        justify={{ base: "center", md: "space-between" }}
-        align={{ base: "center", md: "center" }}
-      >
-        <Text size={"md"} fontWeight={"regular"}>© 2023 YukJahit. All rights reserved</Text>
-        <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Twitter"} href={"#"}>
-            <FaTwitter />
-          </SocialButton>
-          <SocialButton label={"YouTube"} href={"#"}>
-            <FaYoutube />
-          </SocialButton>
-          <SocialButton label={"Instagram"} href={"#"}>
-            <FaInstagram />
-          </SocialButton>
-        </Stack>
-      </Container>
-    </Box>
+      <Text size={"md"} fontWeight={"regular"}>
+        © 2023 YukJahit. All rights reserved
+      </Text>
+      <Stack direction={"row"} spacing={6}>
+        <SocialButton label={"Twitter"} href={"#"}>
+          <FaTwitter />
+        </SocialButton>
+        <SocialButton label={"YouTube"} href={"#"}>
+          <FaYoutube />
+        </SocialButton>
+        <SocialButton label={"Instagram"} href={"#"}>
+          <FaInstagram />
+        </SocialButton>
+      </Stack>
+    </Container>
   );
 };
 
