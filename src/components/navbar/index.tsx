@@ -60,6 +60,10 @@ const Navbar = () => {
       boxShadow="base"
       p={4}
       mb={10}
+      top={0}
+      position="sticky"
+      zIndex="sticky"
+      bg="white"
     >
       <Link as={RouterLink} to="/" mr="4">
         <Text as="h1" fontSize="2xl" fontWeight="bold" color="green.500">
