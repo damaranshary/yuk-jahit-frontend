@@ -21,7 +21,7 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { addProductToCart } from "../../api-call/products";
 import { GetProductsById } from "../../lib/swr";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 import { Link as RouterLink, useParams } from "react-router-dom";
 
@@ -34,7 +34,8 @@ const Product = () => {
 
   const token = localStorage.getItem("token");
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (e: FormEvent) => {
+    e.preventDefault();
     if (token !== null && products) {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
@@ -46,7 +47,7 @@ const Product = () => {
         })
         .catch((err) => {
           toast({
-            description: err.message,
+            description: "Gagal menambahkan ke keranjang",
             status: "error",
             isClosable: true,
           });
@@ -83,7 +84,7 @@ const Product = () => {
   //create a page for showing product page in details
 
   return (
-    <Container maxW="4xl" mt={5}>
+    <Container maxW="6xl" mt={5} minH="70vh">
       <Breadcrumb
         spacing="8px"
         separator={<ChevronRightIcon color="gray.500" />}
@@ -105,7 +106,7 @@ const Product = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Flex flexDirection={{ base: "column", md: "row" }} gap={10} mt={8}>
+      <Flex as="form" flexDirection={{ base: "column", md: "row" }} gap={10} mt={8} onSubmit={handleAddToCart} alignItems="center">
         <Image
           src={product_img}
           alt={name}
@@ -117,18 +118,17 @@ const Product = () => {
         <Box
           as={Flex}
           flexDirection="column"
-          maxW={{ base: "full", md: "300px" }}
+          maxW={{ base: "full", md: "2xl" }}
         >
           <Text as="h2" fontSize="xl" fontWeight="bold">
             {name}
           </Text>
-          <Divider mb={5} />
+          <Divider mb={3} />
           <Text as="p" fontSize={{ base: "sm", md: "md" }}>
             {description}
           </Text>
-          <Spacer />
-          <Text as="p" fontSize="lg" fontWeight="semibold" mb={1}>
-            Rp. {price}
+          <Text as="p" fontSize="lg" fontWeight="semibold" my={3}>
+            Rp {price?.toLocaleString("id-ID")}
           </Text>
           <Center justifyContent="normal">
             <Text>Jumlah:</Text>
@@ -137,6 +137,7 @@ const Product = () => {
                 children="-"
                 as="button"
                 onClick={handleDecrement}
+                type="button"
               />
               <Input
                 type="number"
@@ -149,14 +150,15 @@ const Product = () => {
                 children="+"
                 as="button"
                 onClick={handleIncrement}
+                type="button"
               />
             </InputGroup>
           </Center>
           <Button
             isDisabled={!token || quantity === 0}
             colorScheme="green"
-            maxW={{ base: "full", md: "md" }}
-            onClick={handleAddToCart}
+            maxW={{ base: "full", md: "2xl" }}
+            type="submit"
             mb={5}
           >
             Add to Cart
