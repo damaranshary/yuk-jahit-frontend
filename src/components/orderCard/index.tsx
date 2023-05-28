@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   Center,
@@ -8,12 +9,15 @@ import {
   Spacer,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { OrderDataTypes } from "../../types/order";
 import DetailOrderModal from "../detailOrderModal";
+import { cancelOrder } from "../../api-call/order";
 
 const OrderCard = (props: OrderDataTypes) => {
-  const { updatedAt, _id, products, status, bill } = props;
+  const token = localStorage.getItem("token");
+
   const getDate = (something: string) => {
     const date = new Date(something);
     return date
@@ -27,11 +31,31 @@ const OrderCard = (props: OrderDataTypes) => {
       })
       .concat(" WIB");
   };
-  const dateCreated = getDate(updatedAt);
+
+  const { updatedAt, _id, products, status, bill } = props;
+
+  const toast = useToast();
+
+  const dateUpdated = getDate(updatedAt);
+
+  const handleCancelOrder = async () => {
+    token &&
+      (await cancelOrder({ token, orderId: _id })
+        .then((res) => {
+          const message = "Pesanan" + res.order_id + " berhasil dibatalkan";
+          toast({
+            description: message,
+            status: "success",
+            isClosable: true,
+          });
+        })
+        .catch((err) => err)
+        .finally(() => {}));
+  };
 
   return (
-    <Container as={Card} maxW="4xl" key={_id} shadow="md" p={5} my={5}>
-      <Flex gap={3} maxW="4xl" mt={2} alignItems="center">
+    <Container as={Card} maxW="6xl" key={_id} shadow="md" p={5} my={5} id={_id}>
+      <Flex gap={3} maxW="6xl" mt={2} alignItems="center">
         <Text as="h3" fontWeight="semibold">
           Belanja
         </Text>
@@ -93,9 +117,9 @@ const OrderCard = (props: OrderDataTypes) => {
           </Text>
         )}
       </Flex>
-      <Flex gap={3} maxW="4xl" mt={2} mb={4} alignItems="center">
+      <Flex gap={3} maxW="6xl" mt={2} mb={4} alignItems="center">
         <Text as="p" fontSize="sm">
-          {dateCreated}
+          {dateUpdated}
         </Text>
         <Spacer />
         <Text as="p" fontSize="sm">
@@ -103,7 +127,12 @@ const OrderCard = (props: OrderDataTypes) => {
         </Text>
       </Flex>
 
-      <Flex alignItems="center" justifyContent="space-between">
+      <Flex
+        flexDirection={{ base: "column", sm: "row" }}
+        alignItems="center"
+        justifyContent="space-between"
+        gap={2}
+      >
         <Image
           src={products[0].product_img}
           alt={products[0].name}
@@ -125,12 +154,42 @@ const OrderCard = (props: OrderDataTypes) => {
           </Text>
         )}
         <Spacer />
-        <VStack>
+        <Box as={Flex} alignItems="center" flexDirection="column">
           <Text>Total Belanja</Text>
-          <Text fontWeight="bold">Rp. {bill}</Text>
-        </VStack>
+          <Text fontWeight="bold">Rp {bill.toLocaleString("id-ID")}</Text>
+        </Box>
       </Flex>
-      <DetailOrderModal {...props} />
+      <Flex alignItems="end" gap={3}>
+        <Spacer />
+        <DetailOrderModal {...props} />
+        {status === "pending" ? (
+          <Button
+            colorScheme="red"
+            borderRadius="full"
+            size="sm"
+            px={5}
+            fontSize="sm"
+            variant="solid"
+            onClick={handleCancelOrder}
+            mt={3}
+          >
+            Batalkan
+          </Button>
+        ) : (
+          <Button
+            isDisabled
+            colorScheme="red"
+            borderRadius="full"
+            size="sm"
+            px={5}
+            fontSize="sm"
+            variant="solid"
+            mt={3}
+          >
+            Batalkan
+          </Button>
+        )}
+      </Flex>
     </Container>
   );
 };

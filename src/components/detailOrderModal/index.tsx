@@ -14,12 +14,14 @@ import {
   ModalOverlay,
   Spacer,
   Text,
+  Textarea,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { OrderDataTypes } from "../../types/order";
 
 const DetailOrderModal = ({
+  owner,
   _id,
   address,
   notes,
@@ -62,10 +64,10 @@ const DetailOrderModal = ({
           Lihat Detail Transaksi
         </Button>
       </Center>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size={{base: "sm", sm: "lg", md: "xl"}}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader fontSize="xl" fontWeight="bold">
+          <ModalHeader fontSize="lg" fontWeight="bold">
             Detail Transaksi
           </ModalHeader>
           <Divider mb={2} />
@@ -134,16 +136,16 @@ const DetailOrderModal = ({
                 <Spacer />
               </Flex>
               <Flex>
-                <Text>ID Transaksi</Text>
+                <Text fontSize="sm">ID Transaksi</Text>
                 <Spacer />
-                <Text color="green" fontWeight="bold">
+                <Text color="green" fontSize="sm" fontWeight="bold">
                   {_id}
                 </Text>
               </Flex>
               <Flex>
-                <Text>Tanggal </Text>
+                <Text fontSize="sm">Tanggal </Text>
                 <Spacer />
-                <Text>{dateCreated}</Text>
+                <Text fontSize="sm">{dateCreated}</Text>
               </Flex>
             </Box>
             <Box as={Flex} flexDirection="column" gap={1}>
@@ -162,29 +164,32 @@ const DetailOrderModal = ({
                   <Image
                     src={product.product_img}
                     alt={product.name}
-                    maxW="100px"
-                    maxH="100px"
+                    maxW="80px"
+                    maxH="80px"
                     loading="lazy"
                     borderRadius={10}
                     me={3}
                   />
-                  <VStack alignItems="start">
-                    <Text fontWeight="semibold" as="span">
+                  <Flex flexDirection="column">
+                    <Text fontWeight="semibold" as="span" fontSize="sm">
                       {product.name} x{product.quantity}
                     </Text>
                     <Box>
                       by{" "}
-                      <Text as="span" color="green">
+                      <Text fontSize="sm" as="span" color="green">
                         YukJahit
                       </Text>
                     </Box>
-                  </VStack>
+                  </Flex>
                   <Spacer />
                   <Divider orientation="vertical" />
                   <Flex flexDirection="column">
-                    <Text>Total Harga</Text>
-                    <Text fontWeight="semibold">
-                      Rp. {product.quantity * product.price}
+                    <Text fontSize="sm">Total Harga</Text>
+                    <Text fontSize="sm" fontWeight="semibold">
+                      Rp{" "}
+                      {(product.quantity * product.price).toLocaleString(
+                        "id-ID"
+                      )}
                     </Text>
                   </Flex>
                 </Flex>
@@ -192,8 +197,25 @@ const DetailOrderModal = ({
             </Box>
             <Box as={Flex} flexDirection="column" gap={1}>
               <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
-                Detail Pembayaran
+                Info Penerima
               </Text>
+              <Flex alignItems="center">
+                <Text fontSize="sm">Nama </Text>
+                <Text ms={7} me={5}>:</Text>
+                <Text color="green" fontSize="sm" fontWeight="bold">
+                  {owner.name}
+                </Text>
+              </Flex>
+              <Flex alignItems="center">
+                <Text fontSize="sm">No HP</Text>
+                <Text ms={6} me={5}>:</Text>
+                <Text fontSize="sm">{owner.phone}</Text>
+              </Flex>
+              <Flex>
+                <Text fontSize="sm">Alamat</Text>
+                <Text ms={5} me={5}>:</Text>
+                <Text fontSize="sm">{address}</Text>
+              </Flex>
             </Box>
           </ModalBody>
         </ModalContent>

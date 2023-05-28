@@ -1,5 +1,7 @@
 import axios from "axios";
 import {
+  CancelOrderResponseTypes,
+  CancelOrderTypes,
   CheckoutOrderTypes,
   OrderResponse,
   ResponseCheckoutOrderTypes,
@@ -35,6 +37,23 @@ export const checkoutOrderFromCart = async ({
         headers: header,
       }
     )
+    .catch((err) => err);
+
+  return data.data;
+};
+
+export const cancelOrder = async ({
+  token,
+  orderId,
+}: CancelOrderTypes): Promise<CancelOrderResponseTypes> => {
+  const header = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const data = await axios
+    .post(`localhost:8080/order/cancel/${orderId}`, {
+      headers: header,
+    })
     .catch((err) => err);
 
   return data.data;
