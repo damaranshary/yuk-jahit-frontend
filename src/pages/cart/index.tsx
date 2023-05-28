@@ -37,6 +37,7 @@ import { Link as RouterLink } from "react-router-dom";
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
   const [notes, setNotes] = useState<string | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ const Cart = () => {
 
   const handleCheckout = async (e: FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     if (token && notes !== undefined) {
       checkoutOrderFromCart({
         token: token,
@@ -83,6 +85,7 @@ const Cart = () => {
       })
         .then((res) => console.log(res))
         .finally(() => {
+          setIsSubmitting(false);
           setCart(null);
           toast({
             description: "Checkout berhasil",
@@ -91,6 +94,7 @@ const Cart = () => {
           });
         });
     } else {
+      setIsSubmitting(false);
       toast({
         description: "Alamat pengiriman tidak boleh kosong",
         status: "warning",
@@ -104,7 +108,7 @@ const Cart = () => {
   };
 
   return (
-    <Container maxW="4xl">
+    <Container maxW="6xl">
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
         Keranjang
       </Text>
@@ -145,31 +149,31 @@ const Cart = () => {
         >
           <Flex flexDirection={{ base: "column", md: "row" }}>
             <VStack alignItems="start" gap={0}>
-              <Text as="h2" fontWeight="bold" fontSize="xl" mb={2}>
+              <Text as="h2" fontWeight="bold" fontSize="lg" mb={2}>
                 Ringkasan belanja
               </Text>
 
-              <Text as="p">
+              <Text as="p" fontSize="sm">
                 Total Harga ({cart.products.length} Produk):{" "}
                 <Text as="span" fontWeight="semibold">
                   {" "}
-                  Rp. {cart.bill}
+                  Rp {cart.bill.toLocaleString("id-ID")}
                 </Text>
               </Text>
               <FormControl isRequired>
-                <FormLabel>Catatan (Ukuran, Jahitan, etc.): </FormLabel>
+                <FormLabel fontSize="sm">Catatan (Ukuran, Jahitan, etc.): </FormLabel>
                 <Textarea
                   value={notes}
                   onChange={handleOnChange}
                   required
                 ></Textarea>
-                <FormHelperText>*wajib diisi</FormHelperText>
+                <FormHelperText fontSize="sm">*wajib diisi</FormHelperText>
               </FormControl>
             </VStack>
             <Spacer />
             <Center>
               <VStack>
-                <Text>Tipe Pembayaran: Gopay</Text>
+                <Text fontSize="sm">Tipe Pembayaran: Gopay</Text>
                 <Button isDisabled={!notes} colorScheme="green" my="5" onClick={onOpen}>
                   Lakukan Pembayaran
                 </Button>
@@ -196,6 +200,8 @@ const Cart = () => {
                         colorScheme="green"
                         ml={3}
                         onClick={handleCheckout}
+                        isLoading={isSubmitting}
+                        loadingText='Loading'
                       >
                         Checkout
                       </Button>

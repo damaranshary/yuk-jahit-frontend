@@ -1,23 +1,26 @@
 import {
   Card,
+  Center,
   Container,
   Flex,
   HStack,
   IconButton,
   Image,
+  Link,
   Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { CartCardTypes } from "../../types/cart";
 import { FaTrash } from "react-icons/fa";
+import { Link as RouterLink } from "react-router-dom";
 
 const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
   const { product_img, name, price, quantity, productId, _id } = product;
   return (
     <Container
       as={Card}
-      maxW="4xl"
+      maxW="6xl"
       key={productId}
       _hover={{
         cursor: "pointer",
@@ -27,30 +30,45 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
     >
       <Flex
         flexDirection={{ base: "column", sm: "row" }}
-        alignItems="center"
+        alignContent={{ base: "start", sm: "center" }}
+        alignItems={{ base: "start", sm: "center" }}
         gap={5}
       >
-        <Image
-          src={product_img}
-          alt={name}
-          maxW="200px"
-          maxH="100px"
-          loading="lazy"
-          borderRadius={10}
-        />
-        <VStack alignItems="start" gap={0}>
-          <Text as="h3" fontSize="lg" fontWeight="semibold">
+        <Center>
+          <Image
+            src={product_img}
+            alt={name}
+            maxW="200px"
+            maxH="100px"
+            loading="lazy"
+            borderRadius={10}
+          />
+        </Center>
+        <Flex
+          flexDirection="column"
+          alignItems="start"
+          gap={0}
+          fontSize={{ base: "lg", sm: "md", md: "sm" }}
+          flex="1"
+        >
+          <Link
+            as={RouterLink}
+            fontSize="lg"
+            fontWeight="semibold"
+            to={`/products/${productId}`}
+          >
             {name}
-          </Text>
-          <Text fontWeight="bold">Rp. {price}</Text>
-          <Text as="p">
+          </Link>
+          <Text as="p" fontSize="sm">
             by Yuk
             <Text as="span" color="green">
               Jahit
             </Text>
           </Text>
-        </VStack>
-        <Spacer />
+          <Text fontWeight="bold" mt={2}>
+            Rp {price.toLocaleString("id-ID")}
+          </Text>
+        </Flex>
         <HStack gap={2}>
           <VStack alignItems="start">
             <Text as="p">Jumlah: {quantity}</Text>
