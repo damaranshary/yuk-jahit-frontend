@@ -1,12 +1,4 @@
-"use client";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Center,
@@ -20,29 +12,29 @@ import {
   Text,
   Textarea,
   VStack,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 
 import { ResponseCart } from "../../types/cart";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
 import CartCard from "../../components/cartCard";
 import { useNavigate } from "react-router";
 import { checkoutOrderFromCart } from "../../api-call/order";
 import { Link as RouterLink } from "react-router-dom";
+import AlertDialogCartCard from "../../components/alertDialogCartCard";
+import Cookies from "universal-cookie";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
   const [notes, setNotes] = useState<string | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
+  const cookies = new Cookies();
   const toast = useToast();
-  const cancelRef: any = useRef();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -78,20 +70,20 @@ const Cart = () => {
     e.preventDefault();
     setIsSubmitting(true);
     if (token && notes !== undefined) {
-      checkoutOrderFromCart({
+      await checkoutOrderFromCart({
         token: token,
         notes: notes,
         paymentMethod: "gopay",
       })
-        .then((res) => console.log(res))
-        .finally(() => {
-          setIsSubmitting(false);
-          setCart(null);
-          toast({
-            description: "Checkout berhasil",
-            status: "success",
-            isClosable: true,
+        .then((res) => {
+          console.log(res);
+          cookies.set(`transactionOfOrder${res.order_id}`, res, {
+            expires: new Date(Date.now() + 1000* 60 * 15),
           });
+          navigate(`/checkout?id=${res.order_id}`);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } else {
       setIsSubmitting(false);
@@ -161,7 +153,9 @@ const Cart = () => {
                 </Text>
               </Text>
               <FormControl isRequired>
-                <FormLabel fontSize="sm">Catatan (Ukuran, Jahitan, etc.): </FormLabel>
+                <FormLabel fontSize="sm">
+                  Catatan (Ukuran, Jahitan, etc.):{" "}
+                </FormLabel>
                 <Textarea
                   value={notes}
                   onChange={handleOnChange}
@@ -171,45 +165,11 @@ const Cart = () => {
               </FormControl>
             </VStack>
             <Spacer />
-            <Center>
-              <VStack>
-                <Text fontSize="sm">Tipe Pembayaran: Gopay</Text>
-                <Button isDisabled={!notes} colorScheme="green" my="5" onClick={onOpen}>
-                  Lakukan Pembayaran
-                </Button>
-                <AlertDialog
-                  motionPreset="slideInBottom"
-                  leastDestructiveRef={cancelRef}
-                  onClose={onClose}
-                  isOpen={isOpen}
-                  isCentered
-                >
-                  <AlertDialogOverlay />
-                  <AlertDialogContent>
-                    <AlertDialogHeader>Konfirmasi Checkout</AlertDialogHeader>
-                    <AlertDialogCloseButton />
-                    <AlertDialogBody>
-                      Apakah anda yakin ingin melakukan checkout?
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                      <Button ref={cancelRef} onClick={onClose}>
-                        Batal
-                      </Button>
-                      <Button
-                        type="submit"
-                        colorScheme="green"
-                        ml={3}
-                        onClick={handleCheckout}
-                        isLoading={isSubmitting}
-                        loadingText='Loading'
-                      >
-                        Checkout
-                      </Button>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </VStack>
-            </Center>
+            <AlertDialogCartCard
+              isSubmitting={isSubmitting}
+              notes={notes}
+              handleCheckout={handleCheckout}
+            />
           </Flex>
         </Box>
       )}

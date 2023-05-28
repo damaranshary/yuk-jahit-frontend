@@ -11,6 +11,7 @@ import Search from "../pages/search";
 import Order from "../pages/order";
 import NotFound404 from "../pages/404";
 import Footer from "../components/footer";
+import Checkout from "../pages/checkout";
 
 const AppRouter = () => {
   return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
             <Route index element={<Products />} />
             <Route path=":id" element={<Product />} />
           </Route>
+          <Route path="checkout" element={<Checkout />} />
           <Route path="search" element={<Search />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
