@@ -22,13 +22,14 @@ const OrderCard = (props: OrderDataTypes) => {
     const date = new Date(something);
     return date
       .toLocaleDateString("id-ID", {
-        weekday: "long",
         year: "numeric",
         month: "long",
         day: "numeric",
         hour: "numeric",
         minute: "numeric",
       })
+      .replace("pukul", "|")
+      .replace(".", ":")
       .concat(" WIB");
   };
 

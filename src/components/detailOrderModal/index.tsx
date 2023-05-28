@@ -5,6 +5,7 @@ import {
   Divider,
   Flex,
   Image,
+  Link,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,7 +19,9 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { OrderDataTypes } from "../../types/order";
+import Cookies from "universal-cookie";
+import { useEffect } from "react";
+import { OrderDataTypes, ResponseCheckoutOrderTypes } from "../../types/order";
 
 const DetailOrderModal = ({
   owner,
@@ -37,15 +40,19 @@ const DetailOrderModal = ({
     const date = new Date(something);
     return date
       .toLocaleDateString("id-ID", {
-        weekday: "long",
         year: "numeric",
         month: "long",
-        day: "numeric",
+        day: "numeric", 
         hour: "numeric",
         minute: "numeric",
       })
+      .replace("pukul", "|")
+      .replace(".", ":")
       .concat(" WIB");
   };
+
+  const cookies = new Cookies();
+  const paymentDetails = cookies.get(`transactionOfOrder${_id}`);
 
   const dateCreated = getDate(updatedAt);
 
@@ -64,7 +71,11 @@ const DetailOrderModal = ({
           Lihat Detail Transaksi
         </Button>
       </Center>
-      <Modal isOpen={isOpen} onClose={onClose} size={{base: "sm", sm: "lg", md: "xl"}}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "sm", sm: "lg", md: "xl" }}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize="lg" fontWeight="bold">
@@ -72,7 +83,7 @@ const DetailOrderModal = ({
           </ModalHeader>
           <Divider mb={2} />
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody mb={5}>
             <Box as={Flex} flexDirection="column" gap={1}>
               <Flex maxW="4xl" mb={2} alignItems="center">
                 {status === "settlement" && (
@@ -155,7 +166,6 @@ const DetailOrderModal = ({
               {products.map((product) => (
                 <Flex
                   key={product._id}
-                  mb={3}
                   border="1px gray solid"
                   p={2}
                   borderRadius="10"
@@ -194,6 +204,13 @@ const DetailOrderModal = ({
                   </Flex>
                 </Flex>
               ))}
+              <Flex alignItems="center" mt={1}>
+                <Text fontSize="sm">Catatan </Text>
+                <Text ms={4} me={5}>
+                  :
+                </Text>
+                <Text fontSize="sm">{notes}</Text>
+              </Flex>
             </Box>
             <Box as={Flex} flexDirection="column" gap={1}>
               <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
@@ -201,22 +218,56 @@ const DetailOrderModal = ({
               </Text>
               <Flex alignItems="center">
                 <Text fontSize="sm">Nama </Text>
-                <Text ms={7} me={5}>:</Text>
-                <Text color="green" fontSize="sm" fontWeight="bold">
+                <Text ms={7} me={5}>
+                  :
+                </Text>
+                <Text fontSize="sm" fontWeight="bold">
                   {owner.name}
                 </Text>
               </Flex>
               <Flex alignItems="center">
                 <Text fontSize="sm">No HP</Text>
-                <Text ms={6} me={5}>:</Text>
+                <Text ms={6} me={5}>
+                  :
+                </Text>
                 <Text fontSize="sm">{owner.phone}</Text>
               </Flex>
               <Flex>
                 <Text fontSize="sm">Alamat</Text>
-                <Text ms={5} me={5}>:</Text>
+                <Text ms={5} me={5}>
+                  :
+                </Text>
                 <Text fontSize="sm">{address}</Text>
               </Flex>
             </Box>
+            {paymentDetails && status === "pending" && (
+              <Box as={Flex} flexDirection="column" gap={1} mb={5}>
+                <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
+                  Rincian Pembayaran
+                </Text>
+                <Flex alignItems="center">
+                  <Text fontSize="sm">Metode Pembayaran </Text>
+                  <Spacer />
+                  <Text fontSize="sm" fontWeight="bold" color="green">
+                    {status === "pending"
+                      ? paymentDetails?.payment_type
+                      : "Gopay"}
+                  </Text>
+                </Flex>
+
+                <Flex flexDirection="column">
+                  <Text fontSize="sm">Link Pembayaran </Text>
+                  <Link
+                    fontSize="sm"
+                    textAlign="start"
+                    href={paymentDetails?.actions[1].url}
+                    target="_blank"
+                  >
+                    {paymentDetails?.actions[1].url}
+                  </Link>
+                </Flex>
+              </Box>
+            )}
           </ModalBody>
         </ModalContent>
       </Modal>
