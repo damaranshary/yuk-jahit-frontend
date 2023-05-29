@@ -51,9 +51,13 @@ export const cancelOrder = async ({
   };
 
   const data = await axios
-    .post(`localhost:8080/order/cancel/${orderId}`, {
-      headers: header,
-    })
+    .post(
+      `${import.meta.env.VITE_API_URL}/order/cancel/${orderId}`,
+      {},
+      {
+        headers: header,
+      }
+    )
     .catch((err) => err);
 
   return data.data;

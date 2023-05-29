@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
   Card,
-  Center,
   Container,
   Flex,
   Image,
@@ -11,12 +9,20 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
+import { FormEvent, useState } from "react";
+import Cookies from "universal-cookie";
+
 import { OrderDataTypes } from "../../types/order";
-import DetailOrderModal from "../detailOrderModal";
 import { cancelOrder } from "../../api-call/order";
+
+import DetailOrderModal from "../detailOrderModal";
+import AlertDialogCancelOrder from "../alertDialogCancelOrder";
 
 const OrderCard = (props: OrderDataTypes) => {
   const token = localStorage.getItem("token");
+  const cookies = new Cookies();
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const getDate = (something: string) => {
     const date = new Date(something);
@@ -39,19 +45,32 @@ const OrderCard = (props: OrderDataTypes) => {
 
   const dateUpdated = getDate(updatedAt);
 
-  const handleCancelOrder = async () => {
+  const handleCancelOrder = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
     token &&
       (await cancelOrder({ token, orderId: _id })
         .then((res) => {
-          const message = "Pesanan" + res.order_id + " berhasil dibatalkan";
+          const message = "Pesanan " + res.order_id + " dibatalkan";
           toast({
-            description: message,
+            title: message,
+            description: "Status akan diupdate dalam beberapa saat",
             status: "success",
             isClosable: true,
           });
         })
-        .catch((err) => err)
-        .finally(() => {}));
+        .catch((err) => {
+          toast({
+            title: "Gagal membatalkan pesanan",
+            description: err.message,
+            status: "error",
+            isClosable: true,
+          });
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+          cookies.remove(`transactionOfOrder${_id}`);
+        }));
   };
 
   return (
@@ -163,33 +182,11 @@ const OrderCard = (props: OrderDataTypes) => {
       <Flex alignItems="end" gap={3}>
         <Spacer />
         <DetailOrderModal {...props} />
-        {status === "pending" ? (
-          <Button
-            colorScheme="red"
-            borderRadius="full"
-            size="sm"
-            px={5}
-            fontSize="sm"
-            variant="solid"
-            onClick={handleCancelOrder}
-            mt={3}
-          >
-            Batalkan
-          </Button>
-        ) : (
-          <Button
-            isDisabled
-            colorScheme="red"
-            borderRadius="full"
-            size="sm"
-            px={5}
-            fontSize="sm"
-            variant="solid"
-            mt={3}
-          >
-            Batalkan
-          </Button>
-        )}
+        <AlertDialogCancelOrder
+          status={status}
+          handleCancelOrder={handleCancelOrder}
+          isSubmitting={isSubmitting}
+        />
       </Flex>
     </Container>
   );
