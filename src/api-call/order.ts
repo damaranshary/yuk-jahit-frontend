@@ -1,5 +1,7 @@
 import axios from "axios";
 import {
+  CancelOrderResponseTypes,
+  CancelOrderTypes,
   CheckoutOrderTypes,
   OrderResponse,
   ResponseCheckoutOrderTypes,
@@ -17,7 +19,7 @@ export const fetchOrderData = async (token: string): Promise<OrderResponse> => {
 
 export const checkoutOrderFromCart = async ({
   token,
-  address,
+  notes,
   paymentMethod,
 }: CheckoutOrderTypes): Promise<ResponseCheckoutOrderTypes> => {
   const header = {
@@ -28,13 +30,30 @@ export const checkoutOrderFromCart = async ({
     .post(
       `${import.meta.env.VITE_API_URL}/order/checkout`,
       {
-        address,
+        notes,
         paymentMethod,
       },
       {
         headers: header,
       }
     )
+    .catch((err) => err);
+
+  return data.data;
+};
+
+export const cancelOrder = async ({
+  token,
+  orderId,
+}: CancelOrderTypes): Promise<CancelOrderResponseTypes> => {
+  const header = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const data = await axios
+    .post(`localhost:8080/order/cancel/${orderId}`, {
+      headers: header,
+    })
     .catch((err) => err);
 
   return data.data;

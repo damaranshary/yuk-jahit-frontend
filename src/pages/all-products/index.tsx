@@ -18,7 +18,7 @@ const AllProducts = () => {
   const { products, isError } = GetAllProducts();
 
   return (
-    <Container maxW="4xl" mx="auto">
+    <Container maxW="6xl" mx="auto">
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
         Semua Produk{" "}
       </Text>
@@ -38,7 +38,7 @@ const AllProducts = () => {
           </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="30px" my={8}>
         {products &&
           products.data.map((product) => {
             return <ProductCard {...product} key={product._id} />;

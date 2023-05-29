@@ -1,12 +1,4 @@
-"use client";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   Center,
@@ -20,28 +12,29 @@ import {
   Text,
   Textarea,
   VStack,
-  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 
 import { ResponseCart } from "../../types/cart";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
 import CartCard from "../../components/cartCard";
 import { useNavigate } from "react-router";
 import { checkoutOrderFromCart } from "../../api-call/order";
 import { Link as RouterLink } from "react-router-dom";
+import AlertDialogCartCard from "../../components/alertDialogCartCard";
+import Cookies from "universal-cookie";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
-  const [address, setAddress] = useState<string | undefined>(undefined);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [notes, setNotes] = useState<string | undefined>(undefined);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const cookies = new Cookies();
   const toast = useToast();
-  const cancelRef: any = useRef();
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -75,22 +68,25 @@ const Cart = () => {
 
   const handleCheckout = async (e: FormEvent) => {
     e.preventDefault();
-    if (token && address !== undefined) {
-      checkoutOrderFromCart({
+    setIsSubmitting(true);
+    if (token && notes !== undefined) {
+      await checkoutOrderFromCart({
         token: token,
-        address: address,
+        notes: notes,
         paymentMethod: "gopay",
       })
-        .then((res) => console.log(res))
-        .finally(() => {
-          setCart(null);
-          toast({
-            description: "Checkout berhasil",
-            status: "success",
-            isClosable: true,
+        .then((res) => {
+          console.log(res);
+          cookies.set(`transactionOfOrder${res.order_id}`, res, {
+            expires: new Date(Date.now() + 1000* 60 * 15),
           });
+          navigate(`/checkout?id=${res.order_id}`);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } else {
+      setIsSubmitting(false);
       toast({
         description: "Alamat pengiriman tidak boleh kosong",
         status: "warning",
@@ -100,11 +96,11 @@ const Cart = () => {
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAddress(e.target.value);
+    setNotes(e.target.value);
   };
 
   return (
-    <Container maxW="4xl">
+    <Container maxW="6xl">
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
         Keranjang
       </Text>
@@ -145,65 +141,35 @@ const Cart = () => {
         >
           <Flex flexDirection={{ base: "column", md: "row" }}>
             <VStack alignItems="start" gap={0}>
-              <Text as="h2" fontWeight="bold" fontSize="xl" mb={2}>
+              <Text as="h2" fontWeight="bold" fontSize="lg" mb={2}>
                 Ringkasan belanja
               </Text>
 
-              <Text as="p">
+              <Text as="p" fontSize="sm">
                 Total Harga ({cart.products.length} Produk):{" "}
                 <Text as="span" fontWeight="semibold">
                   {" "}
-                  Rp. {cart.bill}
+                  Rp {cart.bill.toLocaleString("id-ID")}
                 </Text>
               </Text>
-              <FormControl>
-                <FormLabel>Keterangan (Alamat pengiriman): </FormLabel>
+              <FormControl isRequired>
+                <FormLabel fontSize="sm">
+                  Catatan (Ukuran, Jahitan, etc.):{" "}
+                </FormLabel>
                 <Textarea
-                  value={address}
+                  value={notes}
                   onChange={handleOnChange}
                   required
                 ></Textarea>
-                <FormHelperText>*wajib diisi</FormHelperText>
+                <FormHelperText fontSize="sm">*wajib diisi</FormHelperText>
               </FormControl>
             </VStack>
             <Spacer />
-            <Center>
-              <VStack>
-                <Text>Tipe Pembayaran: Gopay</Text>
-                <Button isDisabled={!address} colorScheme="green" my="5" onClick={onOpen}>
-                  Lakukan Pembayaran
-                </Button>
-                <AlertDialog
-                  motionPreset="slideInBottom"
-                  leastDestructiveRef={cancelRef}
-                  onClose={onClose}
-                  isOpen={isOpen}
-                  isCentered
-                >
-                  <AlertDialogOverlay />
-                  <AlertDialogContent>
-                    <AlertDialogHeader>Konfirmasi Checkout</AlertDialogHeader>
-                    <AlertDialogCloseButton />
-                    <AlertDialogBody>
-                      Apakah anda yakin ingin melakukan checkout?
-                    </AlertDialogBody>
-                    <AlertDialogFooter>
-                      <Button ref={cancelRef} onClick={onClose}>
-                        Batal
-                      </Button>
-                      <Button
-                        type="submit"
-                        colorScheme="green"
-                        ml={3}
-                        onClick={handleCheckout}
-                      >
-                        Checkout
-                      </Button>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </VStack>
-            </Center>
+            <AlertDialogCartCard
+              isSubmitting={isSubmitting}
+              notes={notes}
+              handleCheckout={handleCheckout}
+            />
           </Flex>
         </Box>
       )}

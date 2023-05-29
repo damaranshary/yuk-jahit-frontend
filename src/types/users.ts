@@ -20,21 +20,23 @@ export interface RegisterFormData {
   email: string;
   password: string;
   phone: string;
+  address: string;
 }
 
 export interface User {
-  _id: string
-  name: string
-  email: string
-  password: string
-  phone: string
-  tokens: Token[]
-  createdAt: string
-  updatedAt: string
-  __v: number
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  address: string;
+  tokens: Token[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export interface Token {
-  token: string
-  _id: string
+  token: string;
+  _id: string;
 }

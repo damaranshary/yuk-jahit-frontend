@@ -40,7 +40,7 @@ const Order = () => {
   }, [token, orderData]);
 
   return (
-    <Container maxW="4xl">
+    <Container maxW="6xl">
       <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
         Daftar Transaksi
       </Text>

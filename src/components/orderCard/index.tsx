@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   Center,
@@ -8,34 +9,56 @@ import {
   Spacer,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { OrderDataTypes } from "../../types/order";
+import DetailOrderModal from "../detailOrderModal";
+import { cancelOrder } from "../../api-call/order";
 
-const OrderCard = ({
-  createdAt,
-  _id,
-  products,
-  status,
-  bill,
-  address,
-}: OrderDataTypes) => {
+const OrderCard = (props: OrderDataTypes) => {
+  const token = localStorage.getItem("token");
+
   const getDate = (something: string) => {
     const date = new Date(something);
-    return date.toLocaleDateString();
+    return date
+      .toLocaleDateString("id-ID", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+      .replace("pukul", "|")
+      .replace(".", ":")
+      .concat(" WIB");
   };
 
-  const dateCreated = getDate(createdAt);
+  const { updatedAt, _id, products, status, bill } = props;
+
+  const toast = useToast();
+
+  const dateUpdated = getDate(updatedAt);
+
+  const handleCancelOrder = async () => {
+    token &&
+      (await cancelOrder({ token, orderId: _id })
+        .then((res) => {
+          const message = "Pesanan" + res.order_id + " berhasil dibatalkan";
+          toast({
+            description: message,
+            status: "success",
+            isClosable: true,
+          });
+        })
+        .catch((err) => err)
+        .finally(() => {}));
+  };
+
   return (
-    <Container as={Card} maxW="4xl" key={_id} shadow="md" p={5} my={5}>
-      <Flex gap={3} maxW="4xl" mt={2} mb={5} alignItems="center">
+    <Container as={Card} maxW="6xl" key={_id} shadow="md" p={5} my={5} id={_id}>
+      <Flex gap={3} maxW="6xl" mt={2} alignItems="center">
         <Text as="h3" fontWeight="semibold">
           Belanja
-        </Text>
-        <Text as="p" fontSize="sm">
-          {dateCreated}
-        </Text>
-        <Text as="p" fontSize="sm">
-          {_id}
         </Text>
         <Spacer />
         {status === "settlement" && (
@@ -95,8 +118,22 @@ const OrderCard = ({
           </Text>
         )}
       </Flex>
+      <Flex gap={3} maxW="6xl" mt={2} mb={4} alignItems="center">
+        <Text as="p" fontSize="sm">
+          {dateUpdated}
+        </Text>
+        <Spacer />
+        <Text as="p" fontSize="sm">
+          {_id}
+        </Text>
+      </Flex>
 
-      <Flex alignItems="center" justifyContent="space-between" my={2}>
+      <Flex
+        flexDirection={{ base: "column", sm: "row" }}
+        alignItems="center"
+        justifyContent="space-between"
+        gap={2}
+      >
         <Image
           src={products[0].product_img}
           alt={products[0].name}
@@ -118,27 +155,42 @@ const OrderCard = ({
           </Text>
         )}
         <Spacer />
-        <VStack>
+        <Box as={Flex} alignItems="center" flexDirection="column">
           <Text>Total Belanja</Text>
-          <Text fontWeight="bold">Rp. {bill}</Text>
-        </VStack>
+          <Text fontWeight="bold">Rp {bill.toLocaleString("id-ID")}</Text>
+        </Box>
       </Flex>
-      <Center px={5}>
-        <Button
-          onClick={() => {
-            console.log(createdAt, _id, products, status, bill, address);
-          }}
-          borderRadius="full"
-          colorScheme="green"
-          size="sm"
-          px={5}
-          my={2}
-          fontSize="sm"
-          variant="outline"
-        >
-          Lihat Detail Transaksi
-        </Button>
-      </Center>
+      <Flex alignItems="end" gap={3}>
+        <Spacer />
+        <DetailOrderModal {...props} />
+        {status === "pending" ? (
+          <Button
+            colorScheme="red"
+            borderRadius="full"
+            size="sm"
+            px={5}
+            fontSize="sm"
+            variant="solid"
+            onClick={handleCancelOrder}
+            mt={3}
+          >
+            Batalkan
+          </Button>
+        ) : (
+          <Button
+            isDisabled
+            colorScheme="red"
+            borderRadius="full"
+            size="sm"
+            px={5}
+            fontSize="sm"
+            variant="solid"
+            mt={3}
+          >
+            Batalkan
+          </Button>
+        )}
+      </Flex>
     </Container>
   );
 };

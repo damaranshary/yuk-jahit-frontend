@@ -1,8 +1,6 @@
 import {
   Button,
-  Center,
   FormControl,
-  FormHelperText,
   FormLabel,
   Input,
   Modal,
@@ -23,16 +21,22 @@ interface Props {
   token: string;
   name: string;
   phone: string;
+  address: string;
 }
 
-const EditProfileModal = ({ token, name, phone }: Props) => {
+const EditProfileModal = ({ token, name, phone, address }: Props) => {
   const [updatedProfile, setUpdatedProfile] = useState({
     name: name,
     phone: phone,
+    address: address,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { name: updatedName, phone: updatedPhone } = updatedProfile;
+  const {
+    name: updatedName,
+    phone: updatedPhone,
+    address: updatedAddress,
+  } = updatedProfile;
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -50,10 +54,14 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (updatedName !== "" || updatedPhone !== "") {
-      if (updatedName !== name && updatedPhone !== phone) {
+    if (updatedName !== "" || updatedPhone !== "" || updatedAddress !== "") {
+      if (
+        updatedName !== name ||
+        updatedPhone !== phone ||
+        updatedAddress !== address
+      ) {
         setIsSubmitting(true);
-        await updateUserData(token, updatedName, updatedPhone)
+        await updateUserData(token, updatedName, updatedPhone, updatedAddress)
           .then((res) => {
             toast({
               description: "Edit Profile Berhasil",
@@ -71,6 +79,7 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
           .finally(() => {
             setIsSubmitting(false);
             onClose();
+            window.location.reload();
           });
       } else {
         toast({
@@ -97,12 +106,18 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
 
   return (
     <>
-      <Button onClick={onOpen}>Edit Profile</Button>
+      <Button onClick={onOpen} mt={3}>
+        Ubah Data Profil
+      </Button>
 
-      <Modal isOpen={isOpen} onClose={handleCloseModal}>
+      <Modal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        size={{ sm: "full", md: "lg", lg: "2xl" }}
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Edit Profile</ModalHeader>
+          <ModalHeader>Ubah Data Profil</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <VStack gap={5}>
@@ -116,11 +131,20 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel mt={3}>Nomor HP</FormLabel>
+                <FormLabel>Nomor HP</FormLabel>
                 <Input
                   type="number"
                   name="phone"
                   value={updatedPhone}
+                  onChange={handleOnChange}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Alamat Lengkap</FormLabel>
+                <Input
+                  type="address"
+                  name="address"
+                  value={updatedAddress}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -129,15 +153,21 @@ const EditProfileModal = ({ token, name, phone }: Props) => {
 
           <ModalFooter>
             <Button variant="ghost" mr={3} onClick={handleCloseModal}>
-              Close
+              Tutup
             </Button>
             <Button
+              isDisabled={
+                updatedName === name &&
+                updatedPhone === phone &&
+                updatedAddress === address
+              }
               variant="solid"
+              colorScheme="green"
               type="submit"
               onClick={handleOnSubmit}
               isLoading={isSubmitting}
             >
-              Edit
+              Ubah
             </Button>
           </ModalFooter>
         </ModalContent>

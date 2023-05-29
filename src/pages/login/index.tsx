@@ -92,8 +92,8 @@ const Login = () => {
             Masuk
           </Text>
         </Center>
-        <FormControl>
-          <FormLabel mt={3}>Alamat Email</FormLabel>
+        <FormControl isRequired>
+          <FormLabel mt={3}>Email</FormLabel>
           <Input
             type="email"
             name="email"
@@ -101,7 +101,7 @@ const Login = () => {
             onChange={handleOnChange}
           />
         </FormControl>
-        <FormControl>
+        <FormControl isRequired>
           <FormLabel mt={3}>Password</FormLabel>
           <Input
             type="password"

@@ -15,13 +15,13 @@ const Home = () => {
   const { products } = GetProductsByCategory("Baru");
 
   return (
-    <Container maxW="4xl" centerContent>
+    <Container maxW="7xl" centerContent>
       <Box>
         <Image src="carousel-asset.jpg" rounded={10} />
-        <Text fontWeight="bold" fontSize="2xl" mt={8} mb={4}>
+        <Text fontWeight="bold" fontSize="xl" mt={8} mb={4}>
           Produk Terbaru
         </Text>
-        <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }} spacing="16px">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="16px">
           {products &&
             products.data.map((product) => {
               return <ProductsCard {...product} key={product._id} />;

@@ -28,7 +28,7 @@ const Search = () => {
   const { products } = GetProductsByQuery(query);
 
   return (
-    <Container maxW="4xl">
+    <Container maxW="6xl" minH="70vh">
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
         Pencarian produk "{query}"
       </Text>
@@ -49,7 +49,7 @@ const Search = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       {products && products.data.length > 0 ? (
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing="30px" my={8}>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="30px" my={8}>
           {products &&
             products.data.map((product) => {
               return <ProductCard {...product} key={product._id} />;

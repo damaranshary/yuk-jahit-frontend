@@ -15,7 +15,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 const NotFound404 = () => {
   const navigate = useNavigate();
   return (
-    <Container centerContent>
+    <Container maxW="6xl" centerContent>
       <Box my={20}>
         <Image src="/404.jpg" alt="404" width="60%" h="60%" />
         <Text as="h1" fontSize="3xl" fontWeight="bold">

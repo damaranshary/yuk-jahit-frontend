@@ -1,20 +1,14 @@
 import { ProductTypes } from "../../types/products";
 
-import { Center, Card, Image, Stack, Text, LinkBox } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Center, Image, Stack, Text, LinkBox, Flex } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
-  const navigate = useNavigate();
-
-  const handleOnClick = (productId: string) => {
-    navigate(`/products/${productId}`);
-  };
-
   return (
-    <Card
-      as={LinkBox}
+    <LinkBox
+      as={RouterLink}
       key={_id}
-      onClick={() => handleOnClick(_id)}
+      to={`/products/${_id}`}
       _hover={{
         cursor: "pointer",
         shadow: "lg",
@@ -36,21 +30,26 @@ const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
           h={{ base: "200px", md: "150px", lg: "100px" }}
         />
       </Center>
-      <Stack direction="column" maxW="lg" mt="4">
-        <Text as="h1" fontSize="md" fontWeight="semibold">
+      <Flex
+        flexDirection="column"
+        maxW="lg"
+        mt="4"
+        fontSize={{ base: "lg", sm: "md", md: "sm" }}
+      >
+        <Text as="h1" fontWeight="semibold">
           {name}
         </Text>
-        <Text as="p">
+        <Text as="p" fontSize="sm">
           by{" "}
-          <Text as="span" color="green">
+          <Text as="span" color="green" fontSize="sm">
             YukJahit
           </Text>
         </Text>
-        <Text as="p" fontSize="md" fontWeight="semibold">
-          Rp. {price}
+        <Text as="p" fontWeight="semibold" mt={2}>
+          Rp {price.toLocaleString("id-ID")}
         </Text>
-      </Stack>
-    </Card>
+      </Flex>
+    </LinkBox>
   );
 };
 

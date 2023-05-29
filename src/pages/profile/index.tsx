@@ -1,6 +1,7 @@
 import { GetUser } from "../../lib/swr";
 import {
   Box,
+  Center,
   Container,
   Flex,
   Image,
@@ -30,28 +31,48 @@ const Profile = () => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <Container maxW="4xl" minH="70vh">
+    <Container maxW="6xl" minH="70vh">
       <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
         Profil Saya
       </Text>
-      <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
-        <Image
-          src="/avatar-profile.jpg"
-          width="200px"
-          height="200px"
-          alt="avatar"
-          borderRadius="full"
-        />
-        <VStack alignItems="start" maxW="4xl">
-          {" "}
-          <Text as="h3" fontSize="lg" fontWeight="semibold">
-            {user?.name}
-          </Text>
-          <Text>Email: {user?.email}</Text>
-          <Text>Nomor HP: {user?.phone}</Text>
-          {user && token && <EditProfileModal token={token} name={user.name} phone={user.phone} />}
-        </VStack>
-      </Flex>
+      <Center>
+        <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
+          <Image
+            src="/user-avatar.png"
+            width="200px"
+            height="200px"
+            alt="avatar"
+            borderRadius="full"
+          />
+
+          <Flex flexDirection="column" alignItems="start" maxW="lg" gap={3}>
+            {" "}
+            <Text as="h3" fontWeight="bold">
+              {user?.name}
+            </Text>
+            <Box>
+              <Text fontWeight="semibold">Email: </Text>
+              <Text>{user?.email}</Text>
+            </Box>
+            <Box>
+              <Text fontWeight="semibold">Nomor HP:</Text>
+              <Text> {user?.phone}</Text>
+            </Box>
+            <Box>
+              <Text fontWeight="semibold">Alamat:</Text>
+              <Text>{user?.address}</Text>
+            </Box>
+            {user && token && (
+              <EditProfileModal
+                token={token}
+                name={user.name}
+                phone={user.phone}
+                address={user.address}
+              />
+            )}
+          </Flex>
+        </Flex>
+      </Center>
     </Container>
   );
 };
