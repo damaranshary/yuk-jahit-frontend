@@ -13,7 +13,8 @@ const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
-        fontWeight: "regular"
+        fontWeight: "regular",
+        borderRadius: 10,
       }
     }
   }
