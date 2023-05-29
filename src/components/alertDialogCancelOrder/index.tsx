@@ -26,6 +26,7 @@ const AlertDialogCancelOrder = ({
   const cancelRef: any = useRef();
 
   if (status === "pending") {
+    // you can cancel order only if it's at pending state
     return (
       <>
         <Button
@@ -74,6 +75,7 @@ const AlertDialogCancelOrder = ({
     );
   }
   return (
+    // if status is not pending, then return disabled button
     <Button
       isDisabled
       colorScheme="red"

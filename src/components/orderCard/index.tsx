@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import {
   Box,
   Card,
@@ -10,7 +11,6 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
-import Cookies from "universal-cookie";
 
 import { OrderDataTypes } from "../../types/order";
 import { cancelOrder } from "../../api-call/order";
@@ -19,12 +19,14 @@ import DetailOrderModal from "../detailOrderModal";
 import AlertDialogCancelOrder from "../alertDialogCancelOrder";
 
 const OrderCard = (props: OrderDataTypes) => {
+  // this component is used for showing the order details in the order history page
   const token = localStorage.getItem("token");
   const cookies = new Cookies();
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const getDate = (something: string) => {
+    // this is the function to get the date
     const date = new Date(something);
     return date
       .toLocaleDateString("id-ID", {
@@ -36,18 +38,19 @@ const OrderCard = (props: OrderDataTypes) => {
       })
       .replace("pukul", "|")
       .replace(".", ":")
-      .concat(" WIB");
+      .concat(" WIB"); // this is the format of the date that will be shown "DD Month YYYY | HH:MM WIB"
   };
 
-  const { updatedAt, _id, products, status, bill } = props;
+  const { updatedAt, _id, products, status, bill } = props; // destructuring the props
 
   const toast = useToast();
 
-  const dateUpdated = getDate(updatedAt);
+  const dateUpdated = getDate(updatedAt); // this is the date that will be shown
 
   const handleCancelOrder = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    // this is the function to cancel the order
+    e.preventDefault(); // prevent the default behavior of the form
+    setIsSubmitting(true); // set the loading button to true
     token &&
       (await cancelOrder({ token, orderId: _id })
         .then((res) => {
@@ -69,7 +72,7 @@ const OrderCard = (props: OrderDataTypes) => {
         })
         .finally(() => {
           setIsSubmitting(false);
-          cookies.remove(`transactionOfOrder${_id}`);
+          cookies.remove(`transactionOfOrder${_id}`); // remove the cookies after canceling the order
         }));
   };
 
@@ -153,6 +156,7 @@ const OrderCard = (props: OrderDataTypes) => {
         justifyContent="space-between"
         gap={2}
       >
+        {/* Showing the first image of the products in the order */}
         <Image
           src={products[0].product_img}
           alt={products[0].name}
@@ -181,7 +185,11 @@ const OrderCard = (props: OrderDataTypes) => {
       </Flex>
       <Flex alignItems="end" gap={3}>
         <Spacer />
+
+        {/* Showing the details of the products in the order with modal */}
         <DetailOrderModal {...props} />
+
+        {/* Showing the cancel button if the status is pending */}
         <AlertDialogCancelOrder
           status={status}
           handleCancelOrder={handleCancelOrder}

@@ -1,4 +1,3 @@
-"use client";
 import {
   Button,
   FormControl,
@@ -11,11 +10,12 @@ import {
   Center,
   Link,
 } from "@chakra-ui/react";
+
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { fetchLoginData } from "../../api-call/users";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { error } from "console";
+
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -61,7 +61,7 @@ const Login = () => {
           isClosable: true,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         toast({
           title: "Login Gagal",
           description: "Email atau Password salah",

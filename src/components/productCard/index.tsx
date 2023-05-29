@@ -1,9 +1,10 @@
 import { ProductTypes } from "../../types/products";
 
-import { Center, Image, Stack, Text, LinkBox, Flex } from "@chakra-ui/react";
+import { Center, Image, Text, LinkBox, Flex } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
+  // this component is used for showing the product details in the products page
   return (
     <LinkBox
       as={RouterLink}

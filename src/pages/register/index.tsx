@@ -1,4 +1,3 @@
-"use client";
 import {
   Button,
   Center,
@@ -67,7 +66,7 @@ const Register = () => {
     setIsSubmitted(true);
     !passwordError &&
       (await fetchRegisterData({ name, email, password, phone, address })
-        .then((res) => {
+        .then(() => {
           toast({
             description: "Registrasi Berhasil",
             status: "success",

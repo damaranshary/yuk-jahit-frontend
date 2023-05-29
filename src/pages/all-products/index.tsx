@@ -39,6 +39,7 @@ const AllProducts = () => {
         </BreadcrumbItem>
       </Breadcrumb>
       <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="30px" my={8}>
+        {/* this is the grid layout to shows the product card */}
         {products &&
           products.data.map((product) => {
             return <ProductCard {...product} key={product._id} />;

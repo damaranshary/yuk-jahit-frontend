@@ -4,10 +4,11 @@ import {
   RegisterFormData,
   ResponseUserLogin,
   ResponseUserRegister,
-  User
+  User,
 } from "../types/users";
 
 export const fetchLoginData = async ({
+  // api call for logging in
   email,
   password,
 }: LoginFormData): Promise<ResponseUserLogin> => {
@@ -18,6 +19,7 @@ export const fetchLoginData = async ({
 };
 
 export const fetchRegisterData = async ({
+  // api call for registering
   name,
   email,
   password,
@@ -37,6 +39,7 @@ export const fetchRegisterData = async ({
 };
 
 export const fetchUserData = async (
+  // api call for getting user data
   token: string
 ): Promise<User> => {
   const header = {
@@ -49,16 +52,21 @@ export const fetchUserData = async (
 };
 
 export const updateUserData = async (
+  // api call for updating user data
   token: string,
   name: string,
   phone: string,
-  address: string,
+  address: string
 ): Promise<User> => {
   const header = {
     Authorization: `Bearer ${token}`,
   };
   const data = await axios
-    .put(`${import.meta.env.VITE_API_URL}/user/me`, { name, phone, address }, { headers: header })
+    .put(
+      `${import.meta.env.VITE_API_URL}/user/me`,
+      { name, phone, address }, // you can only modify name, phone, and address in this api for user profile
+      { headers: header }
+    )
     .catch((err) => err);
   return data.data.user;
-}
+};

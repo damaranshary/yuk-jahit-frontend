@@ -13,7 +13,6 @@ import {
   InputGroup,
   InputLeftAddon,
   InputRightAddon,
-  Spacer,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -47,7 +46,7 @@ const Product = () => {
         })
         .catch((err) => {
           toast({
-            description: "Gagal menambahkan ke keranjang",
+            description: err.message,
             status: "error",
             isClosable: true,
           });

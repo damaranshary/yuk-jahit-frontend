@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import {
   Box,
   Button,
@@ -15,17 +16,16 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { ResponseCart } from "../../types/cart";
-
 import { FormEvent, useEffect, useState } from "react";
 
 import { deleteProductFromCart, fetchCartData } from "../../api-call/cart";
-import CartCard from "../../components/cartCard";
-import { useNavigate } from "react-router";
 import { checkoutOrderFromCart } from "../../api-call/order";
-import { Link as RouterLink } from "react-router-dom";
+import { ResponseCart } from "../../types/cart";
+
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+
+import CartCard from "../../components/cartCard";
 import AlertDialogCartCard from "../../components/alertDialogCartCard";
-import Cookies from "universal-cookie";
 
 const Cart = () => {
   const [cart, setCart] = useState<ResponseCart | null>(null);
@@ -38,6 +38,7 @@ const Cart = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
+    // this is the function to get the cart data overtime the cart state changes
     const handleGetCartData = async () => {
       if (cart === null && token)
         await fetchCartData(token).then((res) => {
@@ -48,6 +49,7 @@ const Cart = () => {
   }, [token, cart]);
 
   useEffect(() => {
+    // this is the function to check if the user is logged in or not
     if (!token) {
       setCart(null);
       navigate("/login");
@@ -60,6 +62,7 @@ const Cart = () => {
   }, [token, cart]);
 
   const handleDeleteCart = async (id: string) => {
+    // this is the function to delete the cart
     token &&
       deleteProductFromCart(token, id).then((res) => {
         setCart(res);
@@ -67,6 +70,7 @@ const Cart = () => {
   };
 
   const handleCheckout = async (e: FormEvent) => {
+    // this is the function to checkout the cart
     e.preventDefault();
     setIsSubmitting(true);
     if (token && notes !== undefined) {
@@ -77,12 +81,11 @@ const Cart = () => {
       })
         .then((res) => {
           cookies.set(`transactionOfOrder${res.order_id}`, res, {
-            expires: new Date(Date.now() + 1000* 60 * 15),
+            expires: new Date(Date.now() + 1000 * 60 * 15), // this is the expiration time of the cookies data (15 minutes) for payment details
           });
-          navigate(`/checkout?id=${res.order_id}`);
+          navigate(`/checkout?id=${res.order_id}`); // this is the function to navigate to the checkout page
         })
-        .catch((err) => {
-        });
+        .catch(() => {});
     } else {
       setIsSubmitting(false);
       toast({
@@ -97,12 +100,13 @@ const Cart = () => {
     setNotes(e.target.value);
   };
 
-  return (
-    <Container maxW="6xl">
-      <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
-        Keranjang
-      </Text>
-      {cart ? (
+  if (cart) {
+    // this will be rendered if the cart is not empty
+    return (
+      <Container maxW="6xl">
+        <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
+          Keranjang
+        </Text>
         <VStack gap={2}>
           {cart.products.map((item) => (
             <CartCard
@@ -112,21 +116,6 @@ const Cart = () => {
             />
           ))}
         </VStack>
-      ) : (
-        <Center>
-          <Box maxW="sm">
-            <Image src="empty-cart.jpg" />
-            <Center as={VStack}>
-              <Text fontWeight="semibold">Keranjangmu kosong</Text>
-              <Text mb={5}>Yuk, isi dengan barang-barang impianmu</Text>
-              <Button as={RouterLink} colorScheme="green" to="/products">
-                Mulai Belanja
-              </Button>
-            </Center>
-          </Box>
-        </Center>
-      )}
-      {cart && (
         <Box
           as={Flex}
           flexDirection="column"
@@ -170,7 +159,28 @@ const Cart = () => {
             />
           </Flex>
         </Box>
-      )}
+      </Container>
+    );
+  }
+
+  return (
+    // this will be rendered if the cart is empty
+    <Container maxW="6xl">
+      <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
+        Keranjang
+      </Text>
+      <Center>
+        <Box maxW="sm">
+          <Image src="empty-cart.jpg" />
+          <Center as={VStack}>
+            <Text fontWeight="semibold">Keranjangmu kosong</Text>
+            <Text mb={5}>Yuk, isi dengan barang-barang impianmu</Text>
+            <Button as={RouterLink} colorScheme="green" to="/products">
+              Mulai Belanja
+            </Button>
+          </Center>
+        </Box>
+      </Center>
     </Container>
   );
 };

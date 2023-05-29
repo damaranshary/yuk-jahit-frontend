@@ -4,28 +4,26 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Box,
-  Button,
   Container,
   Link,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { ResponseCheckoutOrderTypes } from "../../types/order";
 
 const Checkout = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const id = searchParams?.get("id");
-  const cookies = new Cookies();
+  const [searchParams] = useSearchParams(); // this is the hook to get the query params
+  const id = searchParams?.get("id"); // this is the query params
+  const cookies = new Cookies(); // this is the cookies
   const transactionDetail: ResponseCheckoutOrderTypes = cookies.get(
-    `transactionOfOrder${id}`
+    `transactionOfOrder${id}` // this is the transaction detail data
   );
 
-  const [transactionStatus, setTransactionData] = useState<
-    ResponseCheckoutOrderTypes | string
-  >(transactionDetail);
+  const [transactionStatus, setTransactionData] = useState<string | undefined>(
+    transactionDetail?.transaction_status
+  );
 
   const getDate = (something: string) => {
     const date = new Date(something);
@@ -40,17 +38,19 @@ const Checkout = () => {
       })
       .replace("pukul", "")
       .replace(".", ":")
-      .concat(" WIB");
+      .concat(" WIB"); // this is the format of the date that will be shown "DD Month YYYY | HH:MM WIB"
   };
 
   const expiryTime = getDate(transactionDetail?.expiry_time);
 
   const handlePaymentLink = () => {
-    cookies.remove(`transactionOfOrder${id}`);
+    // this is the function to handle the payment link
+    cookies.remove(`transactionOfOrder${id}`); // the cookies of transaction data will be removed after clicking the link
     setTransactionData("success");
   };
 
   if (transactionStatus === "success") {
+    // you will be redirected to this page after you finish the payment
     return (
       <Container maxW="2xl" centerContent my={5}>
         <Alert
@@ -81,6 +81,7 @@ const Checkout = () => {
     transactionDetail &&
     transactionDetail?.transaction_status === "pending"
   ) {
+    // the sites will show you this after checkout and you haven't paid yet
     return (
       <Container maxW="2xl" centerContent my={5}>
         <Text as="h2" fontSize="xl" fontWeight="semibold">

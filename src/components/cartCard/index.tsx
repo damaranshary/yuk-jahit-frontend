@@ -7,7 +7,6 @@ import {
   IconButton,
   Image,
   Link,
-  Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -16,7 +15,8 @@ import { FaTrash } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 
 const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
-  const { product_img, name, price, quantity, productId, _id } = product;
+  // this component is used for showing the product details in the cart
+  const { product_img, name, price, quantity, productId, _id } = product; // destructuring
   return (
     <Container
       as={Card}
@@ -66,13 +66,12 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
             </Text>
           </Text>
           <Text fontWeight="bold" mt={2}>
-            Rp {price.toLocaleString("id-ID")}
+            Rp {price.toLocaleString("id-ID")} 
           </Text>
         </Flex>
         <HStack gap={2}>
           <VStack alignItems="start">
             <Text as="p">Jumlah: {quantity}</Text>
-            {/* <Text as="p">Rp. <Text as="span" color="green">{quantity * price}</Text></Text> */}
           </VStack>
           <IconButton
             onClick={() => handleDeleteCart(productId)}

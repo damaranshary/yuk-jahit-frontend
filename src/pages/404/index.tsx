@@ -12,7 +12,7 @@ import {
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
-const NotFound404 = () => {
+const NotFound404 = () => { // this component is used for showing the 404 page
   const navigate = useNavigate();
   return (
     <Container maxW="6xl" centerContent>

@@ -29,17 +29,17 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
     name: name,
     phone: phone,
     address: address,
-  });
+  }); // this is the state for the updated profile
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // this is the state for the loading button
   const {
     name: updatedName,
     phone: updatedPhone,
     address: updatedAddress,
-  } = updatedProfile;
+  } = updatedProfile; // destructuring the updated profile state
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure(); // this is the state for the modal
+  const toast = useToast(); // this is the state for the toast
 
   const handleOnChange = (
     e:
@@ -48,28 +48,31 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
       | ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUpdatedProfile({ ...updatedProfile, [name]: value });
+    setUpdatedProfile({ ...updatedProfile, [name]: value }); // this is the function to update the state of the updated profile
   };
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (updatedName !== "" || updatedPhone !== "" || updatedAddress !== "") {
+      // profile can't be updated without a value
       if (
         updatedName !== name ||
         updatedPhone !== phone ||
-        updatedAddress !== address
+        updatedAddress !== address // and profile can't be updated if there's no change
       ) {
         setIsSubmitting(true);
         await updateUserData(token, updatedName, updatedPhone, updatedAddress)
-          .then((res) => {
+          .then(() => {
             toast({
+              // this is the toast for the success update
               description: "Edit Profile Berhasil",
               status: "success",
               isClosable: true,
             });
           })
-          .catch((err) => {
+          .catch(() => {
+            // this is the toast for the failed update
             toast({
               description: "Edit Profile Gagal",
               status: "error",
@@ -77,12 +80,14 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
             });
           })
           .finally(() => {
+            // the page will reload to get the updated profile value from the server instantly
             setIsSubmitting(false);
             onClose();
             window.location.reload();
           });
       } else {
         toast({
+          // this is the toast for the no change update
           description: "Tidak ada perubahan",
           status: "warning",
           isClosable: true,
@@ -91,17 +96,13 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
       }
     } else {
       toast({
+        // this is the toast for the empty update
         description: "Tolong isi form dengan benar",
         status: "warning",
         isClosable: true,
       });
       onClose();
     }
-  };
-
-  const handleCloseModal = () => {
-    onClose();
-    // setUpdatedProfile({ name: "", phone: "" });
   };
 
   return (
@@ -112,7 +113,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
 
       <Modal
         isOpen={isOpen}
-        onClose={handleCloseModal}
+        onClose={onClose}
         size={{ sm: "full", md: "lg", lg: "2xl" }}
       >
         <ModalOverlay />
@@ -152,14 +153,14 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={handleCloseModal}>
+            <Button variant="ghost" mr={3} onClick={onClose}>
               Tutup
             </Button>
             <Button
               isDisabled={
                 updatedName === name &&
                 updatedPhone === phone &&
-                updatedAddress === address
+                updatedAddress === address // this is the condition to disable the button if there's no change
               }
               variant="solid"
               colorScheme="green"

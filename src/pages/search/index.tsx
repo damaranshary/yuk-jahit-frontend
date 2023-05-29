@@ -1,5 +1,3 @@
-import ProductCard from "../../components/productCard";
-
 import {
   Box,
   Breadcrumb,
@@ -14,12 +12,9 @@ import {
 
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
-import {
-  Link as RouterLink,
-  useSearchParams,
-} from "react-router-dom";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 
-
+import ProductCard from "../../components/productCard";
 import { GetProductsByQuery } from "../../lib/swr";
 
 const Search = () => {
@@ -30,7 +25,7 @@ const Search = () => {
   return (
     <Container maxW="6xl" minH="70vh">
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
-        Pencarian produk "{query}"
+        {`Pencarian produk${query}`}
       </Text>
       <Breadcrumb
         spacing="8px"

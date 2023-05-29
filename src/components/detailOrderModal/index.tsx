@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import {
   Box,
   Button,
@@ -10,18 +11,14 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   Spacer,
   Text,
-  Textarea,
-  VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import Cookies from "universal-cookie";
-import { useEffect } from "react";
-import { OrderDataTypes, ResponseCheckoutOrderTypes } from "../../types/order";
+
+import { OrderDataTypes } from "../../types/order";
 
 const DetailOrderModal = ({
   owner,
@@ -42,7 +39,7 @@ const DetailOrderModal = ({
       .toLocaleDateString("id-ID", {
         year: "numeric",
         month: "long",
-        day: "numeric", 
+        day: "numeric",
         hour: "numeric",
         minute: "numeric",
       })
@@ -86,6 +83,7 @@ const DetailOrderModal = ({
           <ModalBody mb={5}>
             <Box as={Flex} flexDirection="column" gap={1}>
               <Flex maxW="4xl" mb={2} alignItems="center">
+                {/*this is conditional rendering based on the status order*/}
                 {status === "settlement" && (
                   <Text
                     as="p"
@@ -159,6 +157,8 @@ const DetailOrderModal = ({
                 <Text fontSize="sm">{dateCreated}</Text>
               </Flex>
             </Box>
+
+            {/* Showing the details of the products in the order */}
             <Box as={Flex} flexDirection="column" gap={1}>
               <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
                 Detail Produk
@@ -212,6 +212,8 @@ const DetailOrderModal = ({
                 <Text fontSize="sm">{notes}</Text>
               </Flex>
             </Box>
+
+            {/* Showing the details of the owner */}
             <Box as={Flex} flexDirection="column" gap={1}>
               <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
                 Info Penerima
@@ -240,23 +242,35 @@ const DetailOrderModal = ({
                 <Text fontSize="sm">{address}</Text>
               </Flex>
             </Box>
-            {paymentDetails && status === "pending" && (
-              <Box as={Flex} flexDirection="column" gap={1} mb={5}>
-                <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
-                  Rincian Pembayaran
-                </Text>
-                <Flex alignItems="center">
-                  <Text fontSize="sm">Metode Pembayaran </Text>
-                  <Spacer />
-                  <Text fontSize="sm" fontWeight="bold" color="green">
-                    {status === "pending"
-                      ? paymentDetails?.payment_type
-                      : "Gopay"}
-                  </Text>
-                </Flex>
 
-                <Flex flexDirection="column">
-                  <Text fontSize="sm">Link Pembayaran </Text>
+            {/* Showing the details of the payment */}
+            <Box as={Flex} flexDirection="column" gap={1} mb={5}>
+              <Text fontWeight="bold" fontSize="md" mt={5} mb={3}>
+                Rincian Pembayaran
+              </Text>
+              <Flex alignItems="center">
+                <Text fontSize="sm">Metode Pembayaran </Text>
+                <Spacer />
+                <Text fontSize="sm" fontWeight="bold" color="green">
+                  {status === "pending"
+                    ? paymentDetails?.payment_type
+                    : "gopay"}
+                </Text>
+              </Flex>
+              <Flex alignItems="center">
+                <Text fontSize="sm">Total Harga </Text>
+                <Spacer />
+                <Text fontSize="sm" fontWeight="bold">
+                  Rp {bill.toLocaleString("id-ID")}
+                </Text>
+              </Flex>
+
+              {/* Showing the payment link if the status is pending */}
+              {paymentDetails && status === "pending" && (
+                <Flex flexDirection="column" mt={2}>
+                  <Text fontSize="sm" fontWeight="semibold" color="green">
+                    Link Pembayaran{" "}
+                  </Text>
                   <Link
                     fontSize="sm"
                     textAlign="start"
@@ -266,8 +280,8 @@ const DetailOrderModal = ({
                     {paymentDetails?.actions[1].url}
                   </Link>
                 </Flex>
-              </Box>
-            )}
+              )}
+            </Box>
           </ModalBody>
         </ModalContent>
       </Modal>

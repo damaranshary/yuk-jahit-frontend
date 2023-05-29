@@ -1,8 +1,9 @@
 import axios from "axios";
 
-import { ResponseCart, ProductInCartTypes } from "../types/cart";
+import { ResponseCart } from "../types/cart"; // you can see the response body in types/cart.ts
 
 export const fetchCartData = async (
+  // api call for getting cart data
   token: string
 ): Promise<ResponseCart | null> => {
   const header = {
@@ -20,6 +21,7 @@ export const fetchCartData = async (
 };
 
 export const deleteProductFromCart = async (
+  //api call for deleting product from cart
   token: string,
   productId: string
 ): Promise<ResponseCart | null> => {

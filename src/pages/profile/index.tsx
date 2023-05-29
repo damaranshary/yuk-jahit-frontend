@@ -5,9 +5,7 @@ import {
   Container,
   Flex,
   Image,
-  Link,
   Text,
-  VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

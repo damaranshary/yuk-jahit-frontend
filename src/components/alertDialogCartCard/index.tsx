@@ -15,12 +15,17 @@ import {
 import { FormEvent, useRef } from "react";
 
 export interface AlertCartTypes {
+  // this is the type of props that this component will receive from its parent component
   notes: string | undefined;
   isSubmitting: boolean;
   handleCheckout: (e: FormEvent) => Promise<void>;
 }
 
-const AlertDialogCartCard = ({ isSubmitting, notes, handleCheckout }: AlertCartTypes) => {
+const AlertDialogCartCard = ({
+  isSubmitting,
+  notes,
+  handleCheckout,
+}: AlertCartTypes) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef: any = useRef();
   return (
