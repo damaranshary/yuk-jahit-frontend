@@ -44,9 +44,6 @@ const Checkout = () => {
   };
 
   const expiryTime = getDate(transactionDetail?.expiry_time);
-  useEffect(() => {
-    console.log(transactionDetail);
-  }, []);
 
   const handlePaymentLink = () => {
     cookies.remove(`transactionOfOrder${id}`);

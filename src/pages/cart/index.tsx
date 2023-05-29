@@ -76,14 +76,12 @@ const Cart = () => {
         paymentMethod: "gopay",
       })
         .then((res) => {
-          console.log(res);
           cookies.set(`transactionOfOrder${res.order_id}`, res, {
             expires: new Date(Date.now() + 1000* 60 * 15),
           });
           navigate(`/checkout?id=${res.order_id}`);
         })
         .catch((err) => {
-          console.log(err);
         });
     } else {
       setIsSubmitting(false);
