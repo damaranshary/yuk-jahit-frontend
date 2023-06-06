@@ -7,9 +7,10 @@ import {
   Container,
   Link,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ResponseCheckoutOrderTypes } from "../../types/order";
 
@@ -20,6 +21,22 @@ const Checkout = () => {
   const transactionDetail: ResponseCheckoutOrderTypes = cookies.get(
     `transactionOfOrder${id}` // this is the transaction detail data
   );
+
+  const token = localStorage.getItem("token");
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // this is the function to check if the user is logged in or not
+    if (!token) {
+      navigate("/login");
+      toast({
+        description: "Silahkan login terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      });
+    }
+  }, [token]);
 
   const [transactionStatus, setTransactionData] = useState<string | undefined>(
     transactionDetail?.transaction_status

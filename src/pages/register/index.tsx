@@ -12,6 +12,7 @@ import {
   Alert,
   AlertIcon,
   Textarea,
+  Flex,
 } from "@chakra-ui/react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { fetchRegisterData } from "../../api-call/users";
@@ -90,22 +91,26 @@ const Register = () => {
 
   return (
     <Container maxW="xl" my={5} centerContent>
-      <VStack
+      <Text as="h1" fontSize="4xl" fontWeight="extrabold">
+        Yuk
+        <Text as="span" color="green">
+          Jahit
+        </Text>
+      </Text>
+      <Center>
+        <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
+          Daftar
+        </Text>
+      </Center>
+      <Flex
         as="form"
+        flexDirection="column"
         w={{ base: "sm", md: "lg", lg: "xl" }}
         onSubmit={handleOnSubmit}
+        mt={3}
+        gap={2}
+        alignItems="center"
       >
-        <Text as="h1" fontSize="4xl" fontWeight="extrabold">
-          Yuk
-          <Text as="span" color="green">
-            Jahit
-          </Text>
-        </Text>
-        <Center>
-          <Text as="h2" fontSize="4xl" fontWeight="bold" mx="auto">
-            Daftar
-          </Text>
-        </Center>
         <FormControl isRequired>
           <FormLabel>Nama</FormLabel>
           <Input
@@ -165,19 +170,18 @@ const Register = () => {
             Password tidak sama
           </Alert>
         )}
-        <Center p={6} mt={5}>
-          <Button
-            type="submit"
-            w={{ base: "full", md: "200px" }}
-            colorScheme="green"
-            borderRadius="30px"
-            isLoading={isSubmitting}
-            loadingText="Submitting"
-          >
-            Daftar
-          </Button>
-        </Center>
-      </VStack>
+        <Button
+          type="submit"
+          w={{ base: "full", md: "200px" }}
+          mt={5}
+          colorScheme="green"
+          borderRadius="30px"
+          isLoading={isSubmitting}
+          loadingText="Submitting"
+        >
+          Daftar
+        </Button>
+      </Flex>
     </Container>
   );
 };

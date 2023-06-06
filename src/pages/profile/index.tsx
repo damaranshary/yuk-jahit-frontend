@@ -1,12 +1,5 @@
 import { GetUser } from "../../lib/swr";
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EditProfileModal from "../../components/editProfileModal";
@@ -34,7 +27,12 @@ const Profile = () => {
         Profil Saya
       </Text>
       <Center>
-        <Flex flexDirection={{ base: "column", md: "row" }} gap={10} maxW="4xl">
+        <Flex
+          flexDirection={{ base: "column", md: "row" }}
+          alignItems={{ base: "center", md: "start" }}
+          gap={10}
+          maxW="4xl"
+        >
           <Image
             src="/user-avatar.png"
             width="200px"
