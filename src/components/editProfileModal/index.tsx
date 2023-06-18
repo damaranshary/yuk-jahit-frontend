@@ -66,6 +66,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           .then(() => {
             toast({
               // this is the toast for the success update
+              id: "edit-profile-success",
               description: "Edit Profile Berhasil",
               status: "success",
               isClosable: true,
@@ -74,6 +75,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           .catch(() => {
             // this is the toast for the failed update
             toast({
+              id: "edit-profile-failed",
               description: "Edit Profile Gagal",
               status: "error",
               isClosable: true,
@@ -88,6 +90,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
       } else {
         toast({
           // this is the toast for the no change update
+          id: "edit-profile-no-change",
           description: "Tidak ada perubahan",
           status: "warning",
           isClosable: true,
@@ -107,7 +110,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
 
   return (
     <>
-      <Button onClick={onOpen} mt={3}>
+      <Button id="edit-profile-button" onClick={onOpen} mt={3}>
         Ubah Data Profil
       </Button>
 
@@ -157,6 +160,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               Tutup
             </Button>
             <Button
+              id="edit-profile-modal-button"
               isDisabled={
                 updatedName === name &&
                 updatedPhone === phone &&

@@ -29,6 +29,7 @@ const Home = () => {
         </SimpleGrid>
         <Center>
           <Button
+            id="see-all-products-button"
             as={RouterLink}
             variant="outline"
             colorScheme="green"

@@ -39,6 +39,7 @@ const Product = () => {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
           toast({
+            id: "add-to-cart-success",
             description: `${res.products[0].name} x${quantity} berhasil ditambahkan ke keranjang`,
             status: "success",
             isClosable: true,
@@ -46,6 +47,7 @@ const Product = () => {
         })
         .catch((err) => {
           toast({
+            id: "add-to-cart-error",
             description: err.message,
             status: "error",
             isClosable: true,
@@ -53,6 +55,7 @@ const Product = () => {
         });
     } else {
       toast({
+        id: "login-warning-product",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,

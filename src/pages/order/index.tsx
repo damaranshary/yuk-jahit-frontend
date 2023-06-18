@@ -32,6 +32,7 @@ const Order = () => {
       navigate("/login");
       setOrderData(undefined);
       toast({
+        id: "toast-login-first-order",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
@@ -45,8 +46,8 @@ const Order = () => {
         Daftar Transaksi
       </Text>
       {orderData &&
-        orderData.orders.map((item) => {
-          return <OrderCard {...item} key={item._id} />;
+        orderData.orders.map((item, index) => {
+          return <OrderCard {...item} key={item._id} index={index} />;
         })}
     </Container>
   );

@@ -3,6 +3,7 @@ export interface OrderResponse {
 }
 
 export interface OrderDataTypes {
+  index: number;
   owner: OwnerTypes;
   _id: string;
   address: string;

@@ -43,20 +43,20 @@ const Profile = () => {
 
           <Flex flexDirection="column" alignItems="start" maxW="lg" gap={3}>
             {" "}
-            <Text as="h3" fontWeight="bold">
+            <Text id="user-name" as="h3" fontWeight="bold">
               {user?.name}
             </Text>
             <Box>
               <Text fontWeight="semibold">Email: </Text>
-              <Text>{user?.email}</Text>
+              <Text id="user-email">{user?.email}</Text>
             </Box>
             <Box>
               <Text fontWeight="semibold">Nomor HP:</Text>
-              <Text> {user?.phone}</Text>
+              <Text id="user-phone"> {user?.phone}</Text>
             </Box>
             <Box>
               <Text fontWeight="semibold">Alamat:</Text>
-              <Text>{user?.address}</Text>
+              <Text id="user-address">{user?.address}</Text>
             </Box>
             {user && token && (
               <EditProfileModal

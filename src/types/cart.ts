@@ -18,6 +18,7 @@ export interface ProductInCartTypes {
 }
 
 export interface CartCardTypes {
+  index: number;
   product: ProductInCartTypes;
   handleDeleteCart: (id: string) => void;
 }

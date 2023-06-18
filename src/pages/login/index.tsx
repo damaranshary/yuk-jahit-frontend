@@ -16,7 +16,6 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { fetchLoginData } from "../../api-call/users";
 
-
 const Login = () => {
   const [loginData, setLoginData] = useState({
     email: "",
@@ -56,6 +55,7 @@ const Login = () => {
         localStorage.setItem("token", res.token);
         navigate("/");
         toast({
+          id: "login-success",
           description: "Login Berhasil",
           status: "success",
           isClosable: true,
@@ -63,6 +63,7 @@ const Login = () => {
       })
       .catch(() => {
         toast({
+          id: "login-failed",
           title: "Login Gagal",
           description: "Email atau Password salah",
           status: "error",
@@ -113,12 +114,18 @@ const Login = () => {
         <Center p={6} mt={2} as={VStack} gap={3}>
           <Text>
             Belum punya akun? silahkan{" "}
-            <Link as={RouterLink} to="/register" color="green">
+            <Link
+              id="register-linktext"
+              as={RouterLink}
+              to="/register"
+              color="green"
+            >
               daftar{" "}
             </Link>
             disini
           </Text>
           <Button
+            id="login-button"
             type="submit"
             w={{ base: "full", md: "200px" }}
             colorScheme="green"

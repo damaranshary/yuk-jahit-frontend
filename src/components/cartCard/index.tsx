@@ -14,7 +14,7 @@ import { CartCardTypes } from "../../types/cart";
 import { FaTrash } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 
-const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
+const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
   // this component is used for showing the product details in the cart
   const { product_img, name, price, quantity, productId, _id } = product; // destructuring
   return (
@@ -52,6 +52,7 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
           flex="1"
         >
           <Link
+            id={`product-link-${index+1}`}
             as={RouterLink}
             fontSize="lg"
             fontWeight="semibold"
@@ -66,7 +67,7 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
             </Text>
           </Text>
           <Text fontWeight="bold" mt={2}>
-            Rp {price.toLocaleString("id-ID")} 
+            Rp {price.toLocaleString("id-ID")}
           </Text>
         </Flex>
         <HStack gap={2}>
@@ -74,6 +75,7 @@ const CartCard = ({ product, handleDeleteCart }: CartCardTypes) => {
             <Text as="p">Jumlah: {quantity}</Text>
           </VStack>
           <IconButton
+            id={`delete-cart-button-${index+1}`}
             onClick={() => handleDeleteCart(productId)}
             borderRadius="full"
             aria-label="delete cart"

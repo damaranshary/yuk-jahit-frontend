@@ -67,7 +67,7 @@ const Navbar = () => {
       zIndex="sticky"
       bg="white"
     >
-      <Link as={RouterLink} to="/" mr="4">
+      <Link id="logo-link" as={RouterLink} to="/" mr="4">
         <Text as="h1" fontSize="2xl" fontWeight="bold" color="green.500">
           Yuk
           <Text as="span">Jahit</Text>
@@ -81,6 +81,7 @@ const Navbar = () => {
               <SearchIcon />
             </InputLeftElement>
             <Input
+              id="nav-search-input"
               placeholder="Cari sesuatu disini..."
               variant="outline"
               value={searchValue}
@@ -91,10 +92,20 @@ const Navbar = () => {
       </Box>
       {!login ? ( //the menu if login is false
         <ButtonGroup>
-          <Button as={RouterLink} variant="ghost" to="/login">
+          <Button
+            id="nav-login-button"
+            as={RouterLink}
+            variant="ghost"
+            to="/login"
+          >
             Masuk
           </Button>
-          <Button as={RouterLink} colorScheme="green" to="/register">
+          <Button
+            id="nav-register-button"
+            as={RouterLink}
+            colorScheme="green"
+            to="/register"
+          >
             Daftar
           </Button>
         </ButtonGroup>
@@ -102,6 +113,7 @@ const Navbar = () => {
         // the menu if login is true
         <ButtonGroup>
           <Button
+            id="nav-cart-button"
             as={RouterLink}
             to="/cart"
             variant="ghost"
@@ -111,6 +123,7 @@ const Navbar = () => {
           </Button>
           <Menu>
             <MenuButton
+              id="nav-account-button"
               as={Button}
               variant="ghost"
               rightIcon={<ChevronDownIcon />}
@@ -118,14 +131,18 @@ const Navbar = () => {
               Akun
             </MenuButton>
             <MenuList>
-              <MenuItem as={RouterLink} to="/profile">
+              <MenuItem id="nav-profile-button" as={RouterLink} to="/profile">
                 Profil
               </MenuItem>
-              <MenuItem as={RouterLink} to="/order">
+              <MenuItem id="nav-order-button" as={RouterLink} to="/order">
                 Pembelian
               </MenuItem>
               <MenuDivider />
-              <MenuItem as={Button} onClick={handleLogout}>
+              <MenuItem
+                id="nav-logout-button"
+                as={Button}
+                onClick={handleLogout}
+              >
                 Keluar
               </MenuItem>
             </MenuList>

@@ -21,6 +21,7 @@ import {
 import { OrderDataTypes } from "../../types/order";
 
 const DetailOrderModal = ({
+  index,
   owner,
   _id,
   address,
@@ -57,6 +58,7 @@ const DetailOrderModal = ({
     <>
       <Center>
         <Button
+          id={`detail-order-button-${index + 1}`}
           onClick={onOpen}
           borderRadius="full"
           colorScheme="green"

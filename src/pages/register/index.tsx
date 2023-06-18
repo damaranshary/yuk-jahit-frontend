@@ -31,7 +31,7 @@ const Register = () => {
   const { name, email, password, confirmPassword, phone, address } =
     registerData;
   const [passwordError, setPasswordError] = useState(false);
-  const [isSubmitting, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -64,19 +64,31 @@ const Register = () => {
 
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
     !passwordError &&
       (await fetchRegisterData({ name, email, password, phone, address })
-        .then(() => {
-          toast({
-            description: "Registrasi Berhasil",
-            status: "success",
-            isClosable: true,
-          });
-          setIsSubmitted(true);
+        .then((res) => {
+          if (res !== undefined) {
+            toast({
+              id: "register-success",
+              description: "Registrasi Berhasil",
+              status: "success",
+              isClosable: true,
+            });
+            setIsSubmitting(true);
+            navigate("/login");
+          } else {
+            toast({
+              id: "register-failed",
+              description: "Registrasi Gagal",
+              status: "error",
+              isClosable: true,
+            });
+          }
         })
         .catch((err) =>
           toast({
+            id: "register-error-msg",
             title: err.message,
             description: err.msg,
             status: "error",
@@ -84,8 +96,7 @@ const Register = () => {
           })
         )
         .finally(() => {
-          setIsSubmitted(false);
-          navigate("/login");
+          setIsSubmitting(false);
         }));
   };
 
@@ -171,6 +182,7 @@ const Register = () => {
           </Alert>
         )}
         <Button
+          id="register-button"
           type="submit"
           w={{ base: "full", md: "200px" }}
           mt={5}

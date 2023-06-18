@@ -31,6 +31,7 @@ const Checkout = () => {
     if (!token) {
       navigate("/login");
       toast({
+        id: "login-warning-checkout",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
@@ -38,9 +39,9 @@ const Checkout = () => {
     }
   }, [token]);
 
-  const [transactionStatus, setTransactionData] = useState<string | undefined>(
-    transactionDetail?.transaction_status
-  );
+  const [transactionStatus, setTransactionStatus] = useState<
+    string | undefined
+  >(transactionDetail?.transaction_status);
 
   const getDate = (something: string) => {
     const date = new Date(something);
@@ -63,7 +64,7 @@ const Checkout = () => {
   const handlePaymentLink = () => {
     // this is the function to handle the payment link
     cookies.remove(`transactionOfOrder${id}`); // the cookies of transaction data will be removed after clicking the link
-    setTransactionData("success");
+    setTransactionStatus("success");
   };
 
   if (transactionStatus === "success") {
@@ -122,6 +123,7 @@ const Checkout = () => {
           </AlertTitle>
           <AlertDescription>
             <Link
+              id="payment-link"
               href={transactionDetail?.actions[1].url}
               isExternal
               target="_blank"

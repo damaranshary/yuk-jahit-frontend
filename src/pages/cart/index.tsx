@@ -54,6 +54,7 @@ const Cart = () => {
       setCart(null);
       navigate("/login");
       toast({
+        id: "login-warning-cart",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
@@ -89,6 +90,7 @@ const Cart = () => {
     } else {
       setIsSubmitting(false);
       toast({
+        id: "notes-error",
         description: "Alamat pengiriman tidak boleh kosong",
         status: "warning",
         isClosable: true,
@@ -108,8 +110,9 @@ const Cart = () => {
           Keranjang
         </Text>
         <VStack gap={2}>
-          {cart.products.map((item) => (
+          {cart.products.map((item, index) => (
             <CartCard
+              index={index}
               key={item._id}
               product={item}
               handleDeleteCart={handleDeleteCart}
@@ -144,6 +147,7 @@ const Cart = () => {
                   Catatan (Ukuran, Jahitan, etc.):{" "}
                 </FormLabel>
                 <Textarea
+                  id="notes-textarea"
                   value={notes}
                   onChange={handleOnChange}
                   required
