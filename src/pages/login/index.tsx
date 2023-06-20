@@ -96,6 +96,7 @@ const Login = () => {
         <FormControl isRequired>
           <FormLabel mt={3}>Email</FormLabel>
           <Input
+            id="login-email-input"
             type="email"
             name="email"
             value={email}
@@ -105,6 +106,7 @@ const Login = () => {
         <FormControl isRequired>
           <FormLabel mt={3}>Password</FormLabel>
           <Input
+            id="login-password-input"
             type="password"
             name="password"
             value={password}
@@ -125,7 +127,7 @@ const Login = () => {
             disini
           </Text>
           <Button
-            id="login-button"
+            id="login-submit-button"
             type="submit"
             w={{ base: "full", md: "200px" }}
             colorScheme="green"

@@ -1,5 +1,5 @@
 import { GetUser } from "../../lib/swr";
-import { Box, Center, Container, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Container, Flex, Image, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EditProfileModal from "../../components/editProfileModal";
@@ -10,11 +10,19 @@ const Profile = () => {
   const { user, isLoading } = GetUser(token);
   const navigate = useNavigate();
 
+  const toast = useToast();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
     } else {
+      toast({
+        id: "login-warning-profile",
+        description: "Silahkan login terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      })
       navigate("/login");
     }
   }, [token]);

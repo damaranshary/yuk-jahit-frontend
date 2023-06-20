@@ -70,6 +70,7 @@ export const addProductToCart = async ({
         quantity, // you need the quantity of the product more than zero
       },
       {
+        timeout: 10000,
         headers: header,
       }
     )

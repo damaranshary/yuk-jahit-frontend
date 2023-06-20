@@ -52,7 +52,7 @@ const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
           flex="1"
         >
           <Link
-            id={`product-link-${index+1}`}
+            id={`product-in-cart-link-${index + 1}`}
             as={RouterLink}
             fontSize="lg"
             fontWeight="semibold"
@@ -75,7 +75,7 @@ const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
             <Text as="p">Jumlah: {quantity}</Text>
           </VStack>
           <IconButton
-            id={`delete-cart-button-${index+1}`}
+            id={`delete-cart-button-${index + 1}`}
             onClick={() => handleDeleteCart(productId)}
             borderRadius="full"
             aria-label="delete cart"

@@ -81,7 +81,7 @@ const DetailOrderModal = ({
             Detail Transaksi
           </ModalHeader>
           <Divider mb={2} />
-          <ModalCloseButton />
+          <ModalCloseButton id="order-modal-header-close-button"/>
           <ModalBody mb={5}>
             <Box as={Flex} flexDirection="column" gap={1}>
               <Flex maxW="4xl" mb={2} alignItems="center">

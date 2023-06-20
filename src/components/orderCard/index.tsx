@@ -193,6 +193,7 @@ const OrderCard = (props: OrderDataTypes) => {
 
         {/* Showing the cancel button if the status is pending */}
         <AlertDialogCancelOrder
+          index={props.index}
           status={status}
           handleCancelOrder={handleCancelOrder}
           isSubmitting={isSubmitting}

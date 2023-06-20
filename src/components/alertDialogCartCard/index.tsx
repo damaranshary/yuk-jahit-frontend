@@ -32,7 +32,13 @@ const AlertDialogCartCard = ({
     <Center>
       <VStack>
         <Text fontSize="sm">Tipe Pembayaran: Gopay</Text>
-        <Button isDisabled={!notes} colorScheme="green" my="5" onClick={onOpen}>
+        <Button
+          id="checkout-button"
+          isDisabled={!notes}
+          colorScheme="green"
+          my="5"
+          onClick={onOpen}
+        >
           Lakukan Pembayaran
         </Button>
         <AlertDialog
@@ -50,10 +56,15 @@ const AlertDialogCartCard = ({
               Apakah anda yakin ingin melakukan checkout?
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button
+                id="checkout-cancel-button"
+                ref={cancelRef}
+                onClick={onClose}
+              >
                 Batal
               </Button>
               <Button
+                id="checkout-confirmation-button"
                 type="submit"
                 colorScheme="green"
                 ml={3}

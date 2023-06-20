@@ -125,6 +125,7 @@ const Register = () => {
         <FormControl isRequired>
           <FormLabel>Nama</FormLabel>
           <Input
+            id="register-name-input"
             type="text"
             name="name"
             value={name}
@@ -134,6 +135,7 @@ const Register = () => {
         <FormControl isRequired>
           <FormLabel>Alamat Email</FormLabel>
           <Input
+            id="register-email-input"
             type="email"
             name="email"
             value={email}
@@ -144,6 +146,7 @@ const Register = () => {
         <FormControl isRequired>
           <FormLabel>Password</FormLabel>
           <Input
+            id="register-password-input"
             type="password"
             name="password"
             value={password}
@@ -154,6 +157,7 @@ const Register = () => {
         <FormControl isRequired>
           <FormLabel>Konfirmasi Password</FormLabel>
           <Input
+            id="register-confirm-password-input"
             type="password"
             name="confirmPassword"
             value={confirmPassword}
@@ -164,6 +168,7 @@ const Register = () => {
         <FormControl isRequired>
           <FormLabel>Nomor HP</FormLabel>
           <Input
+            id="register-phone-input"
             type="number"
             name="phone"
             value={phone}
@@ -172,17 +177,22 @@ const Register = () => {
         </FormControl>
         <FormControl isRequired>
           <FormLabel>Alamat Lengkap</FormLabel>
-          <Textarea name="address" value={address} onChange={handleOnChange} />
+          <Textarea
+            id="register-address-input"
+            name="address"
+            value={address}
+            onChange={handleOnChange}
+          />
         </FormControl>
 
         {passwordError && (
-          <Alert status="error" borderRadius={10}>
+          <Alert id="alert-password-not-match" status="error" borderRadius={10}>
             <AlertIcon />
             Password tidak sama
           </Alert>
         )}
         <Button
-          id="register-button"
+          id="register-submit-button"
           type="submit"
           w={{ base: "full", md: "200px" }}
           mt={5}

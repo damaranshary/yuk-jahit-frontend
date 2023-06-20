@@ -11,17 +11,19 @@ import {
 } from "@chakra-ui/react";
 import { FormEvent, useRef } from "react";
 
-export interface AlertCartTypes {
+export interface AlertCancelOrderTypes {
+  index: number;
   isSubmitting: boolean;
   status: string | undefined;
   handleCancelOrder: (e: FormEvent) => void;
 }
 
 const AlertDialogCancelOrder = ({
+  index,
   isSubmitting,
   status,
   handleCancelOrder,
-}: AlertCartTypes) => {
+}: AlertCancelOrderTypes) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef: any = useRef();
 
@@ -30,6 +32,7 @@ const AlertDialogCancelOrder = ({
     return (
       <>
         <Button
+          id={`cancel-order-button-${index + 1}`}
           colorScheme="red"
           borderRadius="full"
           size="sm"
@@ -42,6 +45,7 @@ const AlertDialogCancelOrder = ({
           Batalkan
         </Button>
         <AlertDialog
+          id="cancel-order-alert-dialog"
           motionPreset="slideInBottom"
           leastDestructiveRef={cancelRef}
           onClose={onClose}
@@ -56,10 +60,15 @@ const AlertDialogCancelOrder = ({
               Apakah anda yakin ingin membatalkan transaksi?
             </AlertDialogBody>
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button
+                id="cancel-order-close-button"
+                ref={cancelRef}
+                onClick={onClose}
+              >
                 Kembali
               </Button>
               <Button
+                id="cancel-order-confirmation-button"
                 colorScheme="red"
                 ml={3}
                 isLoading={isSubmitting}

@@ -122,7 +122,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Ubah Data Profil</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton id="edit-profile-modal-header-close-button" />
           <ModalBody>
             <VStack gap={5}>
               <FormControl>
@@ -156,7 +156,12 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onClose}>
+            <Button
+              id="edit-profile-modal-footer-close-button"
+              variant="ghost"
+              mr={3}
+              onClick={onClose}
+            >
               Tutup
             </Button>
             <Button

@@ -29,16 +29,19 @@ const Product = () => {
   const { isLoading, products } = GetProductsById(id);
   const { _id, product_img, name, description, price } = products?.data || {};
   const [quantity, setQuantity] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
   const token = localStorage.getItem("token");
 
   const handleAddToCart = async (e: FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     if (token !== null && products) {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
           toast({
+            duration: 500,
             id: "add-to-cart-success",
             description: `${res.products[0].name} x${quantity} berhasil ditambahkan ke keranjang`,
             status: "success",
@@ -47,11 +50,15 @@ const Product = () => {
         })
         .catch((err) => {
           toast({
+            duration: 500,
             id: "add-to-cart-error",
             description: err.message,
             status: "error",
             isClosable: true,
           });
+        })
+        .finally(() => {
+          setIsSubmitting(false);
         });
     } else {
       toast({
@@ -60,6 +67,7 @@ const Product = () => {
         status: "warning",
         isClosable: true,
       });
+      setIsSubmitting(false);
     }
   };
 
@@ -80,7 +88,7 @@ const Product = () => {
     }
   };
 
-  if (!products) return <p>Product not found</p>;
+  if (!products) return <p>Produk tidak ditemukan</p>;
   if (isLoading) return <p>Loading...</p>;
 
   //create a page for showing product page in details
@@ -108,7 +116,14 @@ const Product = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <Flex as="form" flexDirection={{ base: "column", md: "row" }} gap={10} mt={8} onSubmit={handleAddToCart} alignItems="center">
+      <Flex
+        as="form"
+        flexDirection={{ base: "column", md: "row" }}
+        gap={10}
+        mt={8}
+        onSubmit={handleAddToCart}
+        alignItems="center"
+      >
         <Image
           src={product_img}
           alt={name}
@@ -157,7 +172,9 @@ const Product = () => {
             </InputGroup>
           </Center>
           <Button
-            isDisabled={!token || quantity === 0}
+            id="add-to-cart-button"
+            isDisabled={quantity === 0}
+            isLoading={isSubmitting}
             colorScheme="green"
             maxW={{ base: "full", md: "2xl" }}
             type="submit"
