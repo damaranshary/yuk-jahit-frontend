@@ -45,7 +45,7 @@ const Register = () => {
         description: "Silahkan logout terlebih dahulu",
         status: "warning",
         isClosable: true,
-      })
+      });
       navigate("/");
     }
   }, [token]);
@@ -75,6 +75,14 @@ const Register = () => {
       (await fetchRegisterData({ name, email, password, phone, address })
         .then((res) => {
           if (res !== undefined) {
+            setRegisterData({
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              phone: "",
+              address: "",
+            });
             toast({
               description: "Registrasi Berhasil",
               status: "success",
@@ -83,6 +91,14 @@ const Register = () => {
             setIsSubmitting(true);
             navigate("/login");
           } else {
+            setRegisterData({
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              phone: "",
+              address: "",
+            });
             toast({
               description: "Registrasi Gagal",
               status: "error",
