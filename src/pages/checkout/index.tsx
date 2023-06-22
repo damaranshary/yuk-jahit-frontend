@@ -29,13 +29,12 @@ const Checkout = () => {
   useEffect(() => {
     // this is the function to check if the user is logged in or not
     if (!token) {
-      navigate("/login");
       toast({
-        id: "login-warning-checkout",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
       });
+      navigate("/");
     }
   }, [token]);
 
@@ -139,7 +138,7 @@ const Checkout = () => {
 
   return (
     <>
-      <Text>Pembayaran tidak ditemukan</Text>
+      <Text>Tidak ada pembayaran</Text>
     </>
   );
 };

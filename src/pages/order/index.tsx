@@ -29,13 +29,13 @@ const Order = () => {
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
       setOrderData(undefined);
       toast({
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
       });
+      navigate("/");
     }
   }, [token, orderData]);
 

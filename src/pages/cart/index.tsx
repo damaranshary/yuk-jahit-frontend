@@ -52,13 +52,12 @@ const Cart = () => {
     // this is the function to check if the user is logged in or not
     if (!token) {
       setCart(null);
-      navigate("/login");
       toast({
-        id: "login-warning-cart",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
       });
+      navigate("/login");
     }
   }, [token, cart]);
 

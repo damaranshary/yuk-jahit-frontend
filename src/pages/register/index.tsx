@@ -40,6 +40,12 @@ const Register = () => {
 
   useEffect(() => {
     if (token) {
+      toast({
+        title: "Kamu sudah login",
+        description: "Silahkan logout terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      })
       navigate("/");
     }
   }, [token]);

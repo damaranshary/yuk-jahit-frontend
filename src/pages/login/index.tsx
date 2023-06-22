@@ -26,14 +26,20 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const token = localStorage.getItem("token");
 
+  const toast = useToast();
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (token) {
+      toast({
+        title: "Kamu sudah login",
+        description: "Silahkan logout terlebih dahulu",
+        status: "warning",
+        isClosable: true,
+      })
       navigate("/");
     }
   }, [token]);
-
-  const toast = useToast();
-  const navigate = useNavigate();
 
   const handleOnChange = (
     e:

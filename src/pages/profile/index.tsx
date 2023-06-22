@@ -22,7 +22,7 @@ const Profile = () => {
         status: "warning",
         isClosable: true,
       })
-      navigate("/login");
+      navigate("/");
     }
   }, [token]);
 
