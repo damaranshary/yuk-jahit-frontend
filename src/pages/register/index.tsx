@@ -45,6 +45,7 @@ const Register = () => {
         description: "Silahkan logout terlebih dahulu",
         status: "warning",
         isClosable: true,
+        duration: 3000,
       });
       navigate("/");
     }

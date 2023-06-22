@@ -21,6 +21,7 @@ const Profile = () => {
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
+        duration: 3000,
       })
       navigate("/");
     }

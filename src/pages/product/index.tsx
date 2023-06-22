@@ -62,7 +62,7 @@ const Product = () => {
         });
     } else {
       toast({
-        id: "login-warning-product",
+        duration: 3000,
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,

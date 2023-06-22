@@ -36,6 +36,7 @@ const Login = () => {
         description: "Silahkan logout terlebih dahulu",
         status: "warning",
         isClosable: true,
+        duration: 3000,
       })
       navigate("/");
     }
@@ -64,6 +65,7 @@ const Login = () => {
           description: "Login Berhasil",
           status: "success",
           isClosable: true,
+          duration: 3000,
         });
       })
       .catch(() => {
@@ -72,6 +74,7 @@ const Login = () => {
           description: "Email atau Password salah",
           status: "error",
           isClosable: true,
+          duration: 3000,
         });
       })
       .finally(() => {
