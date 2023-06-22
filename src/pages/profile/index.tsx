@@ -18,7 +18,6 @@ const Profile = () => {
       setToken(token);
     } else {
       toast({
-        id: "login-warning-profile",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,

@@ -32,7 +32,6 @@ const Order = () => {
       navigate("/login");
       setOrderData(undefined);
       toast({
-        id: "login-warning-order",
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,

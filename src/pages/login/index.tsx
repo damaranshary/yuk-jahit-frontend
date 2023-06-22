@@ -55,7 +55,6 @@ const Login = () => {
         localStorage.setItem("token", res.token);
         navigate("/");
         toast({
-          id: "login-success",
           description: "Login Berhasil",
           status: "success",
           isClosable: true,
@@ -63,7 +62,6 @@ const Login = () => {
       })
       .catch(() => {
         toast({
-          id: "login-failed",
           title: "Login Gagal",
           description: "Email atau Password salah",
           status: "error",
@@ -71,6 +69,7 @@ const Login = () => {
         });
       })
       .finally(() => {
+        setLoginData({ email: "", password: "" });
         setIsSubmitting(false);
       });
   };

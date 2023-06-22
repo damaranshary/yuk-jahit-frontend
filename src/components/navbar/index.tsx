@@ -123,7 +123,7 @@ const Navbar = () => {
           </Button>
           <Menu>
             <MenuButton
-              id="nav-account-button"
+              name="nav-account-dropdown"
               as={Button}
               variant="ghost"
               rightIcon={<ChevronDownIcon />}
@@ -131,15 +131,15 @@ const Navbar = () => {
               Akun
             </MenuButton>
             <MenuList>
-              <MenuItem id="nav-profile-button" as={RouterLink} to="/profile">
+              <MenuItem name="nav-profile-button" as={RouterLink} to="/profile">
                 Profil
               </MenuItem>
-              <MenuItem id="nav-order-button" as={RouterLink} to="/order">
+              <MenuItem name="nav-order-button" as={RouterLink} to="/order">
                 Pembelian
               </MenuItem>
               <MenuDivider />
               <MenuItem
-                id="nav-logout-button"
+                name="nav-logout-button"
                 as={Button}
                 onClick={handleLogout}
               >

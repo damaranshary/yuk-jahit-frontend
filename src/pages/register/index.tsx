@@ -70,7 +70,6 @@ const Register = () => {
         .then((res) => {
           if (res !== undefined) {
             toast({
-              id: "register-success",
               description: "Registrasi Berhasil",
               status: "success",
               isClosable: true,
@@ -79,7 +78,6 @@ const Register = () => {
             navigate("/login");
           } else {
             toast({
-              id: "register-failed",
               description: "Registrasi Gagal",
               status: "error",
               isClosable: true,
@@ -88,7 +86,6 @@ const Register = () => {
         })
         .catch((err) =>
           toast({
-            id: "register-error-msg",
             title: err.message,
             description: err.msg,
             status: "error",
