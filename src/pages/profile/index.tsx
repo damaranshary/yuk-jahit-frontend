@@ -1,7 +1,16 @@
 import { GetUser } from "../../lib/swr";
-import { Box, Center, Container, Flex, Image, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Container,
+  Flex,
+  Image,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import EditProfileModal from "../../components/editProfileModal";
 
 const Profile = () => {
@@ -21,8 +30,8 @@ const Profile = () => {
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
-        duration: 3000,
-      })
+        duration: 1500,
+      });
       navigate("/");
     }
   }, [token]);
@@ -31,6 +40,10 @@ const Profile = () => {
 
   return (
     <Container maxW="6xl" minH="70vh">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Masuk - YukJahit</title>
+      </Helmet>
       <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
         Profil Saya
       </Text>

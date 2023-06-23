@@ -4,6 +4,7 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Center,
   Container,
   Link,
   Text,
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { ResponseCheckoutOrderTypes } from "../../types/order";
+import { Helmet } from "react-helmet-async";
 
 const Checkout = () => {
   const [searchParams] = useSearchParams(); // this is the hook to get the query params
@@ -33,7 +35,7 @@ const Checkout = () => {
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
-        duration: 3000,
+        duration: 1500,
       });
       navigate("/");
     }
@@ -71,6 +73,10 @@ const Checkout = () => {
     // you will be redirected to this page after you finish the payment
     return (
       <Container maxW="2xl" centerContent my={5}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Checkout berhasil | YukJahit</title>
+        </Helmet>
         <Alert
           maxW="6xl"
           status="success"
@@ -102,6 +108,10 @@ const Checkout = () => {
     // the sites will show you this after checkout and you haven't paid yet
     return (
       <Container maxW="2xl" centerContent my={5}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Checkout {transactionDetail.order_id} | YukJahit</title>
+        </Helmet>
         <Text as="h2" fontSize="xl" fontWeight="semibold">
           Selesaikan pembayaran sebelum
         </Text>
@@ -138,9 +148,7 @@ const Checkout = () => {
   }
 
   return (
-    <>
-      <Text>Tidak ada pembayaran</Text>
-    </>
+    <Center>Tidak ada pembayaran</Center>
   );
 };
 

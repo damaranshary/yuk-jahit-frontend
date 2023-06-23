@@ -23,6 +23,7 @@ import { GetProductsById } from "../../lib/swr";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { Link as RouterLink, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Product = () => {
   const { id } = useParams<{ id: string }>();
@@ -62,7 +63,7 @@ const Product = () => {
         });
     } else {
       toast({
-        duration: 3000,
+        duration: 1500,
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
@@ -88,13 +89,26 @@ const Product = () => {
     }
   };
 
-  if (!products) return <p>Produk tidak ditemukan</p>;
-  if (isLoading) return <p>Loading...</p>;
+  if (!products)
+    return (
+      <Center>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Produk tidak ditemukan | YukJahit</title>
+        </Helmet>
+        Produk tidak ditemukan
+      </Center>
+    );
+  if (isLoading) return <Center>Loading...</Center>;
 
   //create a page for showing product page in details
 
   return (
     <Container maxW="6xl" mt={5} minH="70vh">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{name} | YukJahit</title>
+      </Helmet>
       <Breadcrumb
         spacing="8px"
         separator={<ChevronRightIcon color="gray.500" />}

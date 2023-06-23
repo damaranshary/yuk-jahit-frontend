@@ -23,6 +23,7 @@ import { checkoutOrderFromCart } from "../../api-call/order";
 import { ResponseCart } from "../../types/cart";
 
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 import CartCard from "../../components/cartCard";
 import AlertDialogCartCard from "../../components/alertDialogCartCard";
@@ -56,7 +57,7 @@ const Cart = () => {
         description: "Silahkan login terlebih dahulu",
         status: "warning",
         isClosable: true,
-        duration: 3000,
+        duration: 1500,
       });
       navigate("/login");
     }
@@ -106,6 +107,9 @@ const Cart = () => {
     // this will be rendered if the cart is not empty
     return (
       <Container maxW="6xl">
+        <Helmet>
+          <title>Keranjang | YukJahit</title>
+        </Helmet>
         <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
           Keranjang
         </Text>

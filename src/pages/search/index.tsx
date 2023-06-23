@@ -16,6 +16,7 @@ import { Link as RouterLink, useSearchParams } from "react-router-dom";
 
 import ProductCard from "../../components/productCard";
 import { GetProductsByQuery } from "../../lib/swr";
+import { Helmet } from "react-helmet-async";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,6 +25,10 @@ const Search = () => {
 
   return (
     <Container maxW="6xl" minH="70vh">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{`Pencarian produk "${query}"`} | YukJahit</title>
+      </Helmet>
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
         {`Pencarian produk "${query}"`}
       </Text>

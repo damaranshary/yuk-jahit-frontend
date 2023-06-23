@@ -10,12 +10,17 @@ import {
 import { GetProductsByCategory } from "../../lib/swr";
 import ProductsCard from "../../components/productCard";
 import { Link as RouterLink } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { products } = GetProductsByCategory("Baru");
 
   return (
     <Container maxW="7xl" centerContent>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Home | YukJahit</title>
+      </Helmet>
       <Box>
         <Image src="carousel-asset.jpg" rounded={10} />
         <Text fontWeight="bold" fontSize="xl" mt={8} mb={4}>

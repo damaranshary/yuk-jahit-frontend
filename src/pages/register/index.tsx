@@ -17,6 +17,7 @@ import {
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { fetchRegisterData } from "../../api-call/users";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async"
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -45,7 +46,7 @@ const Register = () => {
         description: "Silahkan logout terlebih dahulu",
         status: "warning",
         isClosable: true,
-        duration: 3000,
+        duration: 1500,
       });
       navigate("/");
     }
@@ -88,6 +89,7 @@ const Register = () => {
               description: "Registrasi Berhasil",
               status: "success",
               isClosable: true,
+              duration: 1500,
             });
             setIsSubmitting(true);
             navigate("/login");
@@ -104,6 +106,7 @@ const Register = () => {
               description: "Registrasi Gagal",
               status: "error",
               isClosable: true,
+              duration: 1500,
             });
           }
         })
@@ -113,6 +116,7 @@ const Register = () => {
             description: err.msg,
             status: "error",
             isClosable: true,
+            duration: 1500,
           })
         )
         .finally(() => {
@@ -122,6 +126,10 @@ const Register = () => {
 
   return (
     <Container maxW="xl" my={5} centerContent>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Daftar | YukJahit</title>
+      </Helmet>
       <Text as="h1" fontSize="4xl" fontWeight="extrabold">
         Yuk
         <Text as="span" color="green">

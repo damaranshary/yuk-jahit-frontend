@@ -13,12 +13,17 @@ import { Link as RouterLink } from "react-router-dom";
 import ProductCard from "../../components/productCard";
 
 import { GetAllProducts } from "../../lib/swr";
+import { Helmet } from "react-helmet-async";
 
 const AllProducts = () => {
   const { products, isError } = GetAllProducts();
 
   return (
     <Container maxW="6xl" mx="auto">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Semua Produk | YukJahit</title>
+      </Helmet>
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
         Semua Produk{" "}
       </Text>

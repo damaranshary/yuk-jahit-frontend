@@ -15,6 +15,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 import { fetchLoginData } from "../../api-call/users";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -36,7 +37,7 @@ const Login = () => {
         description: "Silahkan logout terlebih dahulu",
         status: "warning",
         isClosable: true,
-        duration: 3000,
+        duration: 1500,
       })
       navigate("/");
     }
@@ -65,7 +66,7 @@ const Login = () => {
           description: "Login Berhasil",
           status: "success",
           isClosable: true,
-          duration: 3000,
+          duration: 1500,
         });
       })
       .catch(() => {
@@ -74,7 +75,7 @@ const Login = () => {
           description: "Email atau Password salah",
           status: "error",
           isClosable: true,
-          duration: 3000,
+          duration: 1500,
         });
       })
       .finally(() => {
@@ -85,6 +86,10 @@ const Login = () => {
 
   return (
     <Container maxW="xl" centerContent my={5}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Masuk | YukJahit</title>
+      </Helmet>
       <VStack
         as="form"
         w={{ base: "full", md: "full", lg: "xl" }}
