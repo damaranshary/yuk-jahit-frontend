@@ -151,26 +151,38 @@ const Product = () => {
           flexDirection="column"
           maxW={{ base: "full", md: "2xl" }}
         >
-          <Text as="h2" fontSize="xl" fontWeight="bold">
+          <Text as="h2" id="product-name" fontSize="xl" fontWeight="bold">
             {name}
           </Text>
           <Divider mb={3} />
-          <Text as="p" fontSize={{ base: "sm", md: "md" }}>
+          <Text
+            as="p"
+            id="product-description"
+            fontSize={{ base: "sm", md: "md" }}
+          >
             {description}
           </Text>
-          <Text as="p" fontSize="lg" fontWeight="semibold" my={3}>
+          <Text
+            as="p"
+            id="product-price"
+            fontSize="lg"
+            fontWeight="semibold"
+            my={3}
+          >
             Rp {price?.toLocaleString("id-ID")}
           </Text>
           <Center justifyContent="normal">
             <Text>Jumlah:</Text>
             <InputGroup maxW="150px" m={5}>
               <InputLeftAddon
+                id="product-quantity-input-decrement"
                 children="-"
                 as="button"
                 onClick={handleDecrement}
                 type="button"
               />
               <Input
+                id="product-quantity-input"
                 type="number"
                 name="quantity"
                 textAlign="center"
@@ -178,6 +190,7 @@ const Product = () => {
                 onChange={handleOnChange}
               />
               <InputRightAddon
+                id="product-quantity-input-increment"
                 children="+"
                 as="button"
                 onClick={handleIncrement}

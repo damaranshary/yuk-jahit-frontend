@@ -2,6 +2,10 @@ export interface ResponseProducts {
   data: ProductTypes[];
 }
 
+export interface ProductCards {
+  product: ProductTypes;
+  index: number;
+}
 export interface ProductTypes {
   _id: string;
   name: string;

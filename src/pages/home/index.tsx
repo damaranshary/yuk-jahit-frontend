@@ -23,13 +23,19 @@ const Home = () => {
       </Helmet>
       <Box>
         <Image src="carousel-asset.jpg" rounded={10} />
-        <Text fontWeight="bold" fontSize="xl" mt={8} mb={4}>
+        <Text as="h2" fontWeight="bold" fontSize="xl" mt={8} mb={4}>
           Produk Terbaru
         </Text>
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="16px">
           {products &&
-            products.data.map((product) => {
-              return <ProductsCard {...product} key={product._id} />;
+            products.data.map((product, index) => {
+              return (
+                <ProductsCard
+                  product={product}
+                  key={product._id}
+                  index={index}
+                />
+              );
             })}
         </SimpleGrid>
         <Center>

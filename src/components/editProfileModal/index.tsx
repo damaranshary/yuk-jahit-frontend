@@ -128,6 +128,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               <FormControl>
                 <FormLabel>Nama</FormLabel>
                 <Input
+                  id="edit-profile-modal-name-input"
                   type="text"
                   name="name"
                   value={updatedName}
@@ -137,6 +138,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               <FormControl>
                 <FormLabel>Nomor HP</FormLabel>
                 <Input
+                  id="edit-profile-modal-phone-input"
                   type="number"
                   name="phone"
                   value={updatedPhone}
@@ -146,6 +148,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               <FormControl>
                 <FormLabel>Alamat Lengkap</FormLabel>
                 <Input
+                  id="edit-profile-modal-address-input"
                   type="address"
                   name="address"
                   value={updatedAddress}
@@ -160,9 +163,16 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               id="edit-profile-modal-footer-close-button"
               variant="ghost"
               mr={3}
-              onClick={onClose}
+              onClick={() => {  
+                setUpdatedProfile({
+                  name: name,
+                  phone: phone,
+                  address: address,
+                });
+                onClose();
+              }}
             >
-              Tutup
+              Batal
             </Button>
             <Button
               id="edit-profile-modal-button"

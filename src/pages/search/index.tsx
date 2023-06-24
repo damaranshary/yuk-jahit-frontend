@@ -27,10 +27,10 @@ const Search = () => {
     <Container maxW="6xl" minH="70vh">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>{`Pencarian produk "${query}"`} | YukJahit</title>
+        <title>Pencarian produk | YukJahit</title>
       </Helmet>
       <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={1}>
-        {`Pencarian produk "${query}"`}
+        {`Hasil pencarian produk "${query}"`}
       </Text>
       <Breadcrumb
         spacing="8px"
@@ -51,8 +51,14 @@ const Search = () => {
       {products && products.data.length > 0 ? (
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing="30px" my={8}>
           {products &&
-            products.data.map((product) => {
-              return <ProductCard {...product} key={product._id} />;
+            products.data.map((product, index) => {
+              return (
+                <ProductCard
+                  product={product}
+                  index={index}
+                  key={product._id}
+                />
+              );
             })}
         </SimpleGrid>
       ) : (

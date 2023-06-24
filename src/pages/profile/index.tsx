@@ -42,7 +42,7 @@ const Profile = () => {
     <Container maxW="6xl" minH="70vh">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Masuk - YukJahit</title>
+        <title>Profil- YukJahit</title>
       </Helmet>
       <Text as="h2" fontSize="2xl" fontWeight="bold" my={5}>
         Profil Saya

@@ -41,7 +41,7 @@ const OrderCard = (props: OrderDataTypes) => {
       .concat(" WIB"); // this is the format of the date that will be shown "DD Month YYYY | HH:MM WIB"
   };
 
-  const { updatedAt, _id, products, status, bill } = props; // destructuring the props
+  const { updatedAt, _id, products, status, bill, index } = props; // destructuring the props
 
   const toast = useToast();
 
@@ -79,7 +79,15 @@ const OrderCard = (props: OrderDataTypes) => {
   };
 
   return (
-    <Container as={Card} maxW="6xl" key={_id} shadow="md" p={5} my={5} id={_id}>
+    <Container
+      as={Card}
+      maxW="6xl"
+      key={_id}
+      shadow="md"
+      p={5}
+      my={5}
+      id={`order-card-${index + 1}`}
+    >
       <Flex gap={3} maxW="6xl" mt={2} alignItems="center">
         <Text as="h3" fontWeight="semibold">
           Belanja
@@ -87,6 +95,7 @@ const OrderCard = (props: OrderDataTypes) => {
         <Spacer />
         {status === "settlement" && (
           <Text
+            id="order-status"
             as="p"
             fontSize="sm"
             color="white"
@@ -101,6 +110,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "pending" && (
           <Text
+            id="order-status"
             as="p"
             fontSize="sm"
             color="white"
@@ -115,6 +125,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "expire" && (
           <Text
+            id="order-status"
             as="p"
             fontSize="sm"
             color="white"
@@ -129,6 +140,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "cancel" && (
           <Text
+            id="order-status"
             as="p"
             fontSize="sm"
             color="white"

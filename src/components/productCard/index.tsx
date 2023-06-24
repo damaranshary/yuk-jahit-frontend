@@ -1,14 +1,16 @@
-import { ProductTypes } from "../../types/products";
+import { ProductCards, ProductTypes } from "../../types/products";
 
 import { Center, Image, Text, LinkBox, Flex } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
+const ProductsCard = ({ product, index }: ProductCards) => {
+  const { _id, name, price, product_img } = product;
   // this component is used for showing the product details in the products page
   return (
     <LinkBox
       as={RouterLink}
       key={_id}
+      id={`product-card-${index + 1}`}
       to={`/products/${_id}`}
       _hover={{
         cursor: "pointer",
@@ -37,7 +39,7 @@ const ProductsCard = ({ _id, product_img, name, price }: ProductTypes) => {
         mt="4"
         fontSize={{ base: "lg", sm: "md", md: "sm" }}
       >
-        <Text as="h1" fontWeight="semibold">
+        <Text id={`product-name-${index + 1}`} fontWeight="semibold">
           {name}
         </Text>
         <Text as="p" fontSize="sm">
