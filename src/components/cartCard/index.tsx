@@ -19,6 +19,7 @@ const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
   const { product_img, name, price, quantity, productId, _id } = product; // destructuring
   return (
     <Container
+      id={`cart-product-card-${index + 1}`}
       as={Card}
       maxW="6xl"
       key={productId}

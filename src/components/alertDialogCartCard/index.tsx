@@ -42,6 +42,7 @@ const AlertDialogCartCard = ({
           Lakukan Pembayaran
         </Button>
         <AlertDialog
+          id="checkout-alert-dialog"
           motionPreset="slideInBottom"
           leastDestructiveRef={cancelRef}
           onClose={onClose}
