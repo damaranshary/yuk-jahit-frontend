@@ -42,17 +42,15 @@ const Product = () => {
       await addProductToCart({ productId: products.data._id, quantity, token })
         .then((res) => {
           toast({
-            duration: 500,
-            id: "add-to-cart-success",
-            description: `${res.products[0].name} x${quantity} berhasil ditambahkan ke keranjang`,
+            duration: 1500,
+            description: `Produk berhasil ditambahkan ke keranjang`,
             status: "success",
             isClosable: true,
           });
         })
         .catch((err) => {
           toast({
-            duration: 500,
-            id: "add-to-cart-error",
+            duration: 1500,
             description: err.message,
             status: "error",
             isClosable: true,
