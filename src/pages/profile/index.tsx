@@ -12,20 +12,37 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import EditProfileModal from "../../components/editProfileModal";
+import { fetchUserData } from "../../api-call/users";
+import { User } from "../../types/users";
 
 const Profile = () => {
-  const [token, setToken] = useState<string | null>(null);
-
-  const { user, isLoading } = GetUser(token);
+  const [user, setUser] = useState<User | null>(null);
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const toast = useToast();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
-    } else {
+    const getUserData = async () => {
+      token &&
+        (await fetchUserData(token)
+          .then((res) => {
+            setUser(res);
+          })
+          .catch((res) => {
+            toast({
+              description: res.message,
+              status: "error",
+              isClosable: true,
+              duration: 1500,
+            });
+          }));
+    };
+    getUserData(); // this is the function to fetch user data
+  }, [token, user]);
+
+  useEffect(() => {
+    if (!token) {
       toast({
         description: "Silahkan login terlebih dahulu",
         status: "warning",
@@ -35,8 +52,6 @@ const Profile = () => {
       navigate("/");
     }
   }, [token]);
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <Container maxW="6xl" minH="70vh">

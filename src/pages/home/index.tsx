@@ -22,7 +22,7 @@ const Home = () => {
         <title>Home | YukJahit</title>
       </Helmet>
       <Box>
-        <Image src="carousel-asset.jpg" rounded={10} />
+        <Image src="carousel-asset.jpg" alt="carousel-home" rounded={10} />
         <Text as="h2" fontWeight="bold" fontSize="xl" mt={8} mb={4}>
           Produk Terbaru
         </Text>

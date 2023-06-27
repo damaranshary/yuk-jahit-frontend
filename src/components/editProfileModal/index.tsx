@@ -33,9 +33,9 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false); // this is the state for the loading button
   const {
-    name: updatedName,
-    phone: updatedPhone,
-    address: updatedAddress,
+    name: newName,
+    phone: newPhone,
+    address: newAddress,
   } = updatedProfile; // destructuring the updated profile state
 
   const { isOpen, onOpen, onClose } = useDisclosure(); // this is the state for the modal
@@ -54,19 +54,18 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
   const handleOnSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (updatedName !== "" || updatedPhone !== "" || updatedAddress !== "") {
+    if (newName !== "" || newPhone !== "" || newAddress !== "") {
       // profile can't be updated without a value
       if (
-        updatedName !== name ||
-        updatedPhone !== phone ||
-        updatedAddress !== address // and profile can't be updated if there's no change
+        newName !== name ||
+        newPhone !== phone ||
+        newAddress !== address // and profile can't be updated if there's no change
       ) {
         setIsSubmitting(true);
-        await updateUserData(token, updatedName, updatedPhone, updatedAddress)
+        await updateUserData(token, newName, newPhone, newAddress)
           .then(() => {
             toast({
               // this is the toast for the success update
-              id: "edit-profile-success",
               description: "Edit Profile Berhasil",
               status: "success",
               isClosable: true,
@@ -75,7 +74,6 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
           .catch(() => {
             // this is the toast for the failed update
             toast({
-              id: "edit-profile-failed",
               description: "Edit Profile Gagal",
               status: "error",
               isClosable: true,
@@ -85,17 +83,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
             // the page will reload to get the updated profile value from the server instantly
             setIsSubmitting(false);
             onClose();
-            window.location.reload();
           });
-      } else {
-        toast({
-          // this is the toast for the no change update
-          id: "edit-profile-no-change",
-          description: "Tidak ada perubahan",
-          status: "warning",
-          isClosable: true,
-        });
-        onClose();
       }
     } else {
       toast({
@@ -131,7 +119,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
                   id="edit-profile-modal-name-input"
                   type="text"
                   name="name"
-                  value={updatedName}
+                  value={newName}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -141,7 +129,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
                   id="edit-profile-modal-phone-input"
                   type="number"
                   name="phone"
-                  value={updatedPhone}
+                  value={newPhone}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -151,7 +139,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
                   id="edit-profile-modal-address-input"
                   type="address"
                   name="address"
-                  value={updatedAddress}
+                  value={newAddress}
                   onChange={handleOnChange}
                 />
               </FormControl>
@@ -163,7 +151,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
               id="edit-profile-modal-footer-close-button"
               variant="ghost"
               mr={3}
-              onClick={() => {  
+              onClick={() => {
                 setUpdatedProfile({
                   name: name,
                   phone: phone,
@@ -177,9 +165,7 @@ const EditProfileModal = ({ token, name, phone, address }: Props) => {
             <Button
               id="edit-profile-modal-button"
               isDisabled={
-                updatedName === name &&
-                updatedPhone === phone &&
-                updatedAddress === address // this is the condition to disable the button if there's no change
+                newName === name && newPhone === phone && newAddress === address // this is the condition to disable the button if there's no change
               }
               variant="solid"
               colorScheme="green"
