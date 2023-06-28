@@ -7,6 +7,7 @@ import {
   IconButton,
   Image,
   Link,
+  ListItem,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -20,13 +21,14 @@ const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
   return (
     <Container
       id={`cart-product-card-${index + 1}`}
-      as={Card}
+      as={ListItem}
       maxW="6xl"
       key={productId}
       _hover={{
         cursor: "pointer",
         shadow: "xl",
       }}
+      borderRadius={10}
       p={5}
     >
       <Flex

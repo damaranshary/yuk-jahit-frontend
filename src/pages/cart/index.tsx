@@ -9,6 +9,8 @@ import {
   FormHelperText,
   FormLabel,
   Image,
+  List,
+  ListItem,
   Spacer,
   Text,
   Textarea,
@@ -113,7 +115,7 @@ const Cart = () => {
         <Text as="h2" fontSize="2xl" fontWeight="bold" mt={5} mb={2}>
           Keranjang
         </Text>
-        <VStack gap={2}>
+        <VStack as={List} gap={2}>
           {cart.products.map((item, index) => (
             <CartCard
               index={index}
