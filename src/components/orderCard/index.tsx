@@ -109,7 +109,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "pending" && (
           <Text
-            id="order-status"
+            id={`order-status-${index + 1}`}
             as="p"
             fontSize="sm"
             color="white"
@@ -124,7 +124,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "expire" && (
           <Text
-            id="order-status"
+            id={`order-status-${index + 1}`}
             as="p"
             fontSize="sm"
             color="white"
@@ -139,7 +139,7 @@ const OrderCard = (props: OrderDataTypes) => {
         )}
         {status === "cancel" && (
           <Text
-            id="order-status"
+            id={`order-status-${index + 1}`}
             as="p"
             fontSize="sm"
             color="white"
