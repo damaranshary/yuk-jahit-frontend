@@ -56,7 +56,6 @@ const OrderCard = (props: OrderDataTypes) => {
         .then((res) => {
           const message = "Pesanan " + res.order_id + " dibatalkan";
           toast({
-            id: "cancel-order-success",
             title: message,
             description: "Status akan diupdate dalam beberapa saat",
             status: "success",
@@ -65,7 +64,6 @@ const OrderCard = (props: OrderDataTypes) => {
         })
         .catch((err) => {
           toast({
-            id: "cancel-order-failed",
             title: "Gagal membatalkan pesanan",
             description: err.message,
             status: "error",
@@ -87,6 +85,7 @@ const OrderCard = (props: OrderDataTypes) => {
       p={5}
       my={5}
       id={`order-card-${index + 1}`}
+      className="order-card"
     >
       <Flex gap={3} maxW="6xl" mt={2} alignItems="center">
         <Text as="h3" fontWeight="semibold">
