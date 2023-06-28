@@ -124,6 +124,7 @@ const Cart = () => {
           ))}
         </VStack>
         <Box
+          id="cart-summary"
           as={Flex}
           flexDirection="column"
           boxShadow="xl"
