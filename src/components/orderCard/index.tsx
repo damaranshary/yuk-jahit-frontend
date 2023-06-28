@@ -94,7 +94,7 @@ const OrderCard = (props: OrderDataTypes) => {
         <Spacer />
         {status === "settlement" && (
           <Text
-            id="order-status"
+            id={`order-status-${index + 1}`}
             as="p"
             fontSize="sm"
             color="white"
