@@ -21,6 +21,7 @@ const CartCard = ({ index, product, handleDeleteCart }: CartCardTypes) => {
   return (
     <Container
       id={`cart-product-card-${index + 1}`}
+      className="cart-product-card"
       as={ListItem}
       maxW="6xl"
       key={productId}
